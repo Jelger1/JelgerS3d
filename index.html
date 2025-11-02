@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>JelgerS3D — Unieke 3D-geprinte ontwerpen, lokaal gemaakt in Kerkrade</title>
+	<title>JelgerS3D — Unieke 3D-geprinte ontwerpen, lokaal gemaakt in Limburg</title>
 	<link rel="icon" type="image/svg+xml" href="assets/js-3D-LOGO.svg">
 	<link rel="alternate icon" href="assets/js-3D-LOGO.svg">
 		<link rel="stylesheet" href="css/reset.css">
@@ -19,9 +19,9 @@
 					</a>
 			<button id="nav-toggle" class="nav-toggle" aria-label="open menu" aria-controls="main-nav" aria-expanded="false" data-target="main-nav">☰</button>
 			<nav class="main-nav" id="main-nav">
-				<a href="#work">Work</a>
+				<a href="#services">Over mij</a>
+				<a href="#work">Mijn werk</a>
 				<a href="webshop.html">Webshop</a>
-				<a href="#services">Services</a>
 				<a href="#contact">Contact</a>
 			</nav>
 		</div>
@@ -31,8 +31,8 @@
 		<section class="hero">
 			<div class="container hero-inner">
 			<div class="hero-text">
-				<h1>Unieke 3D-geprinte ontwerpen, lokaal gemaakt in Kerkrade</h1>
-				<p>Welkom bij JelgerS3d — ik ben Jelger, ontwerper en maker van unieke 3D-geprinte objecten voor in huis of op tafel. Of je nu houdt van de mijnwerkersgeschiedenis van Limburg of juist van modern design, bij mij vind je iets dat echt bij jou past.</p>
+				<h1>Unieke 3D-geprinte ontwerpen, lokaal gemaakt in Limburg</h1>
+				<p>Welkom bij JelgerS3d, ik ben Jelger, ontwerper en maker van unieke 3D-geprinte objecten voor in huis of op tafel. Of je nu houdt van de mijnwerkersgeschiedenis van Limburg of juist van modern design, bij mij vind je iets dat echt bij jou past.</p>
 					<p class="cta-row">
 						<a class="btn primary" href="webshop.html">Bekijk de webshop</a>
 						<a class="btn outline" href="#contact">Neem contact op</a>
@@ -48,16 +48,21 @@
 			<h2>Over mij</h2>
 			<p class="intro-text">Ik ben Jelger, en ik print ideeën tot leven</p>
 			
-			<div class="about-summary">
-				<p>Ik ben altijd al iemand geweest die graag dingen maakt. Met JelgerS3d combineer ik mijn liefde voor ontwerpen, techniek en creativiteit. Alles wat je hier ziet – van ontwerp tot eindproduct – komt uit mijn eigen 3D-printers, gewoon hier in Kerkrade.</p>
-				<button class="btn-text" onclick="document.getElementById('about-details').classList.toggle('show'); this.textContent = this.textContent === 'Lees meer →' ? 'Minder ←' : 'Lees meer →'">Lees meer →</button>
+			<div class="about-with-photo">
+				<div class="about-photo-main">
+					<img src="assets/Jelger-Pic.jpg" alt="Jelger achter zijn 3D printer" class="about-photo-visible">
+				</div>
+				<div class="about-summary">
+					<p>Ik ben altijd al iemand geweest die graag dingen maakt. Met JelgerS3d combineer ik mijn liefde voor ontwerpen, techniek en creativiteit. Alles wat je hier ziet, van ontwerp tot eindproduct, komt uit mijn eigen 3D-printers, gewoon hier in Limburg.</p>
+					<button class="btn-text" onclick="document.getElementById('about-details').classList.toggle('show'); this.textContent = this.textContent === 'Lees meer →' ? 'Minder ←' : 'Lees meer →'">Lees meer →</button>
+				</div>
 			</div>
 			
 			<div id="about-details" class="expandable-content">
 				<div class="grid grid-3">
 					<article class="card">
 						<h3>Wat mij onderscheidt</h3>
-						<p>Ik werk snel, denk met je mee en hou van persoonlijk contact. Of je nu één uniek stuk wilt voor thuis, of een kleine serie voor jouw zaak – ik zorg dat je iets krijgt dat mooi, stevig en helemaal van jou is.</p>
+						<p>Ik werk snel, denk met je mee en hou van persoonlijk contact. Of je nu één uniek stuk wilt voor thuis, of een kleine serie voor jouw zaak, ik zorg dat je iets krijgt dat mooi, stevig en helemaal van jou is.</p>
 					</article>
 					<article class="card">
 						<h3>Mijn werkwijze</h3>
@@ -65,68 +70,82 @@
 					</article>
 					<article class="card">
 						<h3>Mijn trots</h3>
-						<p>De Kami Vase – mijn eerste volledig eigen design – en natuurlijk de Koempel-eend, die het Limburgse mijnverleden eert en verbonden is aan Het Geluk van Limburg, het grote theaterspektakel in de Rodahal in 2025.</p>
+						<p>De Kami Vase, mijn eerste volledig eigen design, en natuurlijk de Koempel-eend, die het Limburgse mijnverleden eert en verbonden is aan Het Geluk van Limburg, het grote theaterspektakel in de Rodahal in 2025.</p>
 					</article>
 				</div>
 			</div>
 		</section>
 
-		<section id="work" class="container showcase">
-			<h2>Mijn designs</h2>
+		<section id="work" class="showcase container">
+			<div class="page-header">
+				<h1>Mijn werk</h1>
+				<p class="page-description">Bekijk mijn creaties en klik op de foto's voor meer detail</p>
+			</div>
+			
 			<div class="carousel">
 				<button class="carousel-btn carousel-btn-prev" aria-label="vorige">‹</button>
-				<button class="carousel-btn carousel-btn-next" aria-label="volgende">›</button>
 				<div class="carousel-track">
-					<article class="product-card carousel-card" data-title="Koempel-eend" data-image="assets/koempel-eend.jpeg">
-						<div class="product-thumb"><img src="assets/koempel-eend.jpeg" alt="Koempel-eend"/></div>
-						<div class="product-info">
-							<h4>Koempel-eend</h4>
-							<p class="product-price">€6,95</p>
-							<p class="muted">Volledig eigen ontwerp, wordt dit jouw nieuwe koempel?</p>
+					<div class="product-card carousel-card rotating-images" data-title="Kami Lamp" data-image="assets/Kami-Lamp-Front.jpeg" data-images='["assets/Kami-Lamp-Front.jpeg", "assets/Kami-Lamp-Closeup.jpeg", "assets/Kami-Lamp-Top.jpeg"]'>
+						<div class="product-thumb">
+							<img src="assets/Kami-Lamp-Front.jpeg" alt="Kami Lamp">
 						</div>
-					</article>
-					<article class="product-card carousel-card" data-title="D'r Joep" data-image="assets/dr-joep-grey.jpeg">
-						<div class="product-thumb"><img src="assets/dr-joep-grey.jpeg" alt="D'r Joep"/></div>
-						<div class="product-info">
-							<h4>D'r Joep (origami)</h4>
-							<p class="product-price">vanaf €12,95</p>
-							<p class="muted">Eigen moderne draai, verkrijgbaar in meerdere kleuren en formaten.</p>
-						</div>
-					</article>
-					<article class="product-card product-card-promo carousel-card rotating-images" data-title="Kami Lamp" data-image="assets/Kami-Lamp-Front.jpeg" data-images='["assets/Kami-Lamp-Front.jpeg","assets/Kami-Lamp-Top.jpeg","assets/Kami-Lamp-Closeup.jpeg"]'>
-						<span class="badge badge-sale">SALE -€5</span>
-						<div class="product-thumb"><img src="assets/Kami-Lamp-Front.jpeg" alt="Kami Lamp"/></div>
 						<div class="product-info">
 							<h4>Kami Lamp</h4>
-							<p class="product-price">€29,95 <span class="product-price-old">€34,95</span></p>
-							<p class="muted">Volledig custom, dimbare LED, warm ↔ wit licht.</p>
+							<p class="muted">Unieke designlamp met origami-geïnspireerd patroon</p>
 						</div>
-					</article>
-					<article class="product-card carousel-card" data-title="Mijnschacht Nulland" data-image="assets/Domaniale-Mijnschacht-Nulland.jpeg">
-						<div class="product-thumb"><img src="assets/Domaniale-Mijnschacht-Nulland.jpeg" alt="Mijnschacht Nulland"/></div>
+					</div>
+
+					<div class="product-card carousel-card" data-title="Kami Vase" data-image="assets/Kami-Vase-Black.jpeg">
+						<div class="product-thumb">
+							<img src="assets/Kami-Vase-Black.jpeg" alt="Kami Vase">
+						</div>
+						<div class="product-info">
+							<h4>Kami Vase</h4>
+							<p class="muted">Modern vaasontwerp met organische vormen</p>
+						</div>
+					</div>
+
+					<div class="product-card carousel-card" data-title="Koempel-eend" data-image="assets/koempel-eend.jpeg">
+						<div class="product-thumb">
+							<img src="assets/koempel-eend.jpeg" alt="Koempel-eend">
+						</div>
+						<div class="product-info">
+							<h4>Koempel-eend</h4>
+							<p class="muted">Eerbetoon aan het Limburgse mijnverleden</p>
+						</div>
+					</div>
+
+					<div class="product-card carousel-card" data-title="Dr. Joep Grey" data-image="assets/dr-joep-grey.jpeg">
+						<div class="product-thumb">
+							<img src="assets/dr-joep-grey.jpeg" alt="Dr. Joep Grey">
+						</div>
+						<div class="product-info">
+							<h4>Dr. Joep Grey</h4>
+							<p class="muted">3D-geprint design object</p>
+						</div>
+					</div>
+
+					<div class="product-card carousel-card" data-title="Vlaai Sleutelhanger" data-image="assets/Vlaai-sleutelhanger.jpeg">
+						<div class="product-thumb">
+							<img src="assets/Vlaai-sleutelhanger.jpeg" alt="Vlaai Sleutelhanger">
+						</div>
+						<div class="product-info">
+							<h4>Vlaai Sleutelhanger</h4>
+							<p class="muted">Typisch Limburgse sleutelhanger</p>
+						</div>
+					</div>
+
+					<div class="product-card carousel-card" data-title="Domaniale Mijnschacht Nulland" data-image="assets/Domaniale-Mijnschacht-Nulland.jpeg">
+						<div class="product-thumb">
+							<img src="assets/Domaniale-Mijnschacht-Nulland.jpeg" alt="Domaniale Mijnschacht Nulland">
+						</div>
 						<div class="product-info">
 							<h4>Mijnschacht Nulland</h4>
-							<p class="product-price">vanaf €24,95</p>
-							<p class="muted">Domaniale mijnschacht, authentiek en lokaal geïnspireerd.</p>
+							<p class="muted">Limburgse mijnindustrie in 3D</p>
 						</div>
-					</article>
-					<article class="product-card carousel-card" data-title="Vlaai sleutelhanger" data-image="assets/Vlaai-sleutelhanger.jpeg">
-						<div class="product-thumb"><img src="assets/Vlaai-sleutelhanger.jpeg" alt="Vlaai sleutelhanger"/></div>
-						<div class="product-info">
-							<h4>Vlaai sleutelhanger</h4>
-							<p class="product-price">€3,95</p>
-							<p class="muted">Pruimenvlaai, altijd vlaai bij je!</p>
-						</div>
-					</article>
-					<article class="product-card carousel-card" data-title="Blonde Non" data-image="assets/Blonde-Non-3d.jpeg" data-external="https://www.brouwerij-rolduc.nl/webshop.html">
-						<div class="product-thumb"><img src="assets/Blonde-Non-3d.jpeg" alt="Blonde Non"/></div>
-						<div class="product-info">
-							<h4>Blonde Non</h4>
-							<p class="product-price">€19,95</p>
-							<p class="muted">Gemaakt voor Brouwerij Rolduc, verkrijgbaar daar.</p>
-						</div>
-					</article>
+					</div>
 				</div>
+				<button class="carousel-btn carousel-btn-next" aria-label="volgende">›</button>
 			</div>
 		</section>
 
@@ -135,7 +154,7 @@
 			<p class="intro-text">Jouw idee, mijn printer</p>
 			
 			<div class="about-summary">
-				<p>Heb je een eigen idee of ontwerp? Dan help ik je dat werkelijkheid te maken. Ik ontwerp, optimaliseer en print alles zelf – van het eerste concept tot het afgewerkte eindproduct.</p>
+				<p>Heb je een eigen idee of ontwerp? Dan help ik je dat werkelijkheid te maken. Ik ontwerp, optimaliseer en print alles zelf, van het eerste concept tot het afgewerkte eindproduct.</p>
 				<button class="btn-text" onclick="document.getElementById('custom-details').classList.toggle('show'); this.textContent = this.textContent === 'Bekijk mogelijkheden →' ? 'Verberg ←' : 'Bekijk mogelijkheden →'">Bekijk mogelijkheden →</button>
 			</div>
 			
