@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="nl">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Webshop — JelgerS3D</title>
+	<link rel="icon" type="image/svg+xml" href="assets/js-3D-LOGO.svg">
+	<link rel="alternate icon" href="assets/js-3D-LOGO.svg">
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+	<header class="site-header">
+		<div class="container header-inner">
+			<button id="nav-toggle-shop" class="nav-toggle" aria-label="open menu" aria-controls="main-nav-shop" aria-expanded="false" data-target="main-nav-shop">☰</button>
+			<a class="brand" href="index.html">
+				<img src="assets/js-3D-LOGO-BIG.svg" alt="JelgerS3D logo" class="brand-logo-desktop" />
+				<img src="assets/js-3D-LOGO.svg" alt="JelgerS3D logo" class="brand-logo-mobile" />
+				<span class="sr-only">JelgerS3D</span>
+			</a>
+		<button id="cart-toggle" class="cart-toggle" aria-label="winkelwagen">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="9" cy="21" r="1"></circle>
+				<circle cx="20" cy="21" r="1"></circle>
+				<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+			</svg>
+			<span id="cart-count" class="cart-count">0</span>
+		</button>
+			<nav class="main-nav" id="main-nav-shop">
+				<a href="index.html#work">Work</a>
+				<a href="webshop.html">Webshop</a>
+				<a href="index.html#contact">Contact</a>
+			</nav>
+		</div>
+	</header>	<main class="container">
+		<h1>Webshop</h1>
+		<p class="intro-text">Kleine selectie van lokale ontwerpen, voeg toe aan winkelwagen voor bestelling.</p>
+			<div class="grid grid-3 products">
+				<article class="product-card" data-id="mijnschacht" data-title="Mijnschacht Nulland" data-image="assets/Domaniale-Mijnschacht-Nulland.jpeg">
+					<div class="product-thumb"><img src="assets/Domaniale-Mijnschacht-Nulland.jpeg" alt="Mijnschacht Nulland"/></div>
+					<div class="product-info">
+						<h4>Mijnschacht Nulland</h4>
+					<p class="muted">Domaniale mijnschacht, authentiek en lokaal geïnspireerd.</p>
+					<div class="product-options">
+						<label class="size-option">
+							<input type="radio" name="mijnschacht-size" value="15" data-price="24.95" checked>
+							<span>15cm, €24,95</span>
+						</label>
+						<label class="size-option">
+							<input type="radio" name="mijnschacht-size" value="25" data-price="34.95">
+							<span>25cm, €34,95</span>
+						</label>
+					</div>
+						<p><button class="btn btn-block btn-add-cart" data-id="mijnschacht" data-name="Mijnschacht Nulland">In winkelwagen</button></p>
+					</div>
+				</article>
+
+				<article class="product-card" data-id="joep" data-title="D'r Joep" data-image="assets/dr-joep-grey.jpeg">
+					<div class="product-thumb"><img src="assets/dr-joep-grey.jpeg" alt="D'r Joep"/></div>
+					<div class="product-info">
+						<h4>D'r Joep (origami)</h4>
+					<p class="muted">Eigen moderne draai, verkrijgbaar in meerdere kleuren.</p>
+					<div class="product-options">
+						<label class="size-option">
+							<input type="radio" name="joep-size" value="15" data-price="12.95" checked>
+							<span>15cm, €12,95</span>
+						</label>
+						<label class="size-option">
+							<input type="radio" name="joep-size" value="25" data-price="24.95">
+							<span>25cm, €24,95</span>
+						</label>
+					</div>
+						<p><button class="btn btn-block btn-add-cart" data-id="joep" data-name="D'r Joep">In winkelwagen</button></p>
+					</div>
+				</article>
+
+				<article class="product-card product-card-promo rotating-images" data-id="kami-lamp" data-title="Kami Lamp" data-image="assets/Kami-Lamp-Front.jpeg" data-images='["assets/Kami-Lamp-Front.jpeg","assets/Kami-Lamp-Top.jpeg","assets/Kami-Lamp-Closeup.jpeg"]' data-price="29.95" data-old-price="34.95">
+					<span class="badge badge-sale">SALE -€5</span>
+					<div class="product-thumb"><img src="assets/Kami-Lamp-Front.jpeg" alt="Kami Lamp"/></div>
+					<div class="product-info">
+						<h4>Kami Lamp</h4>
+						<p class="product-price">€29,95 <span class="product-price-old">€34,95</span></p>
+						<p class="muted">Volledig custom, dimbare LED, warm ↔ wit licht.</p>
+						<p><button class="btn btn-block btn-add-cart" data-id="kami-lamp" data-name="Kami Lamp" data-price="29.95">In winkelwagen</button></p>
+					</div>
+				</article>
+
+				<article class="product-card" data-id="koempel-eend" data-title="Koempel-eend" data-image="assets/koempel-eend.jpeg" data-price="6.95">
+					<div class="product-thumb"><img src="assets/koempel-eend.jpeg" alt="Koempel-eend"/></div>
+					<div class="product-info">
+						<h4>Koempel-eend</h4>
+						<p class="product-price">€6,95</p>
+						<p class="muted">Volledig eigen ontwerp, wordt dit jouw nieuwe koempel?</p>
+						<p><button class="btn btn-block btn-add-cart" data-id="koempel-eend" data-name="Koempel-eend" data-price="6.95">In winkelwagen</button></p>
+					</div>
+				</article>
+
+				<article class="product-card product-card-promo" data-id="vlaai" data-title="Vlaai sleutelhanger" data-image="assets/Vlaai-sleutelhanger.jpeg" data-price="3.95">
+					<span class="badge badge-promo">ACTIE: Gratis bij Mijnschacht/Kami Lamp</span>
+					<div class="product-thumb"><img src="assets/Vlaai-sleutelhanger.jpeg" alt="Vlaai sleutelhanger"/></div>
+					<div class="product-info">
+						<h4>Vlaai sleutelhanger</h4>
+						<p class="product-price">€3,95</p>
+						<p class="muted">Pruimenvlaai, altijd vlaai bij je!</p>
+						<p><button class="btn btn-block btn-add-cart" data-id="vlaai" data-name="Vlaai sleutelhanger" data-price="3.95">In winkelwagen</button></p>
+					</div>
+				</article>
+
+				<article class="product-card" data-id="blonde-non" data-title="Blonde Non" data-image="assets/Blonde-Non-3d.jpeg" data-price="19.95" data-external="https://www.brouwerij-rolduc.nl/webshop.html">
+					<div class="product-thumb"><img src="assets/Blonde-Non-3d.jpeg" alt="Blonde Non"/></div>
+					<div class="product-info">
+						<h4>Blonde Non</h4>
+						<p class="product-price">€19,95</p>
+						<p class="muted">Gemaakt voor Brouwerij Rolduc, verkrijgbaar daar.</p>
+						<p><a class="btn btn-block" href="https://www.brouwerij-rolduc.nl/webshop.html" target="_blank" rel="noopener">Bekijk bij Rolduc</a></p>
+					</div>
+				</article>
+			</div>
+	</main>
+
+	<!-- Cart Sidebar -->
+	<div id="cart-sidebar" class="cart-sidebar" aria-hidden="true">
+		<div class="cart-header">
+			<h3>Winkelwagen</h3>
+			<button id="cart-close" class="cart-close" aria-label="sluit">✕</button>
+		</div>
+		<div id="cart-items" class="cart-items"></div>
+		<div class="cart-footer">
+			<div class="cart-total">
+				<strong>Totaal:</strong>
+				<strong id="cart-total-price">€0,00</strong>
+			</div>
+			<button id="cart-checkout" class="btn btn-primary btn-block">Bestelling plaatsen</button>
+		</div>
+	</div>
+	<div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+
+	<footer class="site-footer">
+		<div class="container footer-inner">
+			<small>© <span id="year"></span> JelgerS3D, lokaal 3D printwerk</small>
+			<nav class="foot-nav">
+				<a href="index.html">Home</a> · 
+				<a href="webshop.html">Webshop</a> · 
+				<a href="https://www.instagram.com/jelgers3d/" target="_blank" rel="noopener noreferrer">Instagram</a>
+			</nav>
+		</div>
+	</footer>
+
+	<div id="modal" class="modal" aria-hidden="true">
+		<div class="modal-content">
+			<button id="modal-close" class="modal-close" aria-label="sluit">✕</button>
+			<h3 id="modal-title"></h3>
+			<img id="modal-image" src="" alt="" class="responsive-img">
+		</div>
+	</div>
+
+	<script src="js/script.js"></script>
+</body>
+</html>
+
