@@ -249,6 +249,12 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 	/* Logo responsive */
 	.brand-logo-desktop{display:none}
 	.brand-logo-mobile{display:block}
+	/* Webshop mobile header - logo centered */
+	.header-inner:has(#nav-toggle-shop){display:grid;grid-template-columns:48px 1fr 48px;align-items:center;gap:0.5rem}
+	.header-inner:has(#nav-toggle-shop) .nav-toggle{order:1;justify-self:start}
+	.header-inner:has(#nav-toggle-shop) .brand{order:2;justify-self:center;margin:0}
+	.header-inner:has(#nav-toggle-shop) .cart-toggle{order:3;justify-self:end;margin:0}
+	.header-inner:has(#nav-toggle-shop) .main-nav{order:4;grid-column:1 / -1}
 	/* Cart responsive */
 	.cart-toggle{display:inline-flex;margin-left:auto}
 	.cart-sidebar{max-width:100%}
