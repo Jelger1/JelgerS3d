@@ -119,6 +119,19 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 	});
 
+	// Make all product images clickable to view in modal
+	document.querySelectorAll('.product-card .product-thumb').forEach(function(thumb){
+		thumb.style.cursor = 'pointer';
+		thumb.addEventListener('click', function(e){
+			var card = e.target.closest('.product-card');
+			if(card){
+				var title = card.dataset.title || '';
+				var src = card.dataset.image || '';
+				openModal(title, src);
+			}
+		});
+	});
+
 	// Carousel functionality with infinite scroll and autoplay
 	var carousel = document.querySelector('.carousel');
 	if(carousel){
