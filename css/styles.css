@@ -294,10 +294,10 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 	.hero{padding:2rem 0 2.5rem 0}
 	.hero-inner{padding:0 1.25rem}
 	/* Cart footer fixed on mobile */
+	.cart-sidebar{max-width:100%}
 	.cart-header{padding:1rem}
-	.cart-items{padding:1rem;padding-bottom:8rem}
-	.cart-footer{position:fixed;bottom:0;left:0;right:0;padding:1.25rem;border-top:3px solid var(--soft);box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:1001}
-	.cart-sidebar .cart-footer{left:auto;max-width:100%}
+	.cart-items{padding:1rem;padding-bottom:10rem}
+	.cart-footer{position:fixed!important;bottom:0!important;left:auto!important;right:0!important;width:100%!important;max-width:100%!important;padding:1.25rem!important;border-top:3px solid var(--soft)!important;box-shadow:0 -4px 12px rgba(0,0,0,0.1)!important;z-index:1001!important;background:white!important}
 	.product-thumb{height:200px}
 	.services{padding:3rem 0}
 	.services .container{padding:3rem 1.25rem}
