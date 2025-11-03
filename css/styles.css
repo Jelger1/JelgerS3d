@@ -169,11 +169,11 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 .cart-overlay[aria-hidden="false"]{opacity:1;pointer-events:auto}
 .cart-sidebar{position:fixed;top:0;right:0;width:100%;max-width:400px;height:100vh;background:white;z-index:1000;transform:translateX(100%);transition:transform 0.3s ease;box-shadow:var(--shadow-lg);display:flex;flex-direction:column}
 .cart-sidebar[aria-hidden="false"]{transform:translateX(0)}
-.cart-header{padding:1.5rem;border-bottom:2px solid var(--soft);display:flex;justify-content:space-between;align-items:center}
+.cart-header{padding:1.5rem;border-bottom:2px solid var(--soft);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
 .cart-header h3{margin:0}
 .cart-close{background:transparent;border:0;font-size:1.5rem;cursor:pointer;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
 .cart-close:hover{background:var(--soft);transform:rotate(90deg)}
-.cart-items{flex:1;overflow-y:auto;padding:1rem}
+.cart-items{flex:1;overflow-y:auto;padding:1rem;min-height:0}
 .cart-item{display:flex;gap:1rem;padding:1rem;border-radius:8px;background:var(--soft);margin-bottom:0.75rem}
 .cart-item-image{width:60px;height:60px;object-fit:contain;border-radius:4px;background:white;padding:0.25rem}
 .cart-item-info{flex:1}
@@ -183,7 +183,7 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 .cart-item-remove{background:transparent;border:0;color:#e74c3c;cursor:pointer;padding:0.5rem;font-size:1.1rem;transition:transform 0.2s}
 .cart-item-remove:hover{transform:scale(1.2)}
 .cart-empty{text-align:center;padding:3rem 1rem;color:#999}
-.cart-footer{padding:1.5rem;border-top:2px solid var(--soft)}
+.cart-footer{padding:1.5rem;border-top:2px solid var(--soft);background:white;flex-shrink:0}
 .cart-total{display:flex;justify-content:space-between;margin-bottom:1rem;font-size:1.125rem}
 
 /* Buttons */
@@ -293,6 +293,11 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 	.container{padding:2rem 1.25rem}
 	.hero{padding:2rem 0 2.5rem 0}
 	.hero-inner{padding:0 1.25rem}
+	/* Cart footer fixed on mobile */
+	.cart-header{padding:1rem}
+	.cart-items{padding:1rem;padding-bottom:8rem}
+	.cart-footer{position:fixed;bottom:0;left:0;right:0;padding:1.25rem;border-top:3px solid var(--soft);box-shadow:0 -4px 12px rgba(0,0,0,0.1);z-index:1001}
+	.cart-sidebar .cart-footer{left:auto;max-width:100%}
 	.product-thumb{height:200px}
 	.services{padding:3rem 0}
 	.services .container{padding:3rem 1.25rem}
