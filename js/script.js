@@ -531,6 +531,32 @@ document.addEventListener('DOMContentLoaded', function(){
 	// year in footer
 	var yearEl = document.getElementById('year');
 	if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+	// Lightbox request email
+	var lightboxBtn = document.querySelector('.lightbox-request-btn');
+	if(lightboxBtn){
+		lightboxBtn.addEventListener('click', function(e){
+			e.preventDefault();
+			
+			var subject = 'Aanvraag Custom Lightbox - JelgerS3D';
+			var body = 'Beste Jelger,\n\n';
+			body += 'Ik ben geïnteresseerd in een custom lightbox.\n\n';
+			body += '--- Vul hieronder je gegevens in ---\n\n';
+			body += 'Naam:\n';
+			body += 'Telefoonnummer:\n';
+			body += 'E-mailadres:\n\n';
+			body += 'Gewenste afmeting (tot 25cm):\n';
+			body += 'Gewenste aantal:\n\n';
+			body += 'Beschrijving van het ontwerp:\n\n\n';
+			body += '--- BELANGRIJK ---\n';
+			body += 'Voeg je logo of afbeelding toe als bijlage bij deze email.\n';
+			body += 'Ondersteunde formaten: PNG, JPG, PDF, AI, SVG\n\n';
+			body += 'Met vriendelijke groet';
+			
+			var mailtoLink = 'mailto:sielerjelger@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+			window.location.href = mailtoLink;
+		});
+	}
 });
 
 
