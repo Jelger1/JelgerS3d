@@ -122,13 +122,14 @@
 						<img src="assets/js-3D-LOGO.svg" alt="JelgerS3D logo" class="brand-logo-mobile" />
 						<span class="sr-only">JelgerS3D</span>
 					</a>
-			<button id="nav-toggle" class="nav-toggle" aria-label="open menu" aria-controls="main-nav" aria-expanded="false" data-target="main-nav">☰</button>
-			<nav class="main-nav" id="main-nav">
-				<a href="#services">Over mij</a>
-				<a href="#work">Mijn werk</a>
-				<a href="webshop.html">Webshop</a>
-				<a href="#contact">Contact</a>
-			</nav>
+		<button id="nav-toggle" class="nav-toggle" aria-label="open menu" aria-controls="main-nav" aria-expanded="false" data-target="main-nav">☰</button>
+		<nav class="main-nav" id="main-nav">
+			<a href="#services">Over mij</a>
+			<a href="#work">Design</a>
+			<a href="#miners">Mijnwerkers</a>
+			<a href="webshop.html">Webshop</a>
+			<a href="#contact">Contact</a>
+		</nav>
 		</div>
 	</header>
 
@@ -181,24 +182,24 @@
 			</div>
 		</section>
 
-		<section id="work" class="showcase container">
-			<div class="page-header">
-				<h1>Mijn werk</h1>
-				<p class="page-description">Bekijk mijn creaties en klik op de foto's voor meer detail</p>
-			</div>
-			
-			<div class="carousel">
-				<button class="carousel-btn carousel-btn-prev" aria-label="vorige">‹</button>
-				<div class="carousel-track">
-					<div class="product-card carousel-card rotating-images" data-title="Kami Lamp" data-image="assets/Kami-Lamp-Front.jpeg" data-images='["assets/Kami-Lamp-Front.jpeg", "assets/Kami-Lamp-Closeup.jpeg", "assets/Kami-Lamp-Top.jpeg"]'>
-						<div class="product-thumb">
-							<img src="assets/Kami-Lamp-Front.jpeg" alt="Kami Lamp">
-						</div>
-						<div class="product-info">
-							<h4>Kami Lamp</h4>
-							<p class="muted">Unieke designlamp met origami-geïnspireerd patroon</p>
-						</div>
+	<section id="work" class="showcase container">
+		<div class="page-header">
+			<h1>Design Collectie</h1>
+			<p class="page-description">Mijn eigen ontwerpen: moderne lampen en vazen</p>
+		</div>
+		
+		<div class="carousel">
+			<button class="carousel-btn carousel-btn-prev" aria-label="vorige">‹</button>
+			<div class="carousel-track">
+				<div class="product-card carousel-card rotating-images" data-title="Kami Lamp" data-image="assets/Kami-Lamp-Front.jpeg" data-images='["assets/Kami-Lamp-Front.jpeg", "assets/Kami-Lamp-Closeup.jpeg", "assets/Kami-Lamp-Top.jpeg"]'>
+					<div class="product-thumb">
+						<img src="assets/Kami-Lamp-Front.jpeg" alt="Kami Lamp">
 					</div>
+					<div class="product-info">
+						<h4>Kami Lamp</h4>
+						<p class="muted">Unieke designlamp met origami-geïnspireerd patroon</p>
+					</div>
+				</div>
 
 				<div class="product-card carousel-card rotating-images" data-title="Kami Vase" data-image="assets/Kami-Vase-Black.jpeg" data-images='["assets/Kami-Vase-Black.jpeg", "assets/Kami-Vase-Orange.jpeg", "assets/Kami-Vase-White.jpeg"]'>
 					<div class="product-thumb">
@@ -220,15 +221,38 @@
 					</div>
 				</div>
 
-				<div class="product-card carousel-card" data-title="Koempel-eend" data-image="assets/koempel-eend.jpeg">
-						<div class="product-thumb">
-							<img src="assets/koempel-eend.jpeg" alt="Koempel-eend">
-						</div>
-						<div class="product-info">
-							<h4>Koempel-eend</h4>
-							<p class="muted">Eerbetoon aan het Limburgse mijnverleden</p>
-						</div>
+				<div class="product-card carousel-card" data-title="Custom Lightbox" data-image="assets/JS3D-LightBox.jpeg">
+					<div class="product-thumb">
+						<img src="assets/JS3D-LightBox.jpeg" alt="Custom Lightbox">
 					</div>
+					<div class="product-info">
+						<h4>Custom Lightbox</h4>
+						<p class="muted">Jouw logo als verlichte lightbox, tot 4 kleuren</p>
+					</div>
+				</div>
+			</div>
+			<button class="carousel-btn carousel-btn-next" aria-label="volgende">›</button>
+		</div>
+	</section>
+
+	<section id="miners" class="showcase container">
+		<div class="page-header">
+			<h1>Mijnwerkers Collectie</h1>
+			<p class="page-description">Eerbetoon aan het Limburgse mijnverleden</p>
+		</div>
+		
+		<div class="carousel">
+			<button class="carousel-btn carousel-btn-prev" aria-label="vorige">‹</button>
+			<div class="carousel-track">
+				<div class="product-card carousel-card" data-title="Koempel-eend" data-image="assets/koempel-eend.jpeg">
+					<div class="product-thumb">
+						<img src="assets/koempel-eend.jpeg" alt="Koempel-eend">
+					</div>
+					<div class="product-info">
+						<h4>Koempel-eend</h4>
+						<p class="muted">Eerbetoon aan het Limburgse mijnverleden</p>
+					</div>
+				</div>
 
 				<div class="product-card carousel-card rotating-images" data-title="D'r Joep" data-image="assets/dr-joep-grey.jpg" data-images='["assets/dr-joep-grey.jpg", "assets/dr-joep-black.jpg"]'>
 					<div class="product-thumb">
@@ -236,46 +260,33 @@
 					</div>
 					<div class="product-info">
 						<h4>D'r Joep</h4>
-						<p class="muted">Een moderne 3D-versie van D'r Joep,
-het nationale symbool voor de mijnwerkers.</p>
+						<p class="muted">Een moderne 3D-versie van D'r Joep, het nationale symbool voor de mijnwerkers</p>
 					</div>
 				</div>
 
-					<div class="product-card carousel-card" data-title="Vlaai Sleutelhanger" data-image="assets/Vlaai-sleutelhanger.jpeg">
-						<div class="product-thumb">
-							<img src="assets/Vlaai-sleutelhanger.jpeg" alt="Vlaai Sleutelhanger">
-						</div>
-						<div class="product-info">
-							<h4>Vlaai Sleutelhanger</h4>
-							<p class="muted">Typisch Limburgse sleutelhanger</p>
-						</div>
+				<div class="product-card carousel-card" data-title="Domaniale Mijnschacht Nulland" data-image="assets/Domaniale-Mijnschacht-Nulland.jpeg">
+					<div class="product-thumb">
+						<img src="assets/Domaniale-Mijnschacht-Nulland.jpeg" alt="Domaniale Mijnschacht Nulland">
 					</div>
-
-					<div class="product-card carousel-card" data-title="Domaniale Mijnschacht Nulland" data-image="assets/Domaniale-Mijnschacht-Nulland.jpeg">
-						<div class="product-thumb">
-							<img src="assets/Domaniale-Mijnschacht-Nulland.jpeg" alt="Domaniale Mijnschacht Nulland">
-						</div>
-						<div class="product-info">
-							<h4>Mijnschacht Nulland</h4>
-							<p class="muted">Limburgse mijnindustrie in 3D</p>
-						</div>
-					</div>
-
-					<div class="product-card carousel-card" data-title="Custom Lightbox" data-image="assets/JS3D-LightBox.jpeg">
-						<div class="product-thumb">
-							<img src="assets/JS3D-LightBox.jpeg" alt="Custom Lightbox">
-						</div>
-						<div class="product-info">
-							<h4>Custom Lightbox</h4>
-							<p class="muted">Jouw logo als verlichte lightbox, tot 4 kleuren</p>
-						</div>
+					<div class="product-info">
+						<h4>Mijnschacht Nulland</h4>
+						<p class="muted">Limburgse mijnindustrie in 3D</p>
 					</div>
 				</div>
-				<button class="carousel-btn carousel-btn-next" aria-label="volgende">›</button>
+
+				<div class="product-card carousel-card" data-title="Vlaai Sleutelhanger" data-image="assets/Vlaai-sleutelhanger.jpeg">
+					<div class="product-thumb">
+						<img src="assets/Vlaai-sleutelhanger.jpeg" alt="Vlaai Sleutelhanger">
+					</div>
+					<div class="product-info">
+						<h4>Vlaai Sleutelhanger</h4>
+						<p class="muted">Typisch Limburgse sleutelhanger</p>
+					</div>
+				</div>
 			</div>
-		</section>
-
-		<section id="contact" class="container contact">
+			<button class="carousel-btn carousel-btn-next" aria-label="volgende">›</button>
+		</div>
+	</section>		<section id="contact" class="container contact">
 			<h2>Maatwerk & opdrachten</h2>
 			<p class="intro-text">Jouw idee, mijn printer</p>
 			

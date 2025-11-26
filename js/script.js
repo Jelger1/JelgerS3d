@@ -133,8 +133,8 @@ document.addEventListener('DOMContentLoaded', function(){
 	});
 
 	// Carousel functionality with infinite scroll and autoplay
-	var carousel = document.querySelector('.carousel');
-	if(carousel){
+	var carousels = document.querySelectorAll('.carousel');
+	carousels.forEach(function(carousel){
 		var track = carousel.querySelector('.carousel-track');
 		var prevBtn = carousel.querySelector('.carousel-btn-prev');
 		var nextBtn = carousel.querySelector('.carousel-btn-next');
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		
 		updateCarousel(false);
 		startAutoplay();
-	}
+	});
 
 	// Rotating images for products (e.g., Kami Lamp)
 	function setupRotatingImages(){
