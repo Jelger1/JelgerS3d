@@ -289,9 +289,14 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 .modal[aria-hidden="false"]{display:flex}
 .modal-content{background:white;padding:0;border-radius:var(--radius);max-width:700px;width:90%;position:relative; overflow:hidden; box-shadow:var(--shadow-lg)}
 .modal-content h3{padding:1.5rem 1.5rem 1rem; margin:0}
-.modal-content img{width:100%;height:auto; display:block; max-height:70vh; object-fit:contain; background:white}
+.modal-content img{width:100%;height:auto; display:block; max-height:70vh; object-fit:contain; background:white; transition:opacity 0.15s ease}
 .modal-close{position:absolute;right:1rem;top:1rem;border:0;background:rgba(255,255,255,0.9);font-size:1.5rem;cursor:pointer; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all 0.2s; z-index:10}
 .modal-close:hover{background:white; transform:rotate(90deg)}
+.modal-nav{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,0.9);font-size:2.5rem;cursor:pointer;width:50px;height:50px;border-radius:50%;display:none;align-items:center;justify-content:center;transition:all 0.2s;z-index:10;color:var(--dark);line-height:1}
+.modal-nav:hover{background:white;transform:translateY(-50%) scale(1.1)}
+.modal-prev{left:1rem}
+.modal-next{right:1rem}
+.modal-counter{display:none;text-align:center;padding:0.75rem;font-size:0.9rem;color:#666;background:rgba(255,255,255,0.9);position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);border-radius:20px;padding:0.5rem 1rem}
 
 /* Responsive */
 /* Webshop desktop header - cart right */

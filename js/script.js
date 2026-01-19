@@ -84,30 +84,105 @@ document.addEventListener('DOMContentLoaded', function(){
 			});
 		});
 
-	// Modal / lightbox
+	// Modal / lightbox with gallery support
 	var modal = document.getElementById('modal');
 	var modalImage = document.getElementById('modal-image');
 	var modalTitle = document.getElementById('modal-title');
 	var modalClose = document.getElementById('modal-close');
+	var currentGalleryImages = [];
+	var currentGalleryIndex = 0;
 
-	function openModal(title, src){
+	function openModal(title, src, allImages){
 		if(!modal) return;
+		
+		// Set up gallery images
+		if(allImages && allImages.length > 0){
+			currentGalleryImages = allImages;
+			currentGalleryIndex = allImages.indexOf(src);
+			if(currentGalleryIndex < 0) currentGalleryIndex = 0;
+		} else {
+			currentGalleryImages = [src];
+			currentGalleryIndex = 0;
+		}
+		
 		modal.setAttribute('aria-hidden','false');
 		if(modalImage){ modalImage.src = src; modalImage.alt = title; }
 		if(modalTitle) modalTitle.textContent = title;
 		document.body.style.overflow = 'hidden';
+		
+		// Show/hide gallery controls
+		updateGalleryControls();
 	}
+	
+	function updateGalleryControls(){
+		var prevBtn = document.getElementById('modal-prev');
+		var nextBtn = document.getElementById('modal-next');
+		var counter = document.getElementById('modal-counter');
+		
+		if(currentGalleryImages.length > 1){
+			if(prevBtn) prevBtn.style.display = 'block';
+			if(nextBtn) nextBtn.style.display = 'block';
+			if(counter) {
+				counter.style.display = 'block';
+				counter.textContent = (currentGalleryIndex + 1) + ' / ' + currentGalleryImages.length;
+			}
+		} else {
+			if(prevBtn) prevBtn.style.display = 'none';
+			if(nextBtn) nextBtn.style.display = 'none';
+			if(counter) counter.style.display = 'none';
+		}
+	}
+	
+	function showNextImage(){
+		if(currentGalleryImages.length <= 1) return;
+		currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+		if(modalImage){
+			modalImage.style.opacity = '0';
+			setTimeout(function(){
+				modalImage.src = currentGalleryImages[currentGalleryIndex];
+				modalImage.style.opacity = '1';
+			}, 150);
+		}
+		updateGalleryControls();
+	}
+	
+	function showPrevImage(){
+		if(currentGalleryImages.length <= 1) return;
+		currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+		if(modalImage){
+			modalImage.style.opacity = '0';
+			setTimeout(function(){
+				modalImage.src = currentGalleryImages[currentGalleryIndex];
+				modalImage.style.opacity = '1';
+			}, 150);
+		}
+		updateGalleryControls();
+	}
+	
 	function closeModal(){
 		if(!modal) return;
 		modal.setAttribute('aria-hidden','true');
 		if(modalImage) modalImage.src = '';
 		if(modalTitle) modalTitle.textContent = '';
 		document.body.style.overflow = '';
+		currentGalleryImages = [];
+		currentGalleryIndex = 0;
 	}
 
 	if(modalClose) modalClose.addEventListener('click', closeModal);
 	if(modal) modal.addEventListener('click', function(e){ if(e.target === modal) closeModal(); });
-	document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+	
+	// Gallery navigation buttons
+	var modalPrev = document.getElementById('modal-prev');
+	var modalNext = document.getElementById('modal-next');
+	if(modalPrev) modalPrev.addEventListener('click', function(e){ e.stopPropagation(); showPrevImage(); });
+	if(modalNext) modalNext.addEventListener('click', function(e){ e.stopPropagation(); showNextImage(); });
+	
+	document.addEventListener('keydown', function(e){ 
+		if(e.key === 'Escape') closeModal();
+		if(e.key === 'ArrowLeft') showPrevImage();
+		if(e.key === 'ArrowRight') showNextImage();
+	});
 
 	// Attach view buttons
 	document.querySelectorAll('[data-action="view"]').forEach(function(btn){
@@ -115,7 +190,8 @@ document.addEventListener('DOMContentLoaded', function(){
 			var card = e.target.closest('.product-card');
 			var title = card && card.dataset ? card.dataset.title : '';
 			var src = card && card.dataset ? card.dataset.image : 'assets/placeholder-hero.jpg';
-			openModal(title, src);
+			var allImages = card && card.dataset && card.dataset.images ? JSON.parse(card.dataset.images) : [src];
+			openModal(title, src, allImages);
 		});
 	});
 
@@ -127,7 +203,8 @@ document.addEventListener('DOMContentLoaded', function(){
 			if(card){
 				var title = card.dataset.title || '';
 				var src = card.dataset.image || '';
-				openModal(title, src);
+				var allImages = card.dataset.images ? JSON.parse(card.dataset.images) : [src];
+				openModal(title, src, allImages);
 			}
 		});
 	});
@@ -290,7 +367,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				} else {
 					var title = card.dataset.title || '';
 					var src = card.dataset.image || '';
-					openModal(title, src);
+					var allImages = card.dataset.images ? JSON.parse(card.dataset.images) : [src];
+					openModal(title, src, allImages);
 				}
 			});
 		});
