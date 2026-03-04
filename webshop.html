@@ -264,7 +264,8 @@
 				<strong>Totaal:</strong>
 				<strong id="cart-total-price">€0,00</strong>
 			</div>
-			<button id="cart-checkout" class="btn btn-primary btn-block">Bestelling plaatsen</button>
+			<p class="cart-shipping-note">Prijzen zijn exclusief verzendkosten</p>
+			<button id="cart-checkout" class="btn btn-primary btn-block">Aanvraag plaatsen</button>
 		</div>
 
 		<!-- Checkout overlay -->
@@ -275,6 +276,13 @@
 					<button id="checkout-close" class="cart-close" aria-label="sluit">✕</button>
 				</div>
 				<div class="checkout-body">
+					<div class="checkout-info-banner">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+						<div>
+							<strong>Hoe werkt het?</strong>
+							<p>Elk product wordt speciaal voor jou geprint. Na je aanvraag neem ik persoonlijk contact op om kleur, details en verzending te bespreken. Betaling volgt pas daarna.</p>
+						</div>
+					</div>
 					<div id="checkout-summary" class="checkout-summary"></div>
 					<form id="checkout-form" class="checkout-form">
 						<div class="form-group">
@@ -307,9 +315,39 @@
 							<label for="checkout-notes">Opmerkingen</label>
 							<textarea id="checkout-notes" name="notes" rows="3" placeholder="Gewenste kleur, bijzonderheden, etc."></textarea>
 						</div>
+						<p class="checkout-disclaimer">Prijzen zijn exclusief verzendkosten. Dit is een aanvraag — geen directe betaling.</p>
 						<p id="checkout-msg" class="checkout-msg"></p>
-						<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Bestelling versturen</button>
+						<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Aanvraag versturen</button>
 					</form>
+					<div id="checkout-success" class="checkout-success" style="display:none">
+						<div class="success-icon">✓</div>
+						<h3>Bedankt voor je aanvraag!</h3>
+						<p>Je bestelling is ontvangen. Ik neem zo snel mogelijk <strong>persoonlijk contact</strong> met je op om alles door te spreken.</p>
+						<div class="success-steps">
+							<div class="success-step">
+								<span class="step-number">1</span>
+								<div>
+									<strong>Aanvraag ontvangen</strong>
+									<p>Je bestelling is bij mij binnengekomen</p>
+								</div>
+							</div>
+							<div class="success-step">
+								<span class="step-number">2</span>
+								<div>
+									<strong>Ik neem contact op</strong>
+									<p>We bespreken kleur, details en verzending</p>
+								</div>
+							</div>
+							<div class="success-step">
+								<span class="step-number">3</span>
+								<div>
+									<strong>Betaling &amp; productie</strong>
+									<p>Pas na akkoord wordt er betaald en geprint</p>
+								</div>
+							</div>
+						</div>
+						<button id="checkout-success-close" class="btn btn-primary btn-block">Sluiten</button>
+					</div>
 				</div>
 			</div>
 		</div>

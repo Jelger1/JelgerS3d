@@ -580,6 +580,22 @@ document.addEventListener('DOMContentLoaded', function(){
 		if(!checkoutOverlay) return;
 		checkoutOverlay.setAttribute('aria-hidden', 'true');
 		if(checkoutMsg) { checkoutMsg.textContent = ''; checkoutMsg.className = 'checkout-msg'; }
+		// Reset success screen
+		var successEl = document.getElementById('checkout-success');
+		if(successEl) successEl.style.display = 'none';
+		if(checkoutForm) checkoutForm.style.display = '';
+		var infoBanner = document.querySelector('.checkout-info-banner');
+		if(infoBanner) infoBanner.style.display = '';
+		if(checkoutSummary) checkoutSummary.style.display = '';
+	}
+
+	// Success screen close button
+	var successCloseBtn = document.getElementById('checkout-success-close');
+	if(successCloseBtn){
+		successCloseBtn.addEventListener('click', function(){
+			closeCheckout();
+			closeCart();
+		});
 	}
 
 	if(checkoutClose) checkoutClose.addEventListener('click', closeCheckout);
@@ -649,14 +665,16 @@ document.addEventListener('DOMContentLoaded', function(){
 			.then(function(res){ return res.json(); })
 			.then(function(data){
 				if(data.success){
-					if(checkoutMsg){ checkoutMsg.textContent = '✓ Bestelling succesvol verzonden! Je hoort snel van ons.'; checkoutMsg.className = 'checkout-msg checkout-msg-success'; }
 					checkoutForm.reset();
 					cart = [];
 					updateCartUI();
-					setTimeout(function(){
-						closeCheckout();
-						closeCart();
-					}, 3000);
+					// Show success screen
+					checkoutForm.style.display = 'none';
+					var infoBanner = document.querySelector('.checkout-info-banner');
+					if(infoBanner) infoBanner.style.display = 'none';
+					if(checkoutSummary) checkoutSummary.style.display = 'none';
+					var successEl = document.getElementById('checkout-success');
+					if(successEl) successEl.style.display = 'block';
 				} else {
 					if(checkoutMsg){ checkoutMsg.textContent = 'Er ging iets mis. Probeer het opnieuw.'; checkoutMsg.className = 'checkout-msg checkout-msg-error'; }
 				}
