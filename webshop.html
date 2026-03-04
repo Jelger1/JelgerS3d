@@ -266,6 +266,53 @@
 			</div>
 			<button id="cart-checkout" class="btn btn-primary btn-block">Bestelling plaatsen</button>
 		</div>
+
+		<!-- Checkout overlay -->
+		<div id="checkout-overlay" class="checkout-overlay" aria-hidden="true">
+			<div class="checkout-panel">
+				<div class="checkout-header">
+					<h3>Gegevens invullen</h3>
+					<button id="checkout-close" class="cart-close" aria-label="sluit">✕</button>
+				</div>
+				<div class="checkout-body">
+					<div id="checkout-summary" class="checkout-summary"></div>
+					<form id="checkout-form" class="checkout-form">
+						<div class="form-group">
+							<label for="checkout-name">Naam *</label>
+							<input type="text" id="checkout-name" name="name" required placeholder="Je volledige naam">
+						</div>
+						<div class="form-group">
+							<label for="checkout-email">E-mailadres *</label>
+							<input type="email" id="checkout-email" name="email" required placeholder="je@email.nl">
+						</div>
+						<div class="form-group">
+							<label for="checkout-phone">Telefoonnummer *</label>
+							<input type="tel" id="checkout-phone" name="phone" required placeholder="06 12345678">
+						</div>
+						<div class="form-group">
+							<label for="checkout-address">Adres *</label>
+							<input type="text" id="checkout-address" name="address" required placeholder="Straat + huisnummer">
+						</div>
+						<div class="form-row">
+							<div class="form-group">
+								<label for="checkout-postcode">Postcode *</label>
+								<input type="text" id="checkout-postcode" name="postcode" required placeholder="1234 AB">
+							</div>
+							<div class="form-group">
+								<label for="checkout-city">Plaats *</label>
+								<input type="text" id="checkout-city" name="city" required placeholder="Woonplaats">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="checkout-notes">Opmerkingen</label>
+							<textarea id="checkout-notes" name="notes" rows="3" placeholder="Gewenste kleur, bijzonderheden, etc."></textarea>
+						</div>
+						<p id="checkout-msg" class="checkout-msg"></p>
+						<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Bestelling versturen</button>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
 

@@ -374,10 +374,29 @@
 			</div>
 			
 			<form id="contact-form" class="contact-form" novalidate>
-				<label>Naam<input type="text" name="name" required></label>
-				<label>Bericht<textarea name="message" rows="4" required placeholder="Vertel me kort over je idee..."></textarea></label>
-				<p><button type="submit" class="btn primary">Verstuur aanvraag</button></p>
-				<p id="form-msg" class="form-msg" aria-live="polite"></p>
+				<input type="hidden" name="access_key" value="76745e70-8371-4e48-be49-d5c52540cf06">
+				<div class="contact-form-card">
+					<div class="form-group">
+						<label for="cf-name">Naam</label>
+						<div class="input-wrap">
+							<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+							<input type="text" id="cf-name" name="name" required placeholder="Je volledige naam">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cf-email">E-mailadres</label>
+						<div class="input-wrap">
+							<svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+							<input type="email" id="cf-email" name="email" required placeholder="je@email.nl">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="cf-message">Bericht</label>
+						<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je idee..."></textarea>
+					</div>
+					<button type="submit" class="btn primary btn-block">Verstuur aanvraag</button>
+					<p id="form-msg" class="form-msg" aria-live="polite"></p>
+				</div>
 			</form>
 		</section>
 	</main>

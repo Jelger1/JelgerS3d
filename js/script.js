@@ -551,71 +551,165 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 	});
 
-	// Checkout - send email
+	// Checkout overlay
+	var checkoutOverlay = document.getElementById('checkout-overlay');
+	var checkoutClose = document.getElementById('checkout-close');
+	var checkoutForm = document.getElementById('checkout-form');
+	var checkoutSummary = document.getElementById('checkout-summary');
+	var checkoutMsg = document.getElementById('checkout-msg');
+
+	function openCheckout(){
+		if(!checkoutOverlay) return;
+		// Build order summary in the checkout panel
+		if(checkoutSummary){
+			var html = '<h4>Jouw bestelling</h4>';
+			var total = 0;
+			cart.forEach(function(item){
+				var price = parseFloat(item.price);
+				total += price;
+				html += '<div class="checkout-item"><span>' + item.name + '</span><span>€' + price.toFixed(2).replace('.', ',') + '</span></div>';
+			});
+			html += '<div class="checkout-item checkout-item-total"><strong>Totaal</strong><strong>€' + total.toFixed(2).replace('.', ',') + '</strong></div>';
+			checkoutSummary.innerHTML = html;
+		}
+		checkoutOverlay.setAttribute('aria-hidden', 'false');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function closeCheckout(){
+		if(!checkoutOverlay) return;
+		checkoutOverlay.setAttribute('aria-hidden', 'true');
+		if(checkoutMsg) { checkoutMsg.textContent = ''; checkoutMsg.className = 'checkout-msg'; }
+	}
+
+	if(checkoutClose) checkoutClose.addEventListener('click', closeCheckout);
+	if(checkoutOverlay) checkoutOverlay.addEventListener('click', function(e){ if(e.target === checkoutOverlay) closeCheckout(); });
+
+	// Open checkout form when clicking "Bestelling plaatsen"
 	if(cartCheckout){
 		cartCheckout.addEventListener('click', function(){
 			if(cart.length === 0){
 				alert('Je winkelwagen is leeg!');
 				return;
 			}
-			
-			// Build order summary
-			var orderText = 'BESTELLING VIA JELGERS3D.NL\n\n';
-			orderText += 'Producten:\n';
+			openCheckout();
+		});
+	}
+
+	// Submit checkout form via Web3Forms
+	if(checkoutForm){
+		checkoutForm.addEventListener('submit', function(e){
+			e.preventDefault();
+
+			var submitBtn = document.getElementById('checkout-submit');
+			if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Verzenden...'; }
+
+			// Build order details text
+			var orderLines = [];
 			var total = 0;
 			cart.forEach(function(item){
 				var price = parseFloat(item.price);
 				total += price;
-				orderText += '- ' + item.name + ': €' + price.toFixed(2).replace('.', ',') + '\n';
+				orderLines.push(item.name + ' — €' + price.toFixed(2).replace('.', ','));
 			});
-			orderText += '\nTotaal: €' + total.toFixed(2).replace('.', ',') + '\n\n';
-			orderText += 'Vul hieronder je gegevens in:\n';
-			orderText += 'Naam:\nAdres:\nTelefoon:\n\nOpmerkingen:';
-			
-			// Create mailto link
-			var subject = 'Bestelling JelgerS3D - ' + cart.length + ' item(s)';
-			var mailtoLink = 'mailto:sielerjelger@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(orderText);
-			
-			// Open email client
-			window.location.href = mailtoLink;
-			
-			// Clear cart after a moment
-			setTimeout(function(){
-				cart = [];
-				updateCartUI();
-				closeCart();
-			}, 1000);
+			orderLines.push('');
+			orderLines.push('Totaal: €' + total.toFixed(2).replace('.', ','));
+
+			var name = document.getElementById('checkout-name').value.trim();
+			var email = document.getElementById('checkout-email').value.trim();
+			var phone = document.getElementById('checkout-phone').value.trim();
+			var address = document.getElementById('checkout-address').value.trim();
+			var postcode = document.getElementById('checkout-postcode').value.trim();
+			var city = document.getElementById('checkout-city').value.trim();
+			var notes = document.getElementById('checkout-notes').value.trim();
+
+			var message = 'BESTELLING VIA JELGERS3D.NL\n\n';
+			message += 'Producten:\n' + orderLines.join('\n') + '\n\n';
+			message += 'Klantgegevens:\n';
+			message += 'Naam: ' + name + '\n';
+			message += 'Email: ' + email + '\n';
+			message += 'Telefoon: ' + phone + '\n';
+			message += 'Adres: ' + address + '\n';
+			message += 'Postcode: ' + postcode + '\n';
+			message += 'Plaats: ' + city + '\n';
+			if(notes) message += '\nOpmerkingen: ' + notes + '\n';
+
+			var formData = new FormData();
+			formData.append('access_key', 'a36505b1-9726-4de3-927c-d7984947f0bb');
+			formData.append('subject', 'Nieuwe bestelling JelgerS3D — ' + cart.length + ' item(s)');
+			formData.append('from_name', 'JelgerS3D Webshop');
+			formData.append('name', name);
+			formData.append('email', email);
+			formData.append('message', message);
+
+			fetch('https://api.web3forms.com/submit', {
+				method: 'POST',
+				body: formData
+			})
+			.then(function(res){ return res.json(); })
+			.then(function(data){
+				if(data.success){
+					if(checkoutMsg){ checkoutMsg.textContent = '✓ Bestelling succesvol verzonden! Je hoort snel van ons.'; checkoutMsg.className = 'checkout-msg checkout-msg-success'; }
+					checkoutForm.reset();
+					cart = [];
+					updateCartUI();
+					setTimeout(function(){
+						closeCheckout();
+						closeCart();
+					}, 3000);
+				} else {
+					if(checkoutMsg){ checkoutMsg.textContent = 'Er ging iets mis. Probeer het opnieuw.'; checkoutMsg.className = 'checkout-msg checkout-msg-error'; }
+				}
+			})
+			.catch(function(){
+				if(checkoutMsg){ checkoutMsg.textContent = 'Verbindingsfout. Controleer je internet en probeer opnieuw.'; checkoutMsg.className = 'checkout-msg checkout-msg-error'; }
+			})
+			.finally(function(){
+				if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Bestelling versturen'; }
+			});
 		});
 	}
 
-	// Contact form handling - sends via email
+	// Contact form handling - sends via Web3Forms
 	var form = document.getElementById('contact-form');
 	var formMsg = document.getElementById('form-msg');
 	if(form){
 		form.addEventListener('submit', function(e){
 			e.preventDefault();
-			var name = form.name.value.trim();
-			var message = form.message.value.trim();
-			if(!name || !message){
+			var name = form.querySelector('[name="name"]').value.trim();
+			var email = form.querySelector('[name="email"]').value.trim();
+			var message = form.querySelector('[name="message"]').value.trim();
+			if(!name || !email || !message){
 				if(formMsg){ formMsg.textContent = 'Vul alle velden in.'; formMsg.style.color = 'crimson'; }
 				return;
 			}
-			
-			// Create email content
-			var subject = 'Contact aanvraag van ' + name;
-			var body = 'Naam: ' + name + '\n\n';
-			body += 'Bericht:\n' + message;
-			
-			// Open email client with pre-filled content
-			var mailtoLink = 'mailto:sielerjelger@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-			window.location.href = mailtoLink;
-			
-			// Show success message
-			if(formMsg){ formMsg.textContent = 'Email wordt geopend...'; formMsg.style.color = 'green'; }
-			setTimeout(function(){
-				form.reset();
-				if(formMsg) formMsg.textContent = '';
-			}, 2000);
+
+			var submitBtn = form.querySelector('button[type="submit"]');
+			if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Verzenden...'; }
+
+			var formData = new FormData(form);
+			formData.append('subject', 'Contact aanvraag van ' + name + ' via JelgerS3D.nl');
+			formData.append('from_name', 'JelgerS3D Website');
+
+			fetch('https://api.web3forms.com/submit', {
+				method: 'POST',
+				body: formData
+			})
+			.then(function(res){ return res.json(); })
+			.then(function(data){
+				if(data.success){
+					if(formMsg){ formMsg.textContent = 'Bedankt! Je bericht is verstuurd. Ik neem snel contact met je op.'; formMsg.style.color = '#27ae60'; }
+					form.reset();
+				} else {
+					if(formMsg){ formMsg.textContent = 'Er ging iets mis. Probeer het opnieuw.'; formMsg.style.color = 'crimson'; }
+				}
+			})
+			.catch(function(){
+				if(formMsg){ formMsg.textContent = 'Verbindingsfout. Controleer je internet en probeer opnieuw.'; formMsg.style.color = 'crimson'; }
+			})
+			.finally(function(){
+				if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Verstuur aanvraag'; }
+			});
 		});
 	}
 
