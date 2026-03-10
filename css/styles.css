@@ -331,6 +331,7 @@ em, i{font-family:'CircularStd-BookItalic', 'Circular Std', system-ui, sans-seri
 .footer-tagline span{display:inline-flex;align-items:center;gap:0.5rem}
 .footer-tagline .check{color:var(--brand);font-weight:bold}
 .footer-copyright{font-size:0.9rem;color:rgba(255,255,255,0.7)}
+.footer-legal{font-size:0.8rem;color:rgba(255,255,255,0.5);margin-top:0.25rem}
 .foot-nav{display:flex;gap:0.5rem;align-items:center}
 .foot-nav a{color:var(--soft);text-decoration:none;padding:0.25rem 0.5rem;transition:color 0.2s}
 .foot-nav a:hover{color:var(--brand)}
