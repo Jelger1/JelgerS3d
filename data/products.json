@@ -25,9 +25,9 @@
 			{ "id": "standaard", "label": "", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "Kami-Vase-3kleuren2.jpg", "alt": "Kami Vase in geel, roze en oranje kleurvlakken op een houten tafel" },
-			{ "file": "Kami-Vase-3kleuren1.jpg", "alt": "Driekleurige Kami Vase naast een witte vaas met een kleurrijk boeket" },
-			{ "file": "Kami-Vase-1kleur1.jpg", "alt": "Kami Vase in één zandkleurige tint op een wit aanrechtblad" }
+			{ "file": "Kami-Vase-3kleuren2.jpg", "subject": [29, 27, 75, 93], "alt": "Kami Vase in geel, roze en oranje kleurvlakken op een houten tafel" },
+			{ "file": "Kami-Vase-3kleuren1.jpg", "subject": [22, 49, 54, 93], "alt": "Driekleurige Kami Vase naast een witte vaas met een kleurrijk boeket" },
+			{ "file": "Kami-Vase-1kleur1.jpg", "subject": [33, 28, 68, 76], "alt": "Kami Vase in één zandkleurige tint op een wit aanrechtblad" }
 		],
 		"seo": {
 			"title": "Kami Vase – 3D-geprinte designvaas in jouw kleuren",
@@ -62,9 +62,9 @@
 			{ "id": "standaard", "label": "", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "Wavase-Keuken.jpg", "alt": "Grijze Wavase met golvend reliëf op een wit aanrechtblad" },
-			{ "file": "Wavase-Tafel.jpg", "alt": "Wavase op een houten tafel naast een vaas met een kleurrijk boeket" },
-			{ "file": "Wavase-Tafel-2.jpg", "alt": "Wavase van bovenaf gezien, met de gedraaide golfstructuur goed zichtbaar" }
+			{ "file": "Wavase-Keuken.jpg", "subject": [30, 32, 70, 70], "alt": "Grijze Wavase met golvend reliëf op een wit aanrechtblad" },
+			{ "file": "Wavase-Tafel.jpg", "subject": [21, 57, 55, 90], "alt": "Wavase op een houten tafel naast een vaas met een kleurrijk boeket" },
+			{ "file": "Wavase-Tafel-2.jpg", "subject": [24, 27, 73, 77], "alt": "Wavase van bovenaf gezien, met de gedraaide golfstructuur goed zichtbaar" }
 		],
 		"seo": {
 			"title": "Wavase – waterdichte 3D-geprinte vaas met golvend design",
@@ -99,8 +99,8 @@
 			{ "id": "standaard", "label": "", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "BOLD-Vase2.jpg", "alt": "Zwarte Bold Vase met fijne ribbels op een houten tafel" },
-			{ "file": "BOLD-Vase1.jpg", "alt": "Zwarte Bold Vase op een wit marmeren blad" }
+			{ "file": "BOLD-Vase2.jpg", "subject": [15, 27, 83, 78], "alt": "Zwarte Bold Vase met fijne ribbels op een houten tafel" },
+			{ "file": "BOLD-Vase1.jpg", "subject": [25, 26, 83, 73], "alt": "Zwarte Bold Vase op een wit marmeren blad" }
 		],
 		"seo": {
 			"title": "Bold Vase – sculpturale 3D-geprinte designvaas",
@@ -137,11 +137,11 @@
 			{ "id": "incl-led", "label": "Incl. LED-lamp (E14)", "price": 39.95 }
 		],
 		"images": [
-			{ "file": "Helio-Lamp-Knop.jpg", "alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar" },
-			{ "file": "Helio-Lamp-Roze.jpg", "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
-			{ "file": "Helio-Lamp-Roze-2.jpg", "alt": "Brandende roze Helio Lamp die de muur warm rood kleurt" },
-			{ "file": "Helio-Lamp-Oranje-2.jpg", "alt": "Brandende oranje Helio Lamp op een zwarte piano" },
-			{ "file": "Helio-Lamp-Oranje.jpg", "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
+			{ "file": "Helio-Lamp-Knop.jpg", "subject": [35, 25, 82, 65], "alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar" },
+			{ "file": "Helio-Lamp-Roze.jpg", "subject": [27, 28, 64, 59], "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
+			{ "file": "Helio-Lamp-Roze-2.jpg", "subject": [26, 28, 65, 62], "alt": "Brandende roze Helio Lamp die de muur warm rood kleurt" },
+			{ "file": "Helio-Lamp-Oranje-2.jpg", "subject": [45, 23, 80, 52], "alt": "Brandende oranje Helio Lamp op een zwarte piano" },
+			{ "file": "Helio-Lamp-Oranje.jpg", "subject": [45, 23, 80, 52], "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
 		],
 		"seo": {
 			"title": "Helio Lamp – 3D-geprinte design tafellamp in jouw kleur",
@@ -176,7 +176,7 @@
 			{ "id": "standaard", "label": "", "price": 24.95 }
 		],
 		"images": [
-			{ "file": "Orbits-Lamp-Wood-White.jpeg", "alt": "Brandende witte Orbits Lamp van gestapelde schijven op een houten voet" }
+			{ "file": "Orbits-Lamp-Wood-White.jpeg", "subject": [31, 12, 69, 97], "alt": "Brandende witte Orbits Lamp van gestapelde schijven op een houten voet" }
 		],
 		"seo": {
 			"title": "Orbits Lamp – dimbare 3D-geprinte tafellamp",
@@ -207,9 +207,9 @@
 		],
 		"variants": [],
 		"images": [
-			{ "file": "Kami-Lamp-Front.jpeg", "alt": "Brandende Kami Lamp met gefacetteerde kap op een houten driepoot" },
-			{ "file": "Kami-Lamp-Closeup.jpeg", "alt": "Close-up van de gefacetteerde, amberkleurig verlichte kap van de Kami Lamp" },
-			{ "file": "Kami-Lamp-Top.jpeg", "alt": "Kami Lamp schuin van bovenaf gezien" }
+			{ "file": "Kami-Lamp-Front.jpeg", "subject": [18, 12, 80, 96], "alt": "Brandende Kami Lamp met gefacetteerde kap op een houten driepoot" },
+			{ "file": "Kami-Lamp-Closeup.jpeg", "subject": [0, 0, 62, 62], "alt": "Close-up van de gefacetteerde, amberkleurig verlichte kap van de Kami Lamp" },
+			{ "file": "Kami-Lamp-Top.jpeg", "subject": [20, 20, 78, 82], "alt": "Kami Lamp schuin van bovenaf gezien" }
 		],
 		"seo": {
 			"title": "Kami Lamp – 3D-geprinte designlamp met origami-patroon",
@@ -244,8 +244,8 @@
 			{ "id": "25cm", "label": "25 cm", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "Schacht-nulland2.jpg", "alt": "Close-up van het 3D-geprinte model van Mijnschacht Nulland met bogen en toren" },
-			{ "file": "Schacht-Nulland1.jpg", "alt": "3D-geprint model van Mijnschacht Nulland op een wit blad" }
+			{ "file": "Schacht-Nulland1.jpg", "subject": [6, 38, 88, 68], "alt": "3D-geprint model van Mijnschacht Nulland op een wit blad" },
+			{ "file": "Schacht-nulland2.jpg", "subject": [0, 8, 86, 92], "alt": "Close-up van het 3D-geprinte model van Mijnschacht Nulland met bogen en toren" }
 		],
 		"seo": {
 			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
@@ -280,8 +280,8 @@
 			{ "id": "25cm", "label": "25 cm", "price": 24.95 }
 		],
 		"images": [
-			{ "file": "dr-joep-zwart.jpg", "alt": "Zwart gefacetteerd beeld van mijnwerker D'r Joep op een houten tafel" },
-			{ "file": "dr-joep-grey.jpg", "alt": "Grijs gefacetteerd beeld van D'r Joep op sokkel, met mijnlamp in de hand" }
+			{ "file": "dr-joep-zwart.jpg", "subject": [20, 14, 58, 89], "alt": "Zwart gefacetteerd beeld van mijnwerker D'r Joep op een houten tafel" },
+			{ "file": "dr-joep-grey.jpg", "subject": [28, 22, 70, 91], "alt": "Grijs gefacetteerd beeld van D'r Joep op sokkel, met mijnlamp in de hand" }
 		],
 		"seo": {
 			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld in modern design",
@@ -314,7 +314,7 @@
 			{ "id": "standaard", "label": "", "price": 6.95 }
 		],
 		"images": [
-			{ "file": "Koempel-Eend.jpg", "alt": "Gele Koempel-eend met zwarte mijnwerkershelm en lamp, met Mijnschacht Nulland op de achtergrond" }
+			{ "file": "Koempel-Eend.jpg", "subject": [8, 50, 62, 88], "alt": "Gele Koempel-eend met zwarte mijnwerkershelm en lamp, met Mijnschacht Nulland op de achtergrond" }
 		],
 		"seo": {
 			"title": "Koempel-eend – Limburgse mijnwerkerseend, 3D-geprint",
@@ -344,7 +344,7 @@
 			{ "id": "standaard", "label": "", "price": 3.95 }
 		],
 		"images": [
-			{ "file": "Vlaai-sleutelhanger.jpeg", "alt": "Sleutelhanger in de vorm van een punt pruimenvlaai met deegraster" }
+			{ "file": "Vlaai-sleutelhanger.jpeg", "subject": [20, 22, 80, 92], "background": "auto", "alt": "Sleutelhanger in de vorm van een punt pruimenvlaai met deegraster" }
 		],
 		"seo": {
 			"title": "Vlaai Sleutelhanger – Limburgse pruimenvlaai aan je sleutels",
@@ -374,7 +374,7 @@
 			{ "id": "standaard", "label": "", "price": 4.95 }
 		],
 		"images": [
-			{ "file": "Poefel-Sleutelhanger.jpeg", "alt": "Sleutelhanger in de vorm van een poefel met poedersuiker en jamvulling" }
+			{ "file": "Poefel-Sleutelhanger.jpeg", "subject": [27, 28, 85, 78], "background": "auto", "alt": "Sleutelhanger in de vorm van een poefel met poedersuiker en jamvulling" }
 		],
 		"seo": {
 			"title": "Poefel Sleutelhanger – Limburgse poefel aan je sleutels",
@@ -406,7 +406,7 @@
 			{ "id": "standaard", "label": "", "price": 3.95 }
 		],
 		"images": [
-			{ "file": "Kirchroa-Sleutelhanger.jpeg", "alt": "Blauwe sleutelhanger in de vorm van een plaatsnaambord met de tekst Kirchroa" }
+			{ "file": "Kirchroa-Sleutelhanger.jpeg", "subject": [20, 15, 82, 82], "background": "auto", "alt": "Blauwe sleutelhanger in de vorm van een plaatsnaambord met de tekst Kirchroa" }
 		],
 		"seo": {
 			"title": "Kirchroa Sleutelhanger – plaatsnaambord met jouw eigen naam",
@@ -438,7 +438,7 @@
 			{ "id": "standaard", "label": "", "price": 19.95 }
 		],
 		"images": [
-			{ "file": "Blonde-Non-3d.jpeg", "alt": "Roze 3D-geprinte buste van de Blonde Non met bloemenkrans" }
+			{ "file": "Blonde-Non-3d.jpeg", "subject": [17, 30, 80, 92], "alt": "Roze 3D-geprinte buste van de Blonde Non met bloemenkrans" }
 		],
 		"seo": {
 			"title": "Blonde Non – 3D-geprint beeld voor Brouwerij Rolduc",
@@ -472,7 +472,7 @@
 		],
 		"variants": [],
 		"images": [
-			{ "file": "JS3D-LightBox.jpeg", "alt": "Verlichte lightbox in de vorm van het JelgerS3D-logo" }
+			{ "file": "JS3D-LightBox.jpeg", "subject": [22, 18, 82, 88], "background": "auto", "alt": "Verlichte lightbox in de vorm van het JelgerS3D-logo" }
 		],
 		"seo": {
 			"title": "Custom Lightbox – jouw logo als 3D-geprinte lichtbak",

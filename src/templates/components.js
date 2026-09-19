@@ -29,19 +29,19 @@ function productCard(product, ctx, opts) {
 	const url = h.productUrl(product, root);
 	const first = product.images[0];
 	const second = product.images[1];
-	const landscape = h.isLandscape(ctx.images, first.file);
 	const price = h.priceHtml(product);
 
-	let media = h.img(ctx.images, first.file, { alt: first.alt, sizes: opts.sizes || CARD_SIZES, root: root, eager: opts.eager });
+	// Kaarten tonen de productuitsnede: vast 4:5-kader met het product in het midden
+	let media = h.img(ctx.images, first.file, { alt: first.alt, sizes: opts.sizes || CARD_SIZES, root: root, eager: opts.eager, crop: true });
 	// Tweede foto vloeit in bij hover (alleen op apparaten met een muis)
-	if (second && !landscape) {
-		media += h.img(ctx.images, second.file, { alt: '', sizes: opts.sizes || CARD_SIZES, root: root, className: 'product-thumb-alt' });
+	if (second) {
+		media += h.img(ctx.images, second.file, { alt: '', sizes: opts.sizes || CARD_SIZES, root: root, className: 'product-thumb-alt', crop: true });
 	}
 
 	return '<article class="product-card' + (opts.className ? ' ' + opts.className : '') + '"'
 		+ ' data-id="' + h.esc(product.id) + '" data-type="' + h.esc(product.type) + '" data-collection="' + h.esc(product.collection) + '"'
 		+ (h.minPrice(product) != null ? ' data-price="' + h.minPrice(product) + '"' : '') + '>\n'
-		+ '\t<a class="product-thumb' + (landscape ? ' is-landscape' : '') + '" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
+		+ '\t<a class="product-thumb" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
 		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : '')
 		+ '</a>\n'
 		+ '\t<div class="product-info">\n'

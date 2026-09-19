@@ -6,11 +6,11 @@ const GALLERY_SIZES = '(max-width: 900px) 100vw, 580px';
 
 function gallery(product, ctx, root) {
 	const slides = product.images.map(function (image, i) {
+		// In het kader staat de uitsnede met het product in het midden; vergroten toont de volledige foto
 		const full = h.imgPath(ctx.images, image.file, 1600, root);
-		const landscape = h.isLandscape(ctx.images, image.file);
-		return '<li class="pdp-slide' + (landscape ? ' is-landscape' : '') + '" id="foto-' + (i + 1) + '">'
+		return '<li class="pdp-slide" id="foto-' + (i + 1) + '">'
 			+ '<button type="button" class="pdp-zoom" data-zoom="' + i + '" data-full="' + full + '" data-alt="' + h.esc(image.alt) + '" aria-label="Foto ' + (i + 1) + ' vergroten">'
-			+ h.img(ctx.images, image.file, { alt: image.alt, sizes: GALLERY_SIZES, root: root, eager: i === 0 })
+			+ h.img(ctx.images, image.file, { alt: image.alt, sizes: GALLERY_SIZES, root: root, eager: i === 0, crop: true })
 			+ '</button></li>';
 	}).join('\n\t\t\t');
 
@@ -19,7 +19,7 @@ function gallery(product, ctx, root) {
 		thumbs = '\t\t<ul class="pdp-thumbs" aria-label="Kies een foto">\n'
 			+ product.images.map(function (image, i) {
 				return '\t\t\t<li><button type="button" class="pdp-thumb' + (i === 0 ? ' is-active' : '') + '" data-slide="' + i + '" aria-label="Toon foto ' + (i + 1) + '"' + (i === 0 ? ' aria-current="true"' : '') + '>'
-					+ h.img(ctx.images, image.file, { alt: '', sizes: '72px', root: root }) + '</button></li>';
+					+ h.img(ctx.images, image.file, { alt: '', sizes: '72px', root: root, crop: true }) + '</button></li>';
 			}).join('\n') + '\n\t\t</ul>\n';
 	}
 
@@ -192,10 +192,7 @@ function productPage(product, ctx) {
 		description: product.seo.description,
 		ogImage: firstEntry.og,
 		ogType: 'product',
-		preload: {
-			srcset: firstEntry.variants.map(function (v) { return root + 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', '),
-			sizes: GALLERY_SIZES
-		},
+		preload: { srcset: h.cropSrcset(ctx.images, first.file, root), sizes: GALLERY_SIZES },
 		jsonLd: ld,
 		main: main
 	};

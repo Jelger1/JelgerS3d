@@ -9,6 +9,7 @@
 	"btw": "NL005382244B28",
 	"region": "Limburg",
 	"defaultOgImage": "Kami-Vase-3kleuren2.jpg",
+	"productFrame": { "ratio": [4, 5], "fill": 0.62 },
 	"homeImages": {
 		"hero": { "file": "Printer-H2C.jpg", "alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle JelgerS3D-ontwerpen worden geprint" },
 		"about": { "file": "Jelger-Pic.jpg", "alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D" }

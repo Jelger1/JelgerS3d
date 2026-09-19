@@ -27,9 +27,30 @@ Upload alleen `dist/`. De rest van deze map (originele foto's, data, broncode) h
      - `soon`: zichtbaar, maar nog niet te bestellen
    - `variants`: één variant met leeg `label` voor een product zonder keuzes, of meerdere met elk een `label`.
    - `images`: de eerste foto is de hoofdfoto. Schrijf bij elke foto een beschrijvende `alt`.
+     Geef met `subject` aan waar het product in de foto staat (zie hieronder).
    - `seo`: titel (max. 65 tekens) en omschrijving (max. 160 tekens) voor Google.
    - `related`: id's van producten onder "Past erbij".
 3. Draai `build.bat`. De build controleert je data en vertelt in gewoon Nederlands wat er mist of niet klopt.
+
+### Het product netjes in het midden: `subject`
+
+Alle productfoto's worden getoond in een vast kader van 4:5. De build snijdt elke foto zo bij dat het
+**product in het midden** staat. Daarvoor geef je per foto aan waar het product staat:
+
+```json
+{ "file": "Koempel-Eend.jpg", "subject": [8, 50, 62, 88], "alt": "..." }
+```
+
+`subject` is `[links, boven, rechts, onder]` in procenten van de foto. In dit voorbeeld begint de eend
+op 8% vanaf links en 50% vanaf boven, en eindigt hij op 62% vanaf links en 88% vanaf boven.
+Een ruwe schatting is genoeg. Staat het product na het bouwen te klein of te krap in beeld, maak het vak
+dan iets kleiner of groter. Klikt een bezoeker op de foto, dan ziet hij altijd de volledige, onbewerkte foto.
+
+- Zonder `subject` snijdt de build vanuit het midden van de foto (je krijgt dan een waarschuwing).
+- Studiofoto op een egale achtergrond (zoals de sleutelhangers) waar het product niet in een staand kader past?
+  Voeg `"background": "auto"` toe: de achtergrond wordt dan doorgetrokken in plaats van dat het product wordt afgesneden.
+- Hoeveel ruimte er rond het product blijft stel je voor de hele site in via `productFrame.fill` in `data/site.json`
+  (0.62 = het product vult hooguit 62% van het kader). Per foto afwijken kan met `"fill": 0.5`.
 
 Prijs aanpassen? Wijzig alleen de prijs in `products.json` en bouw opnieuw. Winkelwagens van
 bezoekers rekenen altijd met de actuele prijs.
