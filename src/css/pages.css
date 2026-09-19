@@ -1,0 +1,42 @@
+/* Categoriepagina's, tekstpagina's (privacy, 404), footer-aanvullingen en de cookiemelding. */
+
+/* Categoriepagina */
+.category-header{text-align:left;max-width:760px;margin:1.5rem 0 2.5rem 0}
+.category-header::after{left:0;transform:none}
+.category-header h1{margin-bottom:1rem}
+.category-more{margin:3.5rem 0 1rem;padding-top:2rem;border-top:1px solid var(--border)}
+.category-more p{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.85rem 0}
+.chip-link{display:inline-flex;align-items:center;padding:0.5rem 0.95rem;border:1px solid var(--border);border-radius:var(--radius-full);background:var(--dark-secondary);color:var(--soft);font-size:0.88rem;text-decoration:none}
+.chip-link:hover{border-color:var(--brand);color:var(--brand)}
+
+/* Tekstpagina's */
+.text-page{max-width:760px;padding-top:2.5rem;padding-bottom:4rem}
+.text-page h1{font-size:clamp(2rem, 4vw, 2.75rem);letter-spacing:-0.03em;margin:0 0 1.25rem 0;color:var(--soft)}
+.text-page h2{font-size:1.3rem;margin:2.5rem 0 0.75rem 0}
+.text-page p,.text-page li{color:var(--fg-muted);line-height:1.75}
+.text-page p{margin:0 0 1rem 0}
+.text-page-intro{font-size:1.125rem}
+.text-page ul:not(.chips){margin:0 0 1rem 0;padding-left:1.25rem;list-style:disc}
+.text-page li{margin-bottom:0.5rem}
+.text-page strong{color:var(--soft)}
+.text-page a:not(.btn):not(.chip-link){color:var(--brand)}
+.not-found{text-align:center;padding-top:clamp(3rem, 8vw, 6rem)}
+.not-found .text-page-intro{max-width:52ch;margin-left:auto;margin-right:auto}
+.not-found .cta-row,.not-found .chips{justify-content:center}
+.not-found .chips{margin-top:2.5rem}
+
+/* Footer */
+.foot-categories{display:flex;flex-wrap:wrap;justify-content:center;gap:0.4rem 1.5rem;font-size:0.9rem}
+.foot-categories a{color:var(--soft);text-decoration:none}
+.foot-categories a:hover{color:var(--brand)}
+.foot-link-button{background:none;border:0;padding:0.25rem 0.5rem;font:inherit;color:var(--fg-muted);cursor:pointer}
+.foot-link-button:hover{color:var(--brand)}
+
+/* Cookiemelding: klein, blokkeert niets, en weigeren is even makkelijk als accepteren */
+.cookie-banner{position:fixed;left:1rem;bottom:1rem;z-index:950;max-width:420px;padding:1.25rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);animation:fadeInUp 0.35s ease}
+.cookie-banner p{margin:0 0 1rem 0;font-size:0.9rem;line-height:1.6;color:var(--fg-muted)}
+.cookie-banner strong{color:var(--soft)}
+.cookie-banner a{color:var(--brand)}
+.cookie-banner-actions{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
+.cookie-banner-actions .btn{padding:0.6rem 1rem;font-size:0.9rem;text-align:center}
+@media (max-width:600px){.cookie-banner{left:0.75rem;right:0.75rem;bottom:0.75rem;max-width:none}}

@@ -68,6 +68,10 @@ function homePage(ctx, template) {
 		title: site.name + ' – 3D-geprint design uit Limburg | Vazen, lampen & cadeaus',
 		description: site.owner + ' ontwerpt en print unieke vazen, lampen en Limburgse cadeaus. Eigen ontwerp, speciaal voor jou gemaakt in Limburg. Ook maatwerk en custom lightboxen.',
 		ogImage: ctx.images[site.defaultOgImage].og,
+		preload: {
+			srcset: ctx.images[site.homeImages.hero.file].variants.map(function (v) { return 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', '),
+			sizes: '(max-width: 900px) 320px, 460px'
+		},
 		jsonLd: [{
 			'@context': 'https://schema.org',
 			'@type': 'Organization',
@@ -79,7 +83,7 @@ function homePage(ctx, template) {
 			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
 			email: site.email,
 			founder: { '@type': 'Person', name: site.owner, jobTitle: '3D Designer & Maker' },
-			address: { '@type': 'PostalAddress', addressRegion: site.region, addressCountry: 'NL' },
+			address: { '@type': 'PostalAddress', addressLocality: site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
 			areaServed: { '@type': 'Country', name: 'Nederland' },
 			vatID: site.btw,
 			sameAs: [site.instagram]

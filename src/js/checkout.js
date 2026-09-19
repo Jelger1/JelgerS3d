@@ -31,7 +31,7 @@ function orderText(values, lines, total) {
 		+ 'Naam: ' + values.name + '\n'
 		+ 'Email: ' + values.email + '\n'
 		+ 'Telefoon: ' + values.phone + '\n'
-		+ 'Levering: ' + values.delivery + '\n'
+		+ 'Levering: ' + (values.delivery === 'Ophalen' ? 'Zelf ophalen in Kerkrade' : values.delivery) + '\n'
 		+ (values.delivery === 'Ophalen' ? '' : 'Adres: ' + values.address + '\n'
 			+ 'Postcode: ' + values.postcode + '\n'
 			+ 'Plaats: ' + values.city + '\n'

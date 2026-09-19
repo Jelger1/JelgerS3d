@@ -86,13 +86,31 @@ de productpagina van het genoemde product. Formaat per review:
 Bewust niet gebouwd: tellers als "42 keer bekeken" of "nog 2 op voorraad". Zonder echte meetgegevens of voorraad
 zouden dat verzonnen cijfers zijn, en dat is misleiding.
 
+### Vindbaar in Google: categoriepagina's
+
+Naast de filterlinks van de webshop zijn er vaste pagina's met een eigen adres, titel en tekst, zoals `vazen.html`
+en `limburgse-cadeaus.html`. Die kan Google als losse pagina tonen. Je beheert ze in `data/site.json` onder
+`categoryPages`: `filter` bepaalt welke producten erop staan (`type` of `collection`), `intro` is de tekst bovenaan,
+`seoTitle` en `seoDescription` zijn wat Google toont. Een nieuwe categorie toevoegen is een blok kopiëren en aanpassen;
+de pagina, de link in de footer en de regel in de sitemap komen er vanzelf bij.
+
+`pickupLocation` in `site.json` is de plaats waar klanten kunnen ophalen. Die komt terug op de homepage, de
+productpagina's, de winkelwagen, het afrekenen en in de bestelmail.
+
+De build maakt ook `feed.xml` (productfeed voor Google Merchant Center), `sitemap.xml`, `robots.txt`, `404.html`
+en `privacy.html` (tekst in `src/pages/privacy.html`).
+
 ### Bestellen en meten
 
 - `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.
   Die aparte bedanktpagina kun je in Google Ads of Analytics instellen als conversie.
-- De site zet meetmomenten klaar (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`) in een `dataLayer`.
-  Er wordt niets gemeten of verstuurd zolang er geen Google Tag op de site staat. Zet je die er later op, dan heb je
-  ook een cookiemelding nodig.
+- De site zet meetmomenten klaar (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`).
+  Er wordt niets gemeten of verstuurd zolang `analytics` in `data/site.json` leeg is.
+- **Google Analytics of Google Ads aanzetten:** vul in `data/site.json` onder `analytics` je ID's in, bijvoorbeeld
+  `"ga4": "G-XXXXXXX"`, `"googleAds": "AW-XXXXXXX"` en het conversielabel uit Google Ads bij `adsConversionLabel`.
+  Vanaf dat moment verschijnt er vanzelf een cookiemelding. Google wordt pas geladen nadat een bezoeker op
+  "Accepteren" klikt; weigeren is net zo makkelijk. Een verstuurde bestelling telt dan als conversie in Google Ads.
+  De privacyverklaring past zich automatisch aan.
 - In de winkelwagen staan onder "Maak het compleet" kleine extra's (tot €15) die bij de inhoud passen. Welke producten
   bij elkaar horen bepaal je met `related` in `products.json`.
 

@@ -10,13 +10,15 @@ const homePage = require('./src/templates/home');
 const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
+const { categoryPage, productsFor } = require('./src/templates/category');
+const { privacyPage, notFoundPage } = require('./src/templates/pages');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css'];
+const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css'];
 
 function readJson(file) {
 	try {
@@ -77,6 +79,10 @@ function validate(products, reviews, site) {
 			if (!ids.has(id) || id === p.id) errors.push('products.json > "' + p.id + '": related "' + id + '" bestaat niet');
 		});
 	});
+	(site.categoryPages || []).forEach(function (cat) {
+		if (!/^[a-z0-9-]+$/.test(cat.slug || '')) errors.push('site.json > categoryPages: slug "' + cat.slug + '" mag alleen a-z, 0-9 en - bevatten');
+		if (!productsFor(cat, products).length) errors.push('site.json > categoryPages > "' + cat.slug + '": geen enkel product past bij dit filter');
+	});
 	reviews.forEach(function (r) {
 		(r.products || []).forEach(function (id) {
 			if (!ids.has(id)) errors.push('reviews.json > ' + r.author + ': product "' + id + '" bestaat niet');
@@ -106,6 +112,36 @@ function buildCatalog(products, images) {
 		};
 	});
 	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';
+}
+
+// Productfeed voor Google Merchant Center (dist/feed.xml): één regel per bestelbare variant.
+function buildFeed(products, images, site) {
+	function x(value) { return h.esc(value).replace(/'/g, '&apos;'); }
+	const items = [];
+	products.filter(function (p) { return p.sale === 'cart'; }).forEach(function (p) {
+		p.variants.forEach(function (v) {
+			const multi = p.variants.length > 1;
+			items.push('\t\t<item>\n'
+				+ '\t\t\t<g:id>' + x(p.id + (multi ? '-' + v.id : '')) + '</g:id>\n'
+				+ (multi ? '\t\t\t<g:item_group_id>' + x(p.id) + '</g:item_group_id>\n' : '')
+				+ '\t\t\t<g:title>' + x(p.name + (multi ? ' – ' + v.label : '')) + '</g:title>\n'
+				+ '\t\t\t<g:description>' + x(p.description.join(' ')) + '</g:description>\n'
+				+ '\t\t\t<g:link>' + x(site.url + '/' + h.productUrl(p)) + '</g:link>\n'
+				+ '\t\t\t<g:image_link>' + x(site.url + '/' + h.imgPath(images, p.images[0].file, 1200, '', true)) + '</g:image_link>\n'
+				+ p.images.slice(1, 10).map(function (image) { return '\t\t\t<g:additional_image_link>' + x(site.url + '/' + h.imgPath(images, image.file, 1200, '', true)) + '</g:additional_image_link>\n'; }).join('')
+				+ '\t\t\t<g:price>' + v.price.toFixed(2) + ' EUR</g:price>\n'
+				+ '\t\t\t<g:availability>in_stock</g:availability>\n'
+				+ '\t\t\t<g:condition>new</g:condition>\n'
+				+ '\t\t\t<g:brand>' + x(site.name) + '</g:brand>\n'
+				+ '\t\t\t<g:identifier_exists>no</g:identifier_exists>\n'
+				+ '\t\t\t<g:product_type>' + x(site.types[p.type].label) + '</g:product_type>\n'
+				+ (p.material ? '\t\t\t<g:material>' + x(p.material) + '</g:material>\n' : '')
+				+ '\t\t</item>');
+		});
+	});
+	return '<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n\t<channel>\n'
+		+ '\t\t<title>' + x(site.name) + '</title>\n\t\t<link>' + x(site.url) + '</link>\n\t\t<description>' + x(site.slogan) + '</description>\n'
+		+ items.join('\n') + '\n\t</channel>\n</rss>\n';
 }
 
 async function build() {
@@ -165,6 +201,11 @@ async function build() {
 		fs.copyFileSync(path.join(ROOT, 'assets', f), path.join(DIST, 'assets', f));
 	});
 
+	fs.mkdirSync(path.join(DIST, 'assets/fonts'), { recursive: true });
+	fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(function (f) { return /\.woff2$/i.test(f); }).forEach(function (f) {
+		fs.copyFileSync(path.join(ROOT, 'assets/fonts', f), path.join(DIST, 'assets/fonts', f));
+	});
+
 	// 5. Pagina's
 	const byId = {};
 	products.forEach(function (p) { byId[p.id] = p; });
@@ -178,7 +219,9 @@ async function build() {
 		}
 	};
 
-	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx), checkoutPage(ctx), thanksPage(ctx)]
+	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx)]
+		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
+		.concat([checkoutPage(ctx), thanksPage(ctx), privacyPage(ctx, read('src/pages/privacy.html')), notFoundPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
 
@@ -188,6 +231,7 @@ async function build() {
 		+ pages.filter(function (p) { return !p.noindex; }).map(function (p) {
 			return '\t<url><loc>' + site.url + '/' + (p.path === 'index.html' ? '' : p.path) + '</loc><lastmod>' + today + '</lastmod></url>';
 		}).join('\n') + '\n</urlset>\n');
+	write('feed.xml', buildFeed(products, images, site));
 	write('robots.txt', 'User-agent: *\nAllow: /\n\nSitemap: ' + site.url + '/sitemap.xml\n');
 
 	// 7. Verslag

@@ -60,6 +60,17 @@ walk(DIST).filter(function (f) { return f.endsWith('.html'); }).forEach(function
 	if (noAlt) problems.push(rel + ': ' + noAlt + ' afbeelding(en) zonder alt-attribuut');
 });
 
+walk(DIST).filter(function (f) { return f.endsWith('.css'); }).forEach(function (file) {
+	const css = fs.readFileSync(file, 'utf8');
+	const url = /url\((['"]?)([^'")]+)\1\)/g;
+	let m;
+	while ((m = url.exec(css))) {
+		if (isExternal(m[2])) continue;
+		refCount++;
+		if (!fs.existsSync(path.join(path.dirname(file), m[2].split('?')[0]))) problems.push(path.relative(DIST, file) + ': verwijst naar ontbrekend bestand "' + m[2] + '"');
+	}
+});
+
 if (problems.length) {
 	console.error('\n' + problems.length + ' probleem/problemen gevonden:\n - ' + problems.join('\n - ') + '\n');
 	process.exit(1);

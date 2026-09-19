@@ -1,5 +1,5 @@
 {
-	"url": "https://www.jelgers3d.nl",
+	"url": "https://jelgers3d.nl",
 	"name": "JelgerS3D",
 	"owner": "Jelger Sieler",
 	"slogan": "3D-design met karakter",
@@ -31,7 +31,7 @@
 		"contactKey": "76745e70-8371-4e48-be49-d5c52540cf06"
 	},
 	"shipping": {
-		"note": "Exclusief verzendkosten, ophalen kan ook"
+		"note": "Exclusief verzendkosten, ophalen in Kerkrade kan ook"
 	},
 	"types": {
 		"vaas": {
@@ -95,18 +95,18 @@
 	"usps": [
 		"Persoonlijk advies bij elk ontwerp",
 		"Speciaal voor jou geprint in Limburg",
-		"Verzenden of zelf ophalen"
+		"Verzenden of ophalen in Kerkrade"
 	],
 	"productUsps": [
 		"Speciaal voor jou geprint, binnen ongeveer 1 week klaar",
-		"Verzenden of zelf ophalen",
+		"Verzenden of zelf ophalen in Kerkrade",
 		"Je betaalt pas na bevestiging"
 	],
 	"delivery": {
 		"leadTime": "Binnen ongeveer 1 week klaar",
-		"leadTimeLong": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen.",
+		"leadTimeLong": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen in Kerkrade.",
 		"shipping": "De verzendkosten hangen af van het product. Je hoort ze van mij voordat je betaalt.",
-		"pickup": "Zelf ophalen kan ook, dan betaal je geen verzendkosten."
+		"pickup": "Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
 	},
 	"deadlines": [
 		{
@@ -131,7 +131,7 @@
 		},
 		{
 			"title": "Verzenden of ophalen",
-			"text": "Jij kiest wat het beste uitkomt"
+			"text": "Thuisbezorgd, of zelf ophalen in Kerkrade"
 		},
 		{
 			"title": "Betalen na bevestiging",
@@ -142,19 +142,19 @@
 		{
 			"label": "Vazen",
 			"text": "Sculpturaal en in jouw kleur",
-			"href": "webshop.html?type=vaas",
+			"href": "vazen.html",
 			"image": "Wavase-Keuken.jpg"
 		},
 		{
 			"label": "Lampen",
 			"text": "Licht dat de hele kamer kleurt",
-			"href": "webshop.html?type=lamp",
+			"href": "lampen.html",
 			"image": "Helio-Lamp-Oranje-2.jpg"
 		},
 		{
 			"label": "Limburgse Trots",
 			"text": "Cadeaus met een Limburgs hart",
-			"href": "webshop.html?collectie=limburg",
+			"href": "limburgse-cadeaus.html",
 			"image": "Koempel-Eend.jpg"
 		},
 		{
@@ -171,11 +171,15 @@
 		},
 		{
 			"q": "Wanneer heb ik mijn bestelling?",
-			"a": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen. Bij grotere of bijzondere opdrachten hoor je vooraf hoe lang het duurt."
+			"a": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen in Kerkrade. Bij grotere of bijzondere opdrachten hoor je vooraf hoe lang het duurt."
 		},
 		{
 			"q": "Wat kost verzenden?",
-			"a": "Dat hangt af van het product: een sleutelhanger past door de brievenbus, een vaas gaat goed verpakt in een doos. Je hoort de verzendkosten van mij voordat je betaalt. Zelf ophalen kan ook, dan betaal je geen verzendkosten."
+			"a": "Dat hangt af van het product: een sleutelhanger past door de brievenbus, een vaas gaat goed verpakt in een doos. Je hoort de verzendkosten van mij voordat je betaalt. Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
+		},
+		{
+			"q": "Waar kan ik mijn bestelling ophalen?",
+			"a": "In Kerkrade. Kies bij het afrekenen voor \"Zelf ophalen\"; je hoeft dan geen adres in te vullen en betaalt geen verzendkosten. Het precieze adres en een moment spreken we samen af zodra je bestelling klaar is."
 		},
 		{
 			"q": "Kan ik zelf een kleur kiezen?",
@@ -189,5 +193,68 @@
 			"q": "Kun je ook iets op maat maken?",
 			"a": "Zeker. Van een lightbox met jouw logo tot een sleutelhanger met je eigen plaatsnaam of een compleet nieuw ontwerp. Stuur een bericht met je idee, dan denk ik met je mee."
 		}
-	]
+	],
+	"pickupLocation": "Kerkrade",
+	"categoryPages": [
+		{
+			"slug": "vazen",
+			"label": "Vazen",
+			"filter": {
+				"type": "vaas"
+			},
+			"heading": "3D-geprinte *designvazen*",
+			"intro": "Sculpturale vazen van eigen ontwerp, laag voor laag geprint in Limburg. Je kiest zelf de kleur, zodat hij precies bij je interieur past. Staat er bij een vaas dat hij waterdicht is, dan is hij gemaakt voor verse bloemen en niet alleen voor de sier.",
+			"seoTitle": "3D-geprinte vazen – designvazen in jouw kleur",
+			"seoDescription": "Unieke 3D-geprinte designvazen van eigen ontwerp: Kami Vase, Wavase en Bold Vase. In jouw kleur, speciaal voor jou geprint in Limburg. Verzenden of ophalen in Kerkrade."
+		},
+		{
+			"slug": "lampen",
+			"label": "Lampen",
+			"filter": {
+				"type": "lamp"
+			},
+			"heading": "3D-geprinte *designlampen*",
+			"intro": "Tafellampen die het licht breken tot sfeer. Elk ontwerp is van eigen hand en wordt speciaal voor jou geprint, in de kleur die jij kiest. Uit zijn het objecten, aan kleuren ze de hele hoek van de kamer.",
+			"seoTitle": "3D-geprinte lampen – design tafellampen uit Limburg",
+			"seoDescription": "Sfeervolle 3D-geprinte tafellampen van eigen ontwerp: de Helio Lamp en de dimbare Orbits Lamp. In jouw kleur, speciaal voor jou geprint in Limburg."
+		},
+		{
+			"slug": "beelden-en-modellen",
+			"label": "Beelden & modellen",
+			"filter": {
+				"type": "beeld"
+			},
+			"heading": "Beelden & modellen met een *Limburgs hart*",
+			"intro": "Het Limburgse mijnverleden in een modern jasje. Van Schacht Nulland en D'r Joep tot de Koempel-eend met helm en lamp: objecten die een verhaal vertellen en gewoon goed staan op je kast.",
+			"seoTitle": "3D-geprinte beelden & modellen – Limburgs erfgoed",
+			"seoDescription": "3D-geprinte beelden en modellen met een Limburgs verhaal: Mijnschacht Nulland, D'r Joep en de Koempel-eend. Eigen ontwerp, geprint in Limburg."
+		},
+		{
+			"slug": "sleutelhangers",
+			"label": "Sleutelhangers",
+			"filter": {
+				"type": "sleutelhanger"
+			},
+			"heading": "Limburgse *sleutelhangers*",
+			"intro": "Een punt vlaai, een poefel of het plaatsnaambord van Kirchroa aan je sleutelbos. Kleine cadeaus met een glimlach, ook leuk als extraatje bij een groter cadeau. Een eigen plaatsnaam kan ook.",
+			"seoTitle": "Limburgse sleutelhangers – vlaai, poefel & Kirchroa",
+			"seoDescription": "Limburgse sleutelhangers, 3D-geprint in Limburg: pruimenvlaai, poefel en het plaatsnaambord van Kirchroa (ook met je eigen plaatsnaam). Vanaf €3,95."
+		},
+		{
+			"slug": "limburgse-cadeaus",
+			"label": "Limburgse cadeaus",
+			"filter": {
+				"collection": "limburg"
+			},
+			"heading": "Cadeaus met een *Limburgs hart*",
+			"intro": "Op zoek naar een Limburgs cadeau met betekenis? Voor iemand die Limburg verliet, voor opa die het mijnverleden nog kent, of gewoon voor jezelf. Elk stuk is eigen ontwerp en wordt speciaal voor jou geprint.",
+			"seoTitle": "Limburgse cadeaus – origineel en lokaal gemaakt",
+			"seoDescription": "Originele Limburgse cadeaus, 3D-geprint in Limburg: Koempel-eend, D'r Joep, Mijnschacht Nulland en sleutelhangers. Verzenden of ophalen in Kerkrade."
+		}
+	],
+	"analytics": {
+		"ga4": "",
+		"googleAds": "",
+		"adsConversionLabel": ""
+	}
 }

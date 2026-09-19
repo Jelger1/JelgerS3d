@@ -56,7 +56,7 @@ function checkoutPage(ctx) {
 		+ '\t\t\t\t<legend>Levering</legend>\n'
 		+ '\t\t\t\t<div class="choice-cards" role="radiogroup" aria-label="Hoe wil je je bestelling ontvangen?">\n'
 		+ '\t\t\t\t\t<label class="choice-card"><input type="radio" name="delivery" value="Verzenden" checked><span><strong>Verzenden</strong><small>' + h.esc(site.delivery.shipping) + '</small></span></label>\n'
-		+ '\t\t\t\t\t<label class="choice-card"><input type="radio" name="delivery" value="Ophalen"><span><strong>Zelf ophalen</strong><small>Geen verzendkosten. We spreken samen een moment af.</small></span></label>\n'
+		+ '\t\t\t\t\t<label class="choice-card"><input type="radio" name="delivery" value="Ophalen"><span><strong>Zelf ophalen in ' + h.esc(site.pickupLocation) + '</strong><small>Geen verzendkosten. Adres en moment spreken we samen af.</small></span></label>\n'
 		+ '\t\t\t\t</div>\n'
 		+ '\t\t\t</fieldset>\n'
 		+ '\t\t\t<fieldset data-address>\n'

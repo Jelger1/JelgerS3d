@@ -1,5 +1,6 @@
 // Startpunt van alle JavaScript. Elke pagina laadt dit bestand;
 // paginaspecifieke onderdelen starten op basis van <body data-page="...">.
+import { initConsent } from './consent.js';
 import { initUi } from './ui.js';
 import { initCartUi } from './cart-ui.js';
 import { initLightbox } from './lightbox.js';
@@ -12,6 +13,7 @@ import { initCheckout, initThanks } from './checkout.js';
 
 const page = document.body.dataset.page;
 
+initConsent(); // als eerste: de toestemmingsstatus moet vaststaan voordat er iets gemeten wordt
 initUi();
 initCartUi();
 initLightbox();

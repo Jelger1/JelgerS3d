@@ -30,6 +30,8 @@ function productCard(product, ctx, opts) {
 	const first = product.images[0];
 	const second = product.images[1];
 	const price = h.priceHtml(product);
+	// Koppen moeten netjes aflopen: direct onder de h1 van een pagina is een kaart een h2, binnen een sectie een h3
+	const heading = opts.heading || 'h3';
 
 	// Kaarten tonen de productuitsnede: vast 4:5-kader met het product in het midden
 	let media = h.img(ctx.images, first.file, { alt: first.alt, sizes: opts.sizes || CARD_SIZES, root: root, eager: opts.eager, crop: true });
@@ -50,7 +52,7 @@ function productCard(product, ctx, opts) {
 		+ '</a>\n'
 		+ '\t<div class="product-info">\n'
 		+ '\t\t<p class="product-kicker">' + kicker(product, ctx) + '</p>\n'
-		+ '\t\t<h3 class="product-title"><a href="' + url + '">' + h.esc(product.name) + '</a></h3>\n'
+		+ '\t\t<' + heading + ' class="product-title"><a href="' + url + '">' + h.esc(product.name) + '</a></' + heading + '>\n'
 		+ '\t\t<p class="muted">' + h.esc(product.tagline) + '</p>\n'
 		+ '\t\t<div class="product-card-foot">\n'
 		+ '\t\t\t' + (price ? '<p class="product-price">' + price + '</p>' : '<p class="product-price product-price-muted">Binnenkort</p>') + '\n'

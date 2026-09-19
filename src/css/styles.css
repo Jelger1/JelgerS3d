@@ -9,7 +9,7 @@
   --dark-card:#1a1d24;
   --dark-secondary:#1e2128;
   --soft:#e0ebe9;
-  --fg-muted:#7c838f;
+  --fg-muted:#959daa;
   --accent:#028fa6;
   --border:#2a2d35;
   --max-width:1280px;
@@ -180,7 +180,7 @@ em, i{font-style:italic}
 .footer-tagline span{display:inline-flex;align-items:center;gap:0.5rem}
 .footer-tagline .check{color:var(--brand);font-weight:bold}
 .footer-copyright{font-size:0.9rem;color:var(--fg-muted)}
-.footer-legal{font-size:0.8rem;color:rgba(255,255,255,0.35);margin-top:0.25rem}
+.footer-legal{font-size:0.8rem;color:var(--fg-muted);margin-top:0.25rem}
 .foot-nav{display:flex;gap:0.5rem;align-items:center}
 .foot-nav a{color:var(--fg-muted);text-decoration:none;padding:0.25rem 0.5rem;transition:color 0.2s}
 .foot-nav a:hover{color:var(--brand)}

@@ -77,7 +77,7 @@ function shopPage(ctx) {
 
 	const cards = products.map(function (product, i) {
 		// De eerste rij staat boven de vouw en laadt dus direct
-		return c.productCard(product, ctx, { eager: i < 4, index: i });
+		return c.productCard(product, ctx, { eager: i < 4, index: i, heading: 'h2' });
 	}).join('\n');
 
 	const main = '<div class="container">\n'

@@ -1,3 +1,5 @@
+import { sendEvent } from './consent.js';
+
 export function esc(value) {
 	return String(value == null ? '' : value)
 		.replace(/&/g, '&amp;')
@@ -19,12 +21,13 @@ export function sendForm(formData) {
 		.then(function (data) { return Boolean(data && data.success); });
 }
 
-// Zet een meetmoment klaar in de dataLayer (GA4-formaat). Er wordt niets verstuurd zolang er geen
-// Google Tag op de site staat; zodra die er is, pakt hij deze events vanzelf op.
+// Zet een meetmoment klaar. Zonder ID's in data/site.json > analytics gebeurt er verder niets. Met ID's gaat het
+// naar Google zodra de bezoeker toestemming heeft gegeven (zie consent.js). De dataLayer-vorm werkt ook met Tag Manager.
 export function track(event, params) {
 	window.dataLayer = window.dataLayer || [];
 	if (params && params.ecommerce) window.dataLayer.push({ ecommerce: null });
 	window.dataLayer.push(Object.assign({ event: event }, params || {}));
+	sendEvent(event, params);
 }
 
 // Winkelwagenregels -> GA4 "items"

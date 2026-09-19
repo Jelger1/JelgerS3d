@@ -1,7 +1,7 @@
 // Het HTML-skelet van elke pagina: <head> met SEO-tags, header, footer, winkelwagen.
 const h = require('./helpers');
 
-const FONTS_URL = 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap';
+const FONTS = ['space-grotesk-latin.woff2', 'syne-latin.woff2'];
 
 // page: { path, root, name, title, description, ogImage, ogType, jsonLd[], preload, main, noindex }
 function layout(page, ctx) {
@@ -24,6 +24,9 @@ function layout(page, ctx) {
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),
 		instagram: h.esc(site.instagram),
+		categoryLinks: (site.categoryPages || []).map(function (cat) {
+			return '<a href="' + root + cat.slug + '.html">' + h.esc(cat.label) + '</a>';
+		}).join('\n\t\t\t'),
 		usps: site.usps.map(function (usp) {
 			return '<li><span class="check" aria-hidden="true">✓</span> ' + h.esc(usp) + '</li>';
 		}).join('\n\t\t\t')
@@ -34,13 +37,19 @@ function layout(page, ctx) {
 		shippingNote: h.esc(site.shipping.note)
 	});
 
+	// Alleen als er ID's zijn ingevuld komen ze in de pagina; consent.js doet de rest
+	const analytics = site.analytics || {};
+	const analyticsAttrs = (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
+		+ (analytics.googleAds ? ' data-ads="' + h.esc(analytics.googleAds) + '"' : '')
+		+ (analytics.adsConversionLabel ? ' data-ads-label="' + h.esc(analytics.adsConversionLabel) + '"' : '');
+
 	const preload = page.preload
 		? '\t<link rel="preload" as="image" imagesrcset="' + h.esc(page.preload.srcset) + '" imagesizes="' + h.esc(page.preload.sizes) + '" fetchpriority="high">\n'
 		: '';
 
 	return '<!doctype html>\n'
 		+ '<!-- GEGENEREERD BESTAND: pas dit niet handmatig aan. Bewerk data/ of src/ en draai "npm run build". -->\n'
-		+ '<html lang="nl">\n<head>\n'
+		+ '<html lang="nl"' + analyticsAttrs + '>\n<head>\n'
 		+ '\t<meta charset="utf-8">\n'
 		+ '\t<meta name="viewport" content="width=device-width, initial-scale=1">\n'
 		+ '\t<title>' + h.esc(page.title) + '</title>\n'
@@ -59,9 +68,7 @@ function layout(page, ctx) {
 		+ '\t<meta property="og:locale" content="nl_NL">\n'
 		+ '\t<meta name="twitter:card" content="summary_large_image">\n'
 		+ '\t<link rel="icon" type="image/svg+xml" href="' + root + 'assets/js-3D-LOGO.svg">\n'
-		+ '\t<link rel="preconnect" href="https://fonts.googleapis.com">\n'
-		+ '\t<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n'
-		+ '\t<link rel="stylesheet" href="' + FONTS_URL + '">\n'
+		+ FONTS.map(function (font) { return '\t<link rel="preload" as="font" type="font/woff2" href="' + root + 'assets/fonts/' + font + '" crossorigin>\n'; }).join('')
 		+ '\t<link rel="stylesheet" href="' + root + 'css/styles.css' + v + '">\n'
 		+ preload
 		+ (page.jsonLd || []).map(function (data) { return '\t' + h.jsonLd(data) + '\n'; }).join('')
