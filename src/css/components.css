@@ -77,7 +77,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 
 /* Rails (horizontaal scrollen met scroll-snap) */
 .rail{position:relative}
-.rail-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0.75rem 0.25rem 1.5rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rail-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:0.25rem;scroll-padding-right:0.25rem;padding:0.75rem 0.25rem 1.5rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .rail-track::-webkit-scrollbar{display:none}
 .rail-card{flex:0 0 300px;scroll-snap-align:start}
 .rail-btn{position:absolute;top:38%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--dark-card);border:1px solid var(--border);color:var(--brand);font-size:2rem;cursor:pointer;z-index:10;box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;line-height:1;padding:0 0 4px 0}

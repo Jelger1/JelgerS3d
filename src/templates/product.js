@@ -43,7 +43,9 @@ function buyBox(product, ctx, root) {
 		return '<form class="pdp-form" data-product="' + h.esc(product.id) + '">\n'
 			+ '\t\t\t' + options + '\n'
 			+ '\t\t\t<button type="submit" class="btn btn-primary btn-block pdp-add">In winkelwagen</button>\n'
-			+ '\t\t</form>';
+			+ '\t\t</form>\n'
+			// Eerlijke urgentie: verschijnt alleen in de weken voor een echte feestdag en verdwijnt daarna vanzelf (zie site.json > deadlines)
+			+ '\t\t<p class="deadline-note" data-deadlines="' + h.esc(JSON.stringify(ctx.site.deadlines || [])) + '" hidden></p>';
 	}
 	if (product.sale === 'external') {
 		return '<a class="btn btn-primary btn-block" href="' + h.esc(product.externalUrl) + '" target="_blank" rel="noopener">' + h.esc(product.externalLabel) + '</a>\n'
@@ -159,6 +161,7 @@ function productPage(product, ctx) {
 		+ '\t' + gallery(product, ctx, root) + '\n'
 		+ '\t<div class="pdp-buy">\n'
 		+ '\t\t<p class="product-kicker">' + c.kicker(product, ctx) + '</p>\n'
+		+ (product.badge ? '\t\t<p class="pdp-badge">' + h.esc(product.badge) + '</p>\n' : '')
 		+ '\t\t<h1 class="pdp-title">' + h.esc(product.name) + '</h1>\n'
 		+ '\t\t<p class="pdp-tagline">' + h.esc(product.tagline) + '</p>\n'
 		+ (price ? '\t\t<p class="pdp-price" id="pdp-price" aria-live="polite">' + price + '</p>\n' : '\t\t<p class="pdp-price pdp-price-muted">Binnenkort beschikbaar</p>\n')
@@ -167,6 +170,10 @@ function productPage(product, ctx) {
 		+ '\t\t<ul class="pdp-usps">\n'
 		+ site.productUsps.map(function (usp) { return '\t\t\t<li>' + h.esc(usp) + '</li>'; }).join('\n') + '\n'
 		+ '\t\t</ul>\n'
+		+ (product.sale === 'cart'
+			? '\t\t<details class="pdp-delivery">\n\t\t\t<summary>Levering en verzendkosten</summary>\n'
+				+ '\t\t\t<p>' + h.esc(site.delivery.leadTimeLong) + '</p>\n\t\t\t<p>' + h.esc(site.delivery.shipping) + ' ' + h.esc(site.delivery.pickup) + '</p>\n\t\t</details>\n'
+			: '')
 		+ '\t</div>\n'
 		+ '\t</article>\n\n'
 		+ '\t<div class="pdp-details">\n'

@@ -1,13 +1,19 @@
-<!-- Inhoud van de homepage. {{...}} wordt door build.js ingevuld. -->
+<!-- Inhoud van de homepage. {{...}} wordt door build.js ingevuld (zie src/templates/home.js). -->
 <section class="hero">
 	<div class="container hero-inner">
 		<div class="hero-text">
+			<p class="kicker">3D-design uit Limburg</p>
 			<h1>Ontwerpen die vertellen <span class="highlight">wie je bent</span></h1>
-			<p>Van een statement-vaas op je tafel tot een cadeau met <span class="highlight">Limburgse ziel</span>, bij JelgerS3D maak ik objecten die iets betekenen. <strong>Handgemaakt, persoonlijk</strong> en altijd uniek.</p>
+			<p>Van een statement-vaas op je tafel tot een cadeau met <span class="highlight">Limburgse ziel</span>, bij JelgerS3D maak ik objecten die iets betekenen. <strong>Eigen ontwerp, persoonlijk</strong> en speciaal voor jou geprint.</p>
 			<p class="cta-row">
 				<a class="btn primary" href="webshop.html">Bekijk de webshop</a>
-				<a class="btn outline" href="#contact">Laat iets op maat maken</a>
+				<a class="btn outline" href="#op-maat">Laat iets op maat maken</a>
 			</p>
+			<ul class="hero-assurance">
+				<li>Binnen ongeveer 1 week klaar</li>
+				<li>Verzenden of ophalen</li>
+				<li>Betalen pas na bevestiging</li>
+			</ul>
 		</div>
 		<div class="hero-art">
 			{{heroImage}}
@@ -15,88 +21,137 @@
 	</div>
 </section>
 
-<section class="mission-section" aria-label="Missie">
-	<div class="mission-content">
-		<blockquote class="mission-quote">
-			Ik geloof dat <span class="highlight">uniek design</span> voor iedereen bereikbaar moet zijn. Ik combineer moderne techniek met persoonlijke verhalen om objecten te maken die er <span class="highlight">echt toe doen</span>.
-		</blockquote>
-	</div>
+<section class="usp-bar" aria-label="Waarom JelgerS3D">
+	<ul class="container usp-list">
+		{{usps}}
+	</ul>
 </section>
 
-<section id="services" class="container services" aria-labelledby="services-heading">
-	<h2 id="services-heading">De maker achter het design</h2>
-	<p class="intro-text">Ik ben Jelger, en ik maak dingen die <span class="highlight">ertoe doen</span></p>
-
-	<div class="about-with-photo">
-		<div class="about-photo-main">
-			{{aboutImage}}
-		</div>
-		<div class="about-summary">
-			<p>Ik geloof dat een object meer kan zijn dan decoratie. Het kan een herinnering vastleggen, een verhaal vertellen of gewoon een glimlach opleveren. Alles wat je hier ziet ontwerp en print ik zelf, met zorg en aandacht, hier in Limburg.</p>
-			<button class="btn-text" type="button" data-toggle="about-details" data-label-open="Lees meer →" data-label-close="Minder ←" aria-expanded="false" aria-controls="about-details">Lees meer →</button>
-		</div>
-	</div>
-
-	<div id="about-details" class="expandable-content">
-		<div class="grid grid-3">
-			<article class="card">
-				<h3>Persoonlijke aanpak</h3>
-				<p>Bij mij heb je direct contact met de maker. Ik denk met je mee, adviseer over kleuren en afwerking, en zorg dat je eindresultaat precies is wat je voor ogen had. Of nog beter.</p>
-			</article>
-			<article class="card">
-				<h3>Kwaliteit die je ziet</h3>
-				<p>Elk product wordt met zorg geprint en afgewerkt. Ik lever pas als ik er zelf trots op ben. Het resultaat? Objecten die niet alleen mooi zijn, maar ook stevig en duurzaam.</p>
-			</article>
-			<article class="card">
-				<h3>Lokaal &amp; persoonlijk</h3>
-				<p>Alles wordt hier in Limburg gemaakt. Geen anonieme fabriek, maar ambacht met een verhaal. Van de Koempel-eend die Limburgse trots uitstraalt tot vazen die in elk interieur passen.</p>
-			</article>
-		</div>
-	</div>
+<section class="section container" aria-labelledby="categories-heading">
+	<header class="section-head">
+		<p class="kicker">Ontdek de collectie</p>
+		<h2 id="categories-heading">Waar ben je naar op zoek?</h2>
+	</header>
+	<ul class="category-grid">
+		{{categories}}
+	</ul>
 </section>
 
-<section id="work" class="showcase container" aria-labelledby="work-heading">
-	<div class="page-header">
-		<h2 id="work-heading">{{collection:design:label}}</h2>
-		<p class="page-description">{{collection:design:intro}}</p>
-	</div>
+<section id="work" class="section container" aria-labelledby="work-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:design:label}}</p>
+			<h2 id="work-heading">Sfeermakers voor je interieur</h2>
+		</div>
+		<a class="link-arrow" href="webshop.html?collectie=design">Bekijk alles</a>
+	</header>
 	{{rail:design}}
 </section>
 
-<section id="miners" class="showcase container" aria-labelledby="miners-heading">
-	<div class="page-header">
-		<h2 id="miners-heading">{{collection:limburg:label}}</h2>
-		<p class="page-description">{{collection:limburg:intro}}</p>
+<section class="section section-tint" aria-labelledby="steps-heading">
+	<div class="container">
+		<header class="section-head section-head-center">
+			<p class="kicker">Zo werkt het</p>
+			<h2 id="steps-heading">Persoonlijk, van aanvraag tot levering</h2>
+		</header>
+		<ol class="how-steps">
+			<li>
+				<span class="how-number" aria-hidden="true">1</span>
+				<h3>Kies je ontwerp</h3>
+				<p>Leg je favoriet in de winkelwagen en verstuur je aanvraag. Je betaalt dan nog niets.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">2</span>
+				<h3>We stemmen het af</h3>
+				<p>Ik neem persoonlijk contact met je op over kleur, details en of je wilt laten verzenden of komt ophalen.</p>
+			</li>
+			<li>
+				<span class="how-number" aria-hidden="true">3</span>
+				<h3>Voor jou geprint</h3>
+				<p>Na jouw akkoord ga ik printen. Ik streef ernaar dat je bestelling binnen een week klaar is.</p>
+			</li>
+		</ol>
 	</div>
+</section>
+
+<section id="miners" class="section container" aria-labelledby="miners-heading">
+	<header class="section-head section-head-row">
+		<div>
+			<p class="kicker">{{collection:limburg:label}}</p>
+			<h2 id="miners-heading">Cadeaus met een Limburgs hart</h2>
+		</div>
+		<a class="link-arrow" href="webshop.html?collectie=limburg">Bekijk alles</a>
+	</header>
 	{{rail:limburg}}
 </section>
 
-<section id="contact" class="container contact" aria-labelledby="contact-heading">
-	<h2 id="contact-heading">Samen iets unieks creëren</h2>
-	<p class="intro-text">Jouw visie, mijn vakmanschap. <span class="highlight">Exclusief voor jou</span> gemaakt.</p>
-
-	<div class="about-summary">
-		<p>Heb je een idee voor iets dat nog niet bestaat? Laten we het samen maken. Van eerste schets tot afgewerkt product, ik denk met je mee en zorg dat het resultaat precies wordt zoals jij het voor je ziet. Of nog beter.</p>
-		<button class="btn-text" type="button" data-toggle="custom-details" data-label-open="Bekijk mogelijkheden →" data-label-close="Verberg ←" aria-expanded="false" aria-controls="custom-details">Bekijk mogelijkheden →</button>
-	</div>
-
-	<div id="custom-details" class="expandable-content">
-		<div class="grid grid-2">
-			<article class="card">
-				<h3>Wat kan ik voor jou maken?</h3>
-				<ul class="feature-list">
-					<li>Een uniek cadeau dat niemand anders heeft</li>
-					<li>Exclusieve objecten voor je interieur</li>
-					<li>Gepersonaliseerde items voor je bedrijf of event</li>
-					<li>Lithofanies: foto's die oplichten en herinneringen tastbaar maken</li>
-				</ul>
-			</article>
-			<article class="card">
-				<h3>Waarom samen werken?</h3>
-				<p>Geen wachttijden van weken, geen onpersoonlijke klantenservice. Jij praat rechtstreeks met mij. Ik adviseer over materiaal, kleur en afwerking, en lever pas als het perfect is.</p>
-			</article>
+<section id="over-mij" class="section container" aria-labelledby="maker-heading">
+	<div class="maker">
+		<div class="maker-photo">
+			{{aboutImage}}
+		</div>
+		<div class="maker-text">
+			<p class="kicker">De maker achter het design</p>
+			<h2 id="maker-heading">Ik ben Jelger, en ik maak dingen die <span class="highlight">ertoe doen</span></h2>
+			<p>Ik geloof dat een object meer kan zijn dan decoratie. Het kan een herinnering vastleggen, een verhaal vertellen of gewoon een glimlach opleveren. Alles wat je hier ziet ontwerp en print ik zelf, met zorg en aandacht, hier in Limburg.</p>
+			<blockquote class="maker-quote">Uniek design moet voor iedereen bereikbaar zijn. Daarom combineer ik moderne techniek met persoonlijke verhalen.</blockquote>
 		</div>
 	</div>
+	<ul class="value-grid">
+		<li>
+			<h3>Persoonlijke aanpak</h3>
+			<p>Je hebt direct contact met de maker. Ik denk met je mee en adviseer over kleuren en afwerking, zodat het resultaat precies is wat je voor ogen had.</p>
+		</li>
+		<li>
+			<h3>Kwaliteit die je ziet</h3>
+			<p>Elk product wordt met zorg geprint en afgewerkt. Ik lever pas als ik er zelf trots op ben.</p>
+		</li>
+		<li>
+			<h3>Lokaal gemaakt</h3>
+			<p>Alles wordt hier in Limburg gemaakt. Geen anonieme fabriek, maar ambacht met een verhaal.</p>
+		</li>
+	</ul>
+</section>
+
+<section id="op-maat" class="section container" aria-labelledby="custom-heading">
+	<div class="custom-cta">
+		<div class="custom-cta-text">
+			<p class="kicker">Op maat</p>
+			<h2 id="custom-heading">Samen iets unieks creëren</h2>
+			<p>Heb je een idee voor iets dat nog niet bestaat? Van eerste schets tot afgewerkt product: ik denk met je mee en zorg dat het resultaat wordt zoals jij het voor je ziet.</p>
+			<ul class="feature-list">
+				<li>Een uniek cadeau dat niemand anders heeft</li>
+				<li>Je logo als verlichte lightbox</li>
+				<li>Gepersonaliseerde items voor je bedrijf of event</li>
+				<li>Lithofanies: foto's die oplichten</li>
+			</ul>
+			<p class="cta-row">
+				<a class="btn primary" href="#contact">Vertel me je idee</a>
+				<a class="btn outline" href="producten/custom-lightbox.html">Bekijk de Custom Lightbox</a>
+			</p>
+		</div>
+		<div class="custom-cta-art">
+			{{customImage}}
+		</div>
+	</div>
+</section>
+
+<section class="section container" aria-labelledby="faq-heading">
+	<header class="section-head section-head-center">
+		<p class="kicker">Goed om te weten</p>
+		<h2 id="faq-heading">Veelgestelde vragen</h2>
+	</header>
+	<div class="faq">
+		{{faq}}
+	</div>
+</section>
+
+<section id="contact" class="section container contact" aria-labelledby="contact-heading">
+	<header class="section-head section-head-center">
+		<p class="kicker">Contact</p>
+		<h2 id="contact-heading">Stel je vraag of deel je idee</h2>
+		<p class="section-intro">Je krijgt antwoord van mij persoonlijk.</p>
+	</header>
 
 	<form id="contact-form" class="contact-form" novalidate>
 		<input type="hidden" name="access_key" value="{{contactKey}}">
@@ -117,9 +172,9 @@
 			</div>
 			<div class="form-group">
 				<label for="cf-message">Bericht</label>
-				<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je idee..."></textarea>
+				<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je vraag of idee..."></textarea>
 			</div>
-			<button type="submit" class="btn primary btn-block">Verstuur aanvraag</button>
+			<button type="submit" class="btn primary btn-block">Verstuur bericht</button>
 			<p id="form-msg" class="form-msg" aria-live="polite"></p>
 		</div>
 	</form>

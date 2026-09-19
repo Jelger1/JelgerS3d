@@ -1,4 +1,4 @@
-// Algemene interface: mobiel menu, uitklapblokken en subtiele scroll-animaties.
+// Algemene interface: mobiel menu, seizoensmelding en subtiele scroll-animaties.
 import { prefersReducedMotion } from './util.js';
 
 function initNav() {
@@ -18,20 +18,8 @@ function initNav() {
 	});
 }
 
-function initToggles() {
-	document.querySelectorAll('[data-toggle]').forEach(function (button) {
-		const target = document.getElementById(button.dataset.toggle);
-		if (!target) return;
-		button.addEventListener('click', function () {
-			const open = target.classList.toggle('show');
-			button.setAttribute('aria-expanded', open ? 'true' : 'false');
-			button.textContent = open ? button.dataset.labelClose : button.dataset.labelOpen;
-		});
-	});
-}
-
 function initReveal() {
-	const elements = document.querySelectorAll('.services, .showcase, .contact, .pdp-details, .pdp-related');
+	const elements = document.querySelectorAll('.section, .pdp-details, .pdp-related');
 	if (prefersReducedMotion || !('IntersectionObserver' in window) || !elements.length) return;
 
 	const observer = new IntersectionObserver(function (entries) {
@@ -50,8 +38,25 @@ function initReveal() {
 	});
 }
 
+// Seizoensmelding ("Op tijd voor Kerst? Bestel uiterlijk ..."). Eerlijke urgentie: de data komen uit
+// site.json > deadlines, de melding verschijnt pas vanaf "showFrom" en verdwijnt vanzelf na "orderBefore".
+// Bewust in de browser berekend: zo klopt hij ook als de site een tijd niet opnieuw is gebouwd.
+function initDeadlines() {
+	const now = new Date();
+	const today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+	document.querySelectorAll('[data-deadlines]').forEach(function (el) {
+		let list = [];
+		try { list = JSON.parse(el.dataset.deadlines); } catch (e) {}
+		const active = list.find(function (d) { return today >= d.showFrom && today <= d.orderBefore; });
+		if (!active) return;
+		const date = new Date(active.orderBefore + 'T12:00:00').toLocaleDateString('nl-NL', { weekday: 'long', day: 'numeric', month: 'long' });
+		el.textContent = 'Op tijd voor ' + active.occasion + '? Bestel uiterlijk ' + date + '.';
+		el.hidden = false;
+	});
+}
+
 export function initUi() {
 	initNav();
-	initToggles();
 	initReveal();
+	initDeadlines();
 }

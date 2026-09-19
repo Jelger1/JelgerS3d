@@ -17,8 +17,8 @@ export function initRails() {
 
 		function update() {
 			const max = track.scrollWidth - track.clientWidth;
-			prev.disabled = track.scrollLeft <= 2;
-			next.disabled = track.scrollLeft >= max - 2;
+			prev.disabled = track.scrollLeft <= 8;
+			next.disabled = track.scrollLeft >= max - 8;
 			rail.classList.toggle('is-static', max <= 2);
 		}
 

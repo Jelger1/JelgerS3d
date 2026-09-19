@@ -16,7 +16,7 @@ const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css'];
+const CSS_FILES = ['reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css'];
 
 function readJson(file) {
 	try {

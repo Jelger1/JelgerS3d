@@ -9,43 +9,185 @@
 	"btw": "NL005382244B28",
 	"region": "Limburg",
 	"defaultOgImage": "Kami-Vase-3kleuren2.jpg",
-	"productFrame": { "ratio": [4, 5], "fill": 0.62 },
+	"productFrame": {
+		"ratio": [
+			4,
+			5
+		],
+		"fill": 0.62
+	},
 	"homeImages": {
-		"hero": { "file": "Printer-H2C.jpg", "alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle JelgerS3D-ontwerpen worden geprint" },
-		"about": { "file": "Jelger-Pic.jpg", "alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D" }
+		"hero": {
+			"file": "Printer-H2C.jpg",
+			"alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle JelgerS3D-ontwerpen worden geprint"
+		},
+		"about": {
+			"file": "Jelger-Pic.jpg",
+			"alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D"
+		}
 	},
 	"web3forms": {
 		"orderKey": "a36505b1-9726-4de3-927c-d7984947f0bb",
 		"contactKey": "76745e70-8371-4e48-be49-d5c52540cf06"
 	},
 	"shipping": {
-		"note": "Prijzen zijn exclusief verzendkosten"
+		"note": "Exclusief verzendkosten, ophalen kan ook"
 	},
 	"types": {
-		"vaas": { "label": "Vazen", "singular": "Vaas", "heading": "3D-geprinte *designvazen*" },
-		"lamp": { "label": "Lampen", "singular": "Lamp", "heading": "3D-geprinte *designlampen*" },
-		"beeld": { "label": "Beelden & modellen", "singular": "Beeld", "heading": "Beelden & modellen met een *Limburgs hart*" },
-		"sleutelhanger": { "label": "Sleutelhangers", "singular": "Sleutelhanger", "heading": "Limburgse *sleutelhangers*" },
-		"lightbox": { "label": "Lightboxen", "singular": "Lightbox", "heading": "Jouw logo als *lightbox*" }
+		"vaas": {
+			"label": "Vazen",
+			"singular": "Vaas",
+			"heading": "3D-geprinte *designvazen*"
+		},
+		"lamp": {
+			"label": "Lampen",
+			"singular": "Lamp",
+			"heading": "3D-geprinte *designlampen*"
+		},
+		"beeld": {
+			"label": "Beelden & modellen",
+			"singular": "Beeld",
+			"heading": "Beelden & modellen met een *Limburgs hart*"
+		},
+		"sleutelhanger": {
+			"label": "Sleutelhangers",
+			"singular": "Sleutelhanger",
+			"heading": "Limburgse *sleutelhangers*"
+		},
+		"lightbox": {
+			"label": "Lightboxen",
+			"singular": "Lightbox",
+			"heading": "Jouw logo als *lightbox*"
+		}
 	},
 	"priceBuckets": [
-		{ "id": "tot-10", "label": "Tot €10", "max": 10 },
-		{ "id": "10-25", "label": "€10 tot €25", "min": 10, "max": 25 },
-		{ "id": "vanaf-25", "label": "Vanaf €25", "min": 25 }
+		{
+			"id": "tot-10",
+			"label": "Tot €10",
+			"max": 10
+		},
+		{
+			"id": "10-25",
+			"label": "€10 tot €25",
+			"min": 10,
+			"max": 25
+		},
+		{
+			"id": "vanaf-25",
+			"label": "Vanaf €25",
+			"min": 25
+		}
 	],
 	"collections": {
-		"design": { "label": "Design Collectie", "intro": "Sfeermakers voor je interieur, elk stuk uniek en helemaal van jou" },
-		"limburg": { "label": "Limburgse Trots", "intro": "Moderne iconen met een Limburgs hart, perfect als cadeau of eyecatcher" },
-		"maatwerk": { "label": "Op maat", "intro": "Jouw idee, logo of naam, exclusief voor jou gemaakt" }
+		"design": {
+			"label": "Design Collectie",
+			"intro": "Sfeermakers voor je interieur, elk stuk uniek en helemaal van jou"
+		},
+		"limburg": {
+			"label": "Limburgse Trots",
+			"intro": "Moderne iconen met een Limburgs hart, perfect als cadeau of eyecatcher"
+		},
+		"maatwerk": {
+			"label": "Op maat",
+			"intro": "Jouw idee, logo of naam, exclusief voor jou gemaakt"
+		}
 	},
 	"usps": [
 		"Persoonlijk advies bij elk ontwerp",
-		"Zorgvuldige verpakking & snelle levering",
-		"Kwaliteitsgarantie op alle producten"
+		"Speciaal voor jou geprint in Limburg",
+		"Verzenden of zelf ophalen"
 	],
 	"productUsps": [
-		"Speciaal voor jou geprint in Limburg",
-		"Persoonlijk contact over kleur en details",
+		"Speciaal voor jou geprint, binnen ongeveer 1 week klaar",
+		"Verzenden of zelf ophalen",
 		"Je betaalt pas na bevestiging"
+	],
+	"delivery": {
+		"leadTime": "Binnen ongeveer 1 week klaar",
+		"leadTimeLong": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen.",
+		"shipping": "De verzendkosten hangen af van het product. Je hoort ze van mij voordat je betaalt.",
+		"pickup": "Zelf ophalen kan ook, dan betaal je geen verzendkosten."
+	},
+	"deadlines": [
+		{
+			"occasion": "Sinterklaas",
+			"showFrom": "2026-10-25",
+			"orderBefore": "2026-11-22"
+		},
+		{
+			"occasion": "Kerst",
+			"showFrom": "2026-11-23",
+			"orderBefore": "2026-12-11"
+		}
+	],
+	"homeUsps": [
+		{
+			"title": "Eigen ontwerp",
+			"text": "Alles wat je ziet is door mij ontworpen"
+		},
+		{
+			"title": "Voor jou geprint",
+			"text": "Op bestelling, binnen ongeveer 1 week klaar"
+		},
+		{
+			"title": "Verzenden of ophalen",
+			"text": "Jij kiest wat het beste uitkomt"
+		},
+		{
+			"title": "Betalen na bevestiging",
+			"text": "Eerst persoonlijk contact, dan pas betalen"
+		}
+	],
+	"homeCategories": [
+		{
+			"label": "Vazen",
+			"text": "Sculpturaal en in jouw kleur",
+			"href": "webshop.html?type=vaas",
+			"image": "Wavase-Keuken.jpg"
+		},
+		{
+			"label": "Lampen",
+			"text": "Licht dat de hele kamer kleurt",
+			"href": "webshop.html?type=lamp",
+			"image": "Helio-Lamp-Oranje-2.jpg"
+		},
+		{
+			"label": "Limburgse Trots",
+			"text": "Cadeaus met een Limburgs hart",
+			"href": "webshop.html?collectie=limburg",
+			"image": "Koempel-Eend.jpg"
+		},
+		{
+			"label": "Op maat",
+			"text": "Jouw logo of idee als lichtobject",
+			"href": "producten/custom-lightbox.html",
+			"image": "JS3D-LightBox.jpeg"
+		}
+	],
+	"faq": [
+		{
+			"q": "Hoe werkt bestellen?",
+			"a": "Je legt je keuze in de winkelwagen en verstuurt je aanvraag. Daarna neem ik persoonlijk contact met je op om kleur, details en levering af te stemmen. Pas als alles klopt, betaal je en ga ik voor je printen."
+		},
+		{
+			"q": "Wanneer heb ik mijn bestelling?",
+			"a": "Elk product wordt speciaal voor jou geprint. Ik streef ernaar dat het binnen een week klaar is om te verzenden of op te halen. Bij grotere of bijzondere opdrachten hoor je vooraf hoe lang het duurt."
+		},
+		{
+			"q": "Wat kost verzenden?",
+			"a": "Dat hangt af van het product: een sleutelhanger past door de brievenbus, een vaas gaat goed verpakt in een doos. Je hoort de verzendkosten van mij voordat je betaalt. Zelf ophalen kan ook, dan betaal je geen verzendkosten."
+		},
+		{
+			"q": "Kan ik zelf een kleur kiezen?",
+			"a": "Ja. Bij de meeste ontwerpen kies je zelf de kleur of kleurcombinatie. Zet je wens in het opmerkingenveld bij je bestelling, dan stemmen we het samen af."
+		},
+		{
+			"q": "Van welk materiaal zijn de producten gemaakt?",
+			"a": "Ik print met bioplastic op plantaardige basis. Staat er bij een vaas dat hij waterdicht is, dan kun je er gewoon verse bloemen in zetten."
+		},
+		{
+			"q": "Kun je ook iets op maat maken?",
+			"a": "Zeker. Van een lightbox met jouw logo tot een sleutelhanger met je eigen plaatsnaam of een compleet nieuw ontwerp. Stuur een bericht met je idee, dan denk ik met je mee."
+		}
 	]
 }

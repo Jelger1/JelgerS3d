@@ -15,7 +15,8 @@ function chip(group, value, label, count, attrs) {
 }
 
 function filterGroup(group, legend, chips) {
-	if (!chips.length) return '';
+	// Een groep met maar één optie (bv. alles van hetzelfde materiaal) valt niets te kiezen: niet tonen
+	if (chips.length < 2) return '';
 	return '\t\t<fieldset class="filter-group" data-group="' + group + '">\n'
 		+ '\t\t\t<legend>' + h.esc(legend) + '</legend>\n'
 		+ '\t\t\t<div class="chips">' + chips.join('') + '</div>\n'

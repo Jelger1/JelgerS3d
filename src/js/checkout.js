@@ -31,10 +31,11 @@ function orderText(values, lines, total) {
 		+ 'Naam: ' + values.name + '\n'
 		+ 'Email: ' + values.email + '\n'
 		+ 'Telefoon: ' + values.phone + '\n'
-		+ 'Adres: ' + values.address + '\n'
-		+ 'Postcode: ' + values.postcode + '\n'
-		+ 'Plaats: ' + values.city + '\n'
-		+ 'Land: ' + values.country + '\n'
+		+ 'Levering: ' + values.delivery + '\n'
+		+ (values.delivery === 'Ophalen' ? '' : 'Adres: ' + values.address + '\n'
+			+ 'Postcode: ' + values.postcode + '\n'
+			+ 'Plaats: ' + values.city + '\n'
+			+ 'Land: ' + values.country + '\n')
 		+ (values.notes ? '\nOpmerkingen: ' + values.notes + '\n' : '');
 }
 
@@ -60,6 +61,16 @@ export function initCheckout() {
 	cart.subscribe(render);
 	render();
 	watchForm(form);
+
+	// Wie komt ophalen hoeft geen adres in te vullen. Een uitgeschakeld fieldset telt niet mee bij validatie en verzenden.
+	const addressFields = form.querySelector('[data-address]');
+	function syncDelivery() {
+		const pickup = form.elements.delivery.value === 'Ophalen';
+		addressFields.hidden = pickup;
+		addressFields.disabled = pickup;
+	}
+	form.addEventListener('change', function (event) { if (event.target.name === 'delivery') syncDelivery(); });
+	syncDelivery();
 
 	if (cart.count() > 0) {
 		track('begin_checkout', { ecommerce: { currency: 'EUR', value: cart.total(), items: trackItems(cart.getLines()) } });

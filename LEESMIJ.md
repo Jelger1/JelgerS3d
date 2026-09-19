@@ -66,6 +66,26 @@ De filters maken zichzelf uit de data; je hoeft er niets voor te programmeren.
 - Elke filterkeuze staat in de link, bijvoorbeeld `webshop.html?type=vaas` of `webshop.html?collectie=limburg&prijs=tot-10`.
   Zo'n link kun je delen of gebruiken als landingspagina voor een advertentie.
 
+### Homepage, levering en eerlijke conversie
+
+Alles hieronder staat in `data/site.json`:
+
+- `homeUsps`, `homeCategories` en `faq`: de USP-balk, de vier categorietegels en de veelgestelde vragen op de homepage.
+  De doorlopende teksten van de homepage staan in `src/pages/index.html`.
+- `delivery` en `shipping`: de teksten over levertijd, verzendkosten en ophalen (productpagina, winkelwagen, afrekenen).
+- `deadlines`: de seizoensmelding "Op tijd voor Kerst? Bestel uiterlijk ...". Die verschijnt vanaf `showFrom` en verdwijnt
+  vanzelf na `orderBefore`. **Controleer deze data elk jaar**: het is een belofte aan je klant. Liever een dag te ruim dan te krap.
+- Wil je een product een label geven, zet dan in `products.json` bijvoorbeeld `"badge": "Nieuw"`. Gebruik alleen labels
+  die waar zijn ("Bestseller" alleen als het echt je best verkochte product is).
+
+Reviews: `data/reviews.json` is leeg, dus de site toont geen reviews. Voeg alleen **echte** reviews toe (nepreviews zijn
+verboden en de ACM handhaaft daarop). Zodra er reviews in staan, verschijnen ze vanzelf op de homepage, de webshop en
+de productpagina van het genoemde product. Formaat per review:
+`{ "author": "Naam A.", "rating": 5, "text": "...", "productLabel": "Kami Vase", "products": ["kami-vase"] }`
+
+Bewust niet gebouwd: tellers als "42 keer bekeken" of "nog 2 op voorraad". Zonder echte meetgegevens of voorraad
+zouden dat verzonnen cijfers zijn, en dat is misleiding.
+
 ### Bestellen en meten
 
 - `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.

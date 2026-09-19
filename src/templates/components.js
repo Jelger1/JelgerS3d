@@ -46,7 +46,7 @@ function productCard(product, ctx, opts) {
 		// Alleen op de webshop: de volgorde voor "Aanbevolen"
 		+ (opts.index != null ? ' data-index="' + opts.index + '"' : '') + '>\n'
 		+ '\t<a class="product-thumb" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
-		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : '')
+		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : (product.badge ? '<span class="badge badge-promo">' + h.esc(product.badge) + '</span>' : ''))
 		+ '</a>\n'
 		+ '\t<div class="product-info">\n'
 		+ '\t\t<p class="product-kicker">' + kicker(product, ctx) + '</p>\n'

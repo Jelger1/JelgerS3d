@@ -45,7 +45,8 @@ export function validateField(input) {
 export function validateForm(form) {
 	let firstInvalid = null;
 	Array.from(form.elements).forEach(function (input) {
-		if (!input.name || !RULES[input.name]) return;
+		// Velden in een uitgeschakeld blok (bv. het adres bij "Zelf ophalen") tellen niet mee
+		if (!input.name || !RULES[input.name] || input.matches(':disabled')) return;
 		if (!validateField(input) && !firstInvalid) firstInvalid = input;
 	});
 	if (firstInvalid) firstInvalid.focus();
