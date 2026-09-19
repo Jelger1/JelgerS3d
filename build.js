@@ -95,7 +95,7 @@ function validate(products, reviews, site) {
 
 // Zet ?v=<versie> achter relatieve imports, zodat browsers na een update nooit oude en nieuwe modules mengen
 function versionImports(source, version) {
-	return source.replace(/(from\s+|import\s+)(['"])(\.\/[^'"]+?\.js)\2/g, function (m, keyword, quote, spec) {
+	return source.replace(/(from\s+|import\s+|import\s*\(\s*)(['"])(\.\/[^'"]+?\.js)\2/g, function (m, keyword, quote, spec) {
 		return keyword + quote + spec + '?v=' + version + quote;
 	});
 }
@@ -192,11 +192,23 @@ async function build() {
 	const catalog = buildCatalog(products, images);
 	const hash = crypto.createHash('md5').update(css).update(catalog);
 	jsFiles.forEach(function (f) { hash.update(read('src/js/' + f)); });
+	// De 3D-modules (src/3d/) worden met Three.js erbij gebundeld tot één compact bestand per module.
+	// De site laadt ze pas wanneer ze nodig zijn, zodat gewone pagina's er niet zwaarder van worden.
+	const bundles = fs.readdirSync(path.join(ROOT, 'src/3d')).filter(function (f) { return f.endsWith('.js'); });
+	bundles.forEach(function (f) { hash.update(read('src/3d/' + f)); });
+	hash.update(JSON.parse(read('node_modules/three/package.json')).version);
 	const version = hash.digest('hex').slice(0, 8);
 
 	write('css/styles.css', css);
 	write('js/catalog.js', catalog);
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
+	if (bundles.length) {
+		require('esbuild').buildSync({
+			entryPoints: bundles.map(function (f) { return path.join(ROOT, 'src/3d', f); }),
+			outdir: path.join(DIST, 'js'),
+			bundle: true, minify: true, format: 'esm', target: 'es2020', legalComments: 'eof', logLevel: 'warning'
+		});
+	}
 
 	// 4. Statische bestanden
 	fs.readdirSync(path.join(ROOT, 'assets')).filter(function (f) { return /\.svg$/i.test(f); }).forEach(function (f) {
@@ -204,7 +216,7 @@ async function build() {
 	});
 
 	fs.mkdirSync(path.join(DIST, 'assets/fonts'), { recursive: true });
-	fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(function (f) { return /\.woff2$/i.test(f); }).forEach(function (f) {
+	fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(function (f) { return /\.(woff2|json)$/i.test(f); }).forEach(function (f) { // .json = lettertype voor de 3D-letters
 		fs.copyFileSync(path.join(ROOT, 'assets/fonts', f), path.join(DIST, 'assets/fonts', f));
 	});
 

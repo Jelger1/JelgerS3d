@@ -3,7 +3,13 @@
 /* Het podium waar de live preview op staat */
 .keychain-stage{position:relative;border-radius:var(--radius-lg);border:1px solid var(--border);background:radial-gradient(ellipse at 50% 35%, #232936 0%, var(--dark-card) 70%);overflow:hidden}
 .keychain-stage canvas{display:block;width:100%;height:auto;aspect-ratio:2 / 1}
-.keychain-stage-label{position:absolute;left:1rem;top:0.85rem;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted)}
+/* 3D-model: ligt over het hele podium heen; de 2D-tekening eronder houdt de ruimte vast en wordt onzichtbaar */
+.keychain-stage canvas.keychain-3d{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;opacity:0;transition:opacity 0.5s ease;outline:none}
+.keychain-stage.is-3d canvas.keychain-3d{opacity:1}
+.keychain-stage.is-3d canvas[data-keychain-canvas]{visibility:hidden}
+.keychain-stage canvas.keychain-3d:focus-visible{box-shadow:inset 0 0 0 2px var(--brand)}
+.keychain-stage-hint{position:absolute;right:1rem;bottom:0.8rem;font-size:0.72rem;letter-spacing:0.04em;color:var(--fg-muted);pointer-events:none}
+.keychain-stage-label{z-index:1;pointer-events:none;position:absolute;left:1rem;top:0.85rem;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted)}
 .keychain-stage-label::before{content:'';display:inline-block;width:7px;height:7px;margin-right:0.5rem;border-radius:50%;background:#2ecc71;box-shadow:0 0 0 0 rgba(46,204,113,0.6);animation:keychainPulse 2.2s ease-out infinite;vertical-align:1px}
 @keyframes keychainPulse{0%{box-shadow:0 0 0 0 rgba(46,204,113,0.55)}70%,100%{box-shadow:0 0 0 9px rgba(46,204,113,0)}}
 

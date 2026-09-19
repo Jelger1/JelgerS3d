@@ -67,12 +67,21 @@ Daardoor toont de productpagina een live preview in plaats van de fotogalerij, k
 gewoon product en verdwijnt de sectie op de homepage.
 
 - **Prijs, naam en teksten** pas je aan zoals bij elk ander product.
-- **Het bord zelf** (kleuren, maten, lettertype, maximale lengte van 32 tekens) staat in `src/js/keychain-sign.js`.
-  Dezelfde tekenfunctie maakt de live preview én de PNG-download, dus die zijn altijd gelijk.
+- **Het 3D-model** (draaibaar met muis, vinger of pijltjestoetsen) staat in `src/3d/keychain-3d.js`. Bovenaan dat
+  bestand staan de maten in millimeters (bord 70 x 22 x 3 mm, letters 0,8 mm opliggend), verderop de kleuren en het
+  licht. Het gebruikt Three.js, dat met `npm install` vanzelf meekomt; de build bundelt alles tot één bestand
+  (`dist/js/keychain-3d.js`, ca. 150 KB) dat alleen wordt opgehaald wanneer de tool in beeld komt. Andere pagina's
+  merken er dus niets van. De PNG-download is altijd een render in een vaste stand met de tekst leesbaar.
+- **Vangnet in 2D:** zolang het 3D-model laadt, en op apparaten die geen 3D aankunnen, staat er een platte tekening van
+  hetzelfde bord. Die staat in `src/js/keychain-sign.js` (daar staat ook de maximale lengte van 32 tekens en welke
+  tekens zijn toegestaan).
+- **Ander lettertype op het 3D-bord?** Zet het .ttf-bestand in `tools/fonts/`, pas de bestandsnaam aan in
+  `tools/make-3d-font.js` en draai `node tools/make-3d-font.js`. Nu is het Arimo Bold (vrije licentie, lijkt op Arial
+  en heeft alle accenten zoals é, ë en ö).
 - **Bestellen:** de tekst reist mee in de winkelwagen (elke andere tekst is een eigen regel) en staat in je bestelmail
   als `TEKST OP HET PRODUCT: ...`. De knop "Bestel per mail" opent een vooringevulde mail; een bijlage toevoegen kan
   een website niet voor de klant doen, daarom staat in de mail de tip om de gedownloade preview zelf toe te voegen.
-- **De productfoto** (`assets/Straatnaam-Sleutelhanger-Ontwerp.png`) is een render van de tool zelf. Heb je een echte
+- **De productfoto** (`assets/Straatnaam-Sleutelhanger-Ontwerp.png`) is een render van het 3D-model zelf. Heb je een echte
   foto van een geprinte sleutelhanger, zet die dan als eerste in `images`: die is overtuigender.
 
 ### Filters in de webshop
@@ -170,7 +179,9 @@ src/templates/ de opbouw van de productpagina, de webshop en de productkaart
 src/css/       styles.css (basis), components.css, product.css, shop.css (filters), checkout.css, home.css, pages.css, keychain.css
 src/js/        losse modules: cart.js (opslag), cart-ui.js, shop.js (filters), checkout.js, request.js, validate.js,
                consent.js (cookies), keychain.js + keychain-sign.js (ontwerptool), ...
-tools/         images.js (foto's verkleinen), dev.js (lokale server), check.js (linkcontrole)
+src/3d/        keychain-3d.js: het 3D-model van de sleutelhanger (wordt met Three.js gebundeld)
+tools/         images.js (foto's verkleinen), dev.js (lokale server), check.js (linkcontrole),
+               make-3d-font.js (lettertype voor de 3D-letters)
 build.js       bouwt alles naar dist/
 dist/          het eindresultaat. Wordt gegenereerd: pas hier niets handmatig aan.
 ```

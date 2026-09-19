@@ -9,6 +9,20 @@ function slug(text) {
 	return text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'ontwerp';
 }
 
+const siteRoot = document.body.dataset.root || '';
+
+// Three.js heeft WebGL 2 nodig, en een grafische chip die het vlot kan tekenen ("failIfMajorPerformanceCaveat":
+// zonder bruikbare chip zegt de browser nee). Kan het apparaat dat niet, dan halen we de 3D-code niet eens op.
+function supports3D() {
+	try {
+		const gl = window.WebGL2RenderingContext && document.createElement('canvas').getContext('webgl2', { failIfMajorPerformanceCaveat: true });
+		if (!gl) return false;
+		const lose = gl.getExtension('WEBGL_lose_context');
+		if (lose) lose.loseContext();
+		return true;
+	} catch (e) { return false; }
+}
+
 function initOne(root) {
 	const canvas = root.querySelector('[data-keychain-canvas]');
 	const input = root.querySelector('[data-keychain-input]');
@@ -24,14 +38,49 @@ function initOne(root) {
 
 	function text() { return cleanText(input.value).trim(); }
 
+	// De preview is eerst een 2D-tekening. Komt de tool in beeld, dan wordt het draaibare 3D-model opgehaald
+	// en neemt dat het over. Lukt dat niet (oude browser, geen WebGL), dan blijft de 2D-tekening gewoon staan.
+	const stage = canvas.parentElement;
+	let view = null, canvas3d = null;
+
+	function describe(target) {
+		target.setAttribute('aria-label', (text()
+			? 'Voorbeeld van je sleutelhanger: blauw straatnaambord met de tekst ' + text()
+			: 'Voorbeeld van de sleutelhanger: blauw straatnaambord met witte rand en sleutelring')
+			+ (target === canvas3d ? '. Sleep of gebruik de pijltjestoetsen om het model te draaien.' : ''));
+	}
+
 	// Scherp op elk scherm: het canvas krijgt zoveel pixels als het scherm echt toont
 	function render() {
+		if (view) { view.setText(text()); describe(canvas3d); return; }
 		const width = Math.max(320, Math.round(canvas.clientWidth * Math.min(window.devicePixelRatio || 1, 2)));
 		if (canvas.width !== width) { canvas.width = width; canvas.height = Math.round(width / 2); }
 		drawSign(canvas, text(), { placeholder: placeholder });
-		canvas.setAttribute('aria-label', text()
-			? 'Voorbeeld van je sleutelhanger: blauw straatnaambord met de tekst ' + text()
-			: 'Voorbeeld van de sleutelhanger: blauw straatnaambord met witte rand en sleutelring');
+		describe(canvas);
+	}
+	function resized() { if (!view) render(); } // het 3D-model regelt zijn eigen formaat
+
+	function load3D() {
+		if (!supports3D()) { root.dataset.keychainMode = '2d'; return; }
+		import('./keychain-3d.js').then(function (module) {
+			const target = document.createElement('canvas');
+			target.className = 'keychain-3d';
+			target.setAttribute('role', 'img');
+			stage.appendChild(target);
+			return module.createKeychain3D(target, { fontUrl: siteRoot + 'assets/fonts/arimo-bold.typeface.json', placeholder: placeholder, text: text() }).then(function (created) {
+				view = created;
+				canvas3d = target;
+				stage.keychainView = view;
+				const tip = document.createElement('span');
+				tip.className = 'keychain-stage-hint';
+				tip.setAttribute('aria-hidden', 'true');
+				tip.textContent = 'Sleep om te draaien';
+				stage.appendChild(tip);
+				stage.classList.add('is-3d');
+				root.dataset.keychainMode = '3d';
+				render();
+			}, function (error) { target.remove(); throw error; });
+		}).catch(function () { root.dataset.keychainMode = '2d'; });
 	}
 
 	function update() {
@@ -66,8 +115,8 @@ function initOne(root) {
 	if (preset && !input.value) input.value = cleanText(preset);
 
 	input.addEventListener('input', update);
-	window.addEventListener('resize', render);
-	if ('ResizeObserver' in window) new ResizeObserver(render).observe(canvas);
+	window.addEventListener('resize', resized);
+	if ('ResizeObserver' in window) new ResizeObserver(resized).observe(canvas);
 	// Links die tekst nodig hebben doen niets zolang het veld leeg is
 	root.addEventListener('click', function (event) {
 		const link = event.target.closest('a[aria-disabled="true"]');
@@ -79,7 +128,9 @@ function initOne(root) {
 		download.addEventListener('click', function () {
 			const value = text();
 			if (!value) return;
-			signToBlob(value).then(function (blob) {
+			// In 3D krijg je het model zoals je het op dat moment hebt gedraaid; anders de 2D-tekening
+			(view ? view.toBlob(2400, 1200) : signToBlob(value)).then(function (blob) {
+				if (!blob) return;
 				const url = URL.createObjectURL(blob);
 				const a = document.createElement('a');
 				a.href = url;
@@ -105,6 +156,16 @@ function initOne(root) {
 	if (mailLink) mailLink.addEventListener('click', function () { if (text()) track('keychain_mail', {}); });
 
 	update();
+
+	// 3D pas ophalen wanneer de tool (bijna) in beeld is, en dan op een rustig moment
+	if ('IntersectionObserver' in window) {
+		const observer = new IntersectionObserver(function (entries) {
+			if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+			observer.disconnect();
+			if ('requestIdleCallback' in window) requestIdleCallback(load3D, { timeout: 2000 }); else setTimeout(load3D, 300);
+		}, { rootMargin: '300px' });
+		observer.observe(stage);
+	}
 }
 
 export function initKeychain() {
