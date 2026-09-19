@@ -1,0 +1,164 @@
+/* Componenten: header, productkaart, rails, winkelwagen, reviews. */
+
+[hidden]{display:none !important}
+/* Afbeeldingen hebben width/height-attributen (tegen verspringen); de hoogte schaalt altijd mee */
+img{max-width:100%;height:auto}
+body.is-locked{overflow:hidden}
+a,button{transition:color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.2s ease}
+input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease}
+
+/* Skip-link voor toetsenbordgebruikers */
+.skip-link{position:absolute;left:1rem;top:-4rem;z-index:2000;background:var(--brand);color:var(--dark);padding:0.6rem 1rem;border-radius:var(--radius);font-weight:700;text-decoration:none}
+.skip-link:focus{top:0.5rem}
+
+/* Scroll-animatie (alleen als de bezoeker animaties toestaat, zie ui.js) */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease}
+.reveal.is-revealed{opacity:1;transform:none}
+
+/* Header */
+.site-header{background:rgba(18,21,28,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--soft);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);height:var(--nav-height);display:flex;align-items:center}
+.site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, var(--brand-glow-strong), transparent)}
+.header-inner{display:flex;align-items:center;gap:1rem;padding:0 clamp(1rem,3vw,2rem);max-width:var(--max-width);margin:0 auto;width:100%}
+.brand{display:flex;align-items:center;text-decoration:none}
+.brand:hover{opacity:0.85}
+.brand img{height:52px;width:auto}
+.brand-logo-mobile{display:none}
+.main-nav{margin-left:auto;display:flex;gap:2rem}
+.main-nav a{color:var(--fg-muted);text-decoration:none;font-weight:500;font-size:0.875rem;letter-spacing:0.05em}
+.main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--soft)}
+.nav-toggle{display:none;background:transparent;border:0;color:var(--soft);cursor:pointer;width:44px;height:44px;align-items:center;justify-content:center;padding:0}
+.cart-toggle{position:relative;background:transparent;border:0;color:var(--soft);cursor:pointer;width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.cart-toggle:hover{color:var(--brand)}
+.cart-toggle svg{width:26px;height:26px}
+.cart-count{background:var(--brand);color:var(--dark);border-radius:var(--radius-full);min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;position:absolute;top:2px;right:0;padding:0 5px}
+.cart-toggle.is-bumped{animation:cartBump 0.45s ease}
+@keyframes cartBump{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+
+@media (max-width:900px){
+	.header-inner{display:grid;grid-template-columns:44px 1fr 44px}
+	.nav-toggle{display:inline-flex}
+	.brand{justify-self:center}
+	.brand img{height:36px}
+	.brand-logo-desktop{display:none}
+	.brand-logo-mobile{display:block}
+	.main-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--dark-card);padding:0.5rem 0;margin:0;border-bottom:1px solid var(--border)}
+	.main-nav.show{display:flex}
+	.main-nav a{padding:0.9rem 1.5rem;color:var(--soft);font-size:1rem}
+	.main-nav a:hover{background:var(--brand-glow)}
+}
+
+/* Productkaart */
+.grid-products{grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:1.5rem}
+.product-card{background:var(--dark-card);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--border);position:relative;transition:transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease, border-color 0.4s ease}
+.product-card:hover,.product-card:focus-within{box-shadow:0 10px 40px rgba(0,0,0,0.3), 0 0 20px var(--brand-glow);transform:translateY(-4px);border-color:rgba(3,188,202,0.3)}
+.product-thumb{display:block;position:relative;aspect-ratio:4 / 5;overflow:hidden;background:var(--dark-secondary)}
+.product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease}
+.product-thumb.is-landscape{background:#fff}
+.product-thumb.is-landscape img{object-fit:contain;padding:1rem}
+.product-thumb-alt{opacity:0}
+@media (hover:hover){
+	.product-card:hover .product-thumb img{transform:scale(1.04)}
+	.product-card:hover .product-thumb-alt{opacity:1}
+}
+/* Zonder muis is er geen hover: laad de tweede foto dan ook niet */
+@media (hover:none){.product-thumb-alt{display:none}}
+.product-info{padding:1.1rem 1.1rem 1.25rem;display:flex;flex-direction:column;flex:1}
+.product-kicker{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.4rem 0}
+.product-title{font-size:1.1rem;margin:0 0 0.4rem 0;line-height:1.2}
+.product-title a{color:var(--soft);text-decoration:none}
+/* De hele kaart is klikbaar via de titel-link; knoppen liggen erboven */
+.product-title a::after{content:'';position:absolute;inset:0;z-index:1}
+.product-card:hover .product-title a{color:var(--brand)}
+.product-info .muted{margin:0 0 1rem 0}
+.product-card-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap}
+.product-card-foot .btn{position:relative;z-index:2;padding:0.55rem 1.1rem;font-size:0.85rem}
+.product-price{font-size:1.15rem;font-weight:700;color:var(--soft);margin:0;font-family:var(--font-display)}
+.product-price-muted{color:var(--fg-muted);font-size:0.95rem}
+.price-from{display:block;font-family:var(--font-body);font-size:0.68rem;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-muted);line-height:1.2}
+.badge{z-index:2}
+
+/* Rails (horizontaal scrollen met scroll-snap) */
+.rail{position:relative}
+.rail-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0.75rem 0.25rem 1.5rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.rail-track::-webkit-scrollbar{display:none}
+.rail-card{flex:0 0 300px;scroll-snap-align:start}
+.rail-btn{position:absolute;top:38%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:var(--dark-card);border:1px solid var(--border);color:var(--brand);font-size:2rem;cursor:pointer;z-index:10;box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;line-height:1;padding:0 0 4px 0}
+.rail-btn:hover:not(:disabled){background:var(--brand);color:var(--dark);border-color:var(--brand)}
+.rail-btn:disabled{opacity:0;pointer-events:none}
+.rail-btn-prev{left:-0.5rem}
+.rail-btn-next{right:-0.5rem}
+.rail.is-static .rail-btn{display:none}
+@media (hover:none){.rail-btn{display:none}}
+@media (max-width:600px){.rail-card{flex-basis:78vw}.rail-track{gap:1rem}}
+
+/* Winkelwagen-zijbalk */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.cart-overlay[aria-hidden="false"]{opacity:1;pointer-events:auto}
+.cart-sidebar{position:fixed;top:0;right:0;width:100%;max-width:420px;height:100vh;height:100dvh;background:var(--dark-card);z-index:1000;transform:translateX(100%);visibility:hidden;transition:transform 0.3s ease, visibility 0s 0.3s;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;border-left:1px solid var(--border)}
+.cart-sidebar[aria-hidden="false"]{transform:translateX(0);visibility:visible;transition:transform 0.3s ease, visibility 0s}
+.cart-header{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.cart-header h2,.checkout-header h2{margin:0;font-size:1.25rem;display:block;color:var(--soft)}
+.cart-header h2::before,.checkout-header h2::before,.modal-content h2::before,.reviews-heading::before{display:none}
+.cart-close{background:transparent;border:0;font-size:1.4rem;cursor:pointer;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--fg-muted)}
+.cart-close:hover{background:var(--dark-secondary);transform:rotate(90deg);color:var(--soft)}
+.cart-added{margin:1rem 1rem 0;padding:0.8rem 1rem;border-radius:var(--radius);background:rgba(46,204,113,0.12);border:1px solid rgba(46,204,113,0.35);color:#7be0a4;font-weight:600;font-size:0.92rem;animation:fadeInUp 0.35s ease}
+.cart-items{flex:1;overflow-y:auto;padding:1rem;-webkit-overflow-scrolling:touch}
+.cart-list{display:flex;flex-direction:column;gap:0.75rem}
+.cart-item{display:flex;gap:0.9rem;padding:0.9rem;border-radius:var(--radius);background:var(--dark-secondary);border:1px solid var(--border);align-items:flex-start}
+.cart-item.is-new{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
+.cart-item-image{width:64px;height:64px;object-fit:cover;border-radius:8px;background:var(--dark);flex-shrink:0;display:block}
+.cart-item-info{flex:1;min-width:0}
+.cart-item-info h3{margin:0;font-size:0.95rem;font-family:var(--font-body);font-weight:600;line-height:1.3}
+.cart-item-info h3 a{color:var(--soft);text-decoration:none}
+.cart-item-info h3 a:hover{color:var(--brand)}
+.cart-item-variant{margin:0.15rem 0 0;font-size:0.82rem;color:var(--fg-muted)}
+.cart-item-row{display:flex;align-items:center;justify-content:space-between;gap:0.75rem;margin-top:0.6rem}
+.cart-item-price{font-weight:700;color:var(--soft);margin:0;font-size:0.95rem}
+.cart-item-remove{background:transparent;border:0;color:var(--fg-muted);cursor:pointer;width:32px;height:32px;border-radius:50%;font-size:0.9rem;flex-shrink:0}
+.cart-item-remove:hover{color:#e74c3c;background:var(--dark)}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius-full);background:var(--dark)}
+.qty-btn{width:32px;height:32px;border:0;background:transparent;color:var(--soft);font-size:1.1rem;cursor:pointer;border-radius:50%;line-height:1}
+.qty-btn:hover{color:var(--brand)}
+.qty-value{min-width:1.75rem;text-align:center;font-weight:600;font-size:0.9rem}
+.cart-empty{text-align:center;padding:3rem 1rem;color:var(--fg-muted)}
+.cart-empty p{margin-bottom:1.25rem}
+.cart-footer{flex-shrink:0;padding:1.25rem 1.5rem;padding-bottom:calc(1.25rem + env(safe-area-inset-bottom));border-top:1px solid var(--border);background:var(--dark-card);box-shadow:0 -6px 20px rgba(0,0,0,0.3);display:flex;flex-direction:column;gap:0.6rem}
+.cart-total{display:flex;justify-content:space-between;font-size:1.15rem;color:var(--soft)}
+.cart-footer .cart-shipping-note{margin:0 0 0.35rem 0;text-align:left}
+.cart-footer .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Checkout: kleine aanvullingen op de bestaande stijl */
+.checkout-summary h3{margin:0 0 0.75rem 0;font-size:1rem;color:var(--soft)}
+.checkout-success h3{display:block}
+.modal-content h2{padding:1.25rem 4rem 1rem 1.5rem;margin:0;color:var(--soft);font-size:1.15rem;display:block}
+.modal-nav{display:flex}
+.modal-counter{display:block}
+.form-msg-success{color:#2ecc71}
+.form-msg-error{color:#ff6b6b}
+
+/* Reviews: één keer in de HTML, horizontaal te scrollen */
+.reviews-banner{background:var(--dark-secondary);padding:3rem 0 3.5rem;position:relative;border-top:1px solid var(--border)}
+.reviews-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg, transparent, var(--brand), transparent)}
+.reviews-heading{color:var(--soft);text-align:center;margin:0 0 1.75rem 0;font-size:1.5rem;display:block;padding:0 1rem}
+.reviews-track{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x proximity;padding:0.5rem clamp(1rem,3vw,2rem) 1.25rem;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.review-card{flex:0 0 320px;scroll-snap-align:center;background:var(--dark-card);border:1px solid var(--border);padding:1.5rem;border-radius:var(--radius);display:flex;flex-direction:column}
+.review-card:first-child{margin-left:auto}
+.review-card:last-child{margin-right:auto}
+.review-stars{display:flex;gap:3px;margin-bottom:0.75rem}
+.review-stars svg{width:16px;height:16px}
+.review-stars .star{fill:#f4b400}
+.review-stars .star-empty{fill:rgba(255,255,255,0.2)}
+.review-text{color:rgba(255,255,255,0.9);font-size:0.92rem;line-height:1.6;margin:0 0 1rem 0;font-style:italic}
+.review-meta{margin:auto 0 0 0;display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap}
+.review-author{color:var(--brand);font-weight:600;font-size:0.85rem}
+.review-product{font-size:0.75rem;color:var(--fg-muted);background:var(--dark-secondary);padding:0.2rem 0.5rem;border-radius:4px}
+@media (max-width:600px){.review-card{flex-basis:82vw;padding:1.25rem}}
+
+/* Footer-USP's zijn nu een lijst */
+.footer-tagline{width:100%;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.footer-tagline li{display:inline-flex;align-items:center;gap:0.5rem}
+
+/* Respecteer de systeeminstelling "minder beweging" */
+@media (prefers-reduced-motion:reduce){
+	*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;scroll-behavior:auto !important}
+}

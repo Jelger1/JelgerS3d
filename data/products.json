@@ -1,0 +1,483 @@
+[
+	{
+		"id": "kami-vase",
+		"name": "Kami Vase",
+		"type": "vaas",
+		"collection": "design",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Gevouwen als papier, gebouwd om te blijven. Kies jouw kleuren.",
+		"description": [
+			"Kami is Japans voor papier, en zo oogt deze vaas ook: alsof iemand een vel heeft gevouwen tot het vanzelf bleef staan. Strakke facetten vangen het licht op elk uur van de dag anders. 's Ochtends scherp en grafisch, 's avonds zacht en warm.",
+			"Je kiest zelf de kleuren. Eén rustige tint die opgaat in je interieur, of drie kleurvlakken die samen een statement maken. Elke Kami Vase wordt pas geprint als jij hem bestelt, laag voor laag, hier in Limburg. Geen voorraad, geen massaproductie: die van jou bestaat nog niet."
+		],
+		"highlights": [
+			"In één kleur of in drie kleurvlakken, jij kiest",
+			"Speciaal voor jou geprint na bestelling",
+			"Eigen ontwerp van Jelger"
+		],
+		"specs": [
+			{ "label": "Kleuren", "value": "1 of 3 kleuren naar keuze, af te stemmen na je bestelling" },
+			{ "label": "Ontwerp", "value": "Eigen ontwerp, 3D-geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "Kami-Vase-3kleuren2.jpg", "alt": "Kami Vase in geel, roze en oranje kleurvlakken op een houten tafel" },
+			{ "file": "Kami-Vase-3kleuren1.jpg", "alt": "Driekleurige Kami Vase naast een witte vaas met een kleurrijk boeket" },
+			{ "file": "Kami-Vase-1kleur1.jpg", "alt": "Kami Vase in één zandkleurige tint op een wit aanrechtblad" }
+		],
+		"seo": {
+			"title": "Kami Vase – 3D-geprinte designvaas in jouw kleuren",
+			"description": "De Kami Vase: een gefacetteerde designvaas, geïnspireerd op origami. In één of drie kleuren naar keuze, speciaal voor jou 3D-geprint in Limburg. €34,95."
+		},
+		"related": ["wavase", "bold-vase", "kami-lamp"]
+	},
+	{
+		"id": "wavase",
+		"name": "Wavase",
+		"type": "vaas",
+		"collection": "design",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Organische golven die de aandacht trekken. Waterdicht en in jouw kleur.",
+		"description": [
+			"De Wavase lijkt in beweging, ook als hij stilstaat. Golven draaien om de vaas heen en stapelen zich op tot een silhouet dat vanuit elke hoek anders is. Zet hem in de vensterbank en je ziet de schaduwen de hele dag verschuiven.",
+			"Hij is waterdicht, dus gemaakt voor verse bloemen en niet alleen voor de sier. Maar eerlijk: ook leeg is hij een object op zich. Je kiest zelf de kleur, en daarna wordt hij speciaal voor jou geprint in Limburg."
+		],
+		"highlights": [
+			"Waterdicht, geschikt voor verse bloemen",
+			"In jouw favoriete kleur",
+			"Speciaal voor jou geprint na bestelling"
+		],
+		"specs": [
+			{ "label": "Waterdicht", "value": "Ja" },
+			{ "label": "Kleur", "value": "Naar keuze, af te stemmen na je bestelling" },
+			{ "label": "Ontwerp", "value": "Eigen ontwerp, 3D-geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "Wavase-Keuken.jpg", "alt": "Grijze Wavase met golvend reliëf op een wit aanrechtblad" },
+			{ "file": "Wavase-Tafel.jpg", "alt": "Wavase op een houten tafel naast een vaas met een kleurrijk boeket" },
+			{ "file": "Wavase-Tafel-2.jpg", "alt": "Wavase van bovenaf gezien, met de gedraaide golfstructuur goed zichtbaar" }
+		],
+		"seo": {
+			"title": "Wavase – waterdichte 3D-geprinte vaas met golvend design",
+			"description": "De Wavase: een organische designvaas met golvende lijnen. Waterdicht, in jouw kleur en speciaal voor jou 3D-geprint in Limburg. €34,95."
+		},
+		"related": ["kami-vase", "bold-vase", "helio-lamp"]
+	},
+	{
+		"id": "bold-vase",
+		"name": "Bold Vase",
+		"type": "vaas",
+		"collection": "design",
+		"material": "",
+		"sale": "cart",
+		"featured": false,
+		"tagline": "Stoer, opvallend en uniek. Een vaas die een statement maakt in elke ruimte.",
+		"description": [
+			"Een smalle taille, een brede voet en een hals die zich opent als een kelk. De Bold Vase is getekend met één zelfverzekerde lijn. Fijne ribbels lopen over het hele oppervlak en geven hem een bijna textiele huid, mat en diep van kleur.",
+			"Hij is waterdicht en verkrijgbaar in jouw kleur. In zwart is hij sculpturaal en grafisch, in een lichte tint juist zacht en rustig. Eén tak is genoeg. Meer heeft hij niet nodig."
+		],
+		"highlights": [
+			"Waterdicht, geschikt voor verse bloemen",
+			"Verkrijgbaar in custom kleuren",
+			"Speciaal voor jou geprint na bestelling"
+		],
+		"specs": [
+			{ "label": "Waterdicht", "value": "Ja" },
+			{ "label": "Kleur", "value": "Naar keuze, af te stemmen na je bestelling" },
+			{ "label": "Ontwerp", "value": "Eigen ontwerp, 3D-geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "BOLD-Vase2.jpg", "alt": "Zwarte Bold Vase met fijne ribbels op een houten tafel" },
+			{ "file": "BOLD-Vase1.jpg", "alt": "Zwarte Bold Vase op een wit marmeren blad" }
+		],
+		"seo": {
+			"title": "Bold Vase – sculpturale 3D-geprinte designvaas",
+			"description": "De Bold Vase: een stoere, sculpturale vaas met fijne ribbelstructuur. Waterdicht, in jouw kleur en speciaal voor jou 3D-geprint in Limburg. €34,95."
+		},
+		"related": ["wavase", "kami-vase", "orbits-lamp"]
+	},
+	{
+		"id": "helio-lamp",
+		"name": "Helio Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Een kleine zon voor op je kast. Volledig eigen ontwerp, in meerdere kleuren.",
+		"description": [
+			"De Helio is vernoemd naar de zon, en dat begrijp je zodra hij aangaat. De gedraaide ribbels van de kap breken het licht tot een gloed die de hele hoek van de kamer kleurt. Uit is hij een object. Aan is hij sfeer.",
+			"Het ontwerp is volledig van eigen hand en wordt speciaal voor jou geprint. Kies een van de kleuren of stuur bij je bestelling je eigen kleursuggestie mee. Je bestelt hem los, of compleet met passende LED-lamp (E14), zodat je hem direct kunt aansluiten."
+		],
+		"highlights": [
+			"Volledig eigen ontwerp",
+			"Meerdere kleuren, eigen kleursuggestie welkom",
+			"Naar keuze compleet met LED-lamp (E14)"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "22 cm" },
+			{ "label": "Breedte", "value": "19 cm" },
+			{ "label": "Fitting", "value": "E14" },
+			{ "label": "Kleur", "value": "Meerdere kleuren, of stuur je eigen suggestie mee" }
+		],
+		"variants": [
+			{ "id": "excl-led", "label": "Excl. LED-lamp", "price": 34.95 },
+			{ "id": "incl-led", "label": "Incl. LED-lamp (E14)", "price": 39.95 }
+		],
+		"images": [
+			{ "file": "Helio-Lamp-Knop.jpg", "alt": "Brandende gele Helio Lamp op een piano, een hand bedient de schakelaar" },
+			{ "file": "Helio-Lamp-Roze.jpg", "alt": "Roze Helio Lamp op een donker dressoir bij daglicht" },
+			{ "file": "Helio-Lamp-Roze-2.jpg", "alt": "Brandende roze Helio Lamp die de muur warm rood kleurt" },
+			{ "file": "Helio-Lamp-Oranje-2.jpg", "alt": "Brandende oranje Helio Lamp op een zwarte piano" },
+			{ "file": "Helio-Lamp-Oranje.jpg", "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
+		],
+		"seo": {
+			"title": "Helio Lamp – 3D-geprinte design tafellamp in jouw kleur",
+			"description": "De Helio Lamp: een sfeervolle 3D-geprinte tafellamp van eigen ontwerp. 22 cm hoog, in meerdere kleuren, met of zonder LED-lamp (E14). Vanaf €34,95."
+		},
+		"related": ["orbits-lamp", "kami-lamp", "wavase"]
+	},
+	{
+		"id": "orbits-lamp",
+		"name": "Orbits Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Slanke tafellamp geïnspireerd op UFO-vormen. Dimbaar, warm én wit licht.",
+		"description": [
+			"Gestapelde schijven, alsof er een kleine vloot boven je bijzettafel zweeft. De Orbits Lamp is geïnspireerd op UFO-vormen en laat het licht tussen de lagen door naar buiten komen. Zacht, gelaagd en nooit verblindend.",
+			"Hij is dimbaar en je wisselt tussen warm en wit licht: gedempt voor de avond, helder als je wilt lezen. Met zijn 22 centimeter past hij op elk nachtkastje of bureau. Custom kleuren zijn mogelijk, stuur je wens mee bij je bestelling."
+		],
+		"highlights": [
+			"Dimbaar",
+			"Schakelbaar tussen warm en wit licht",
+			"Custom kleuren mogelijk"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "22 cm" },
+			{ "label": "Licht", "value": "Dimbaar, warm en wit licht" },
+			{ "label": "Kleur", "value": "Custom kleuren mogelijk" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 24.95 }
+		],
+		"images": [
+			{ "file": "Orbits-Lamp-Wood-White.jpeg", "alt": "Brandende witte Orbits Lamp van gestapelde schijven op een houten voet" }
+		],
+		"seo": {
+			"title": "Orbits Lamp – dimbare 3D-geprinte tafellamp",
+			"description": "De Orbits Lamp: een slanke 3D-geprinte tafellamp geïnspireerd op UFO-vormen. Dimbaar, met warm én wit licht, 22 cm hoog. €24,95."
+		},
+		"related": ["helio-lamp", "kami-lamp", "bold-vase"]
+	},
+	{
+		"id": "kami-lamp",
+		"name": "Kami Lamp",
+		"type": "lamp",
+		"collection": "design",
+		"material": "",
+		"sale": "soon",
+		"featured": false,
+		"tagline": "Unieke designlamp met origami-geïnspireerd patroon.",
+		"description": [
+			"De Kami Lamp is het lichtgevende broertje van de Kami Vase. Dezelfde gevouwen facetten, maar nu van binnenuit verlicht, waardoor elk vlak een eigen tint amber krijgt. Op zijn houten driepoot staat hij los van de tafel, als een lantaarn.",
+			"De Kami Lamp is op dit moment niet via de webshop te bestellen. Interesse? Stuur een bericht, dan hoor je als eerste wanneer hij weer beschikbaar is."
+		],
+		"highlights": [
+			"Origami-geïnspireerd patroon",
+			"Dimbaar, warm en wit licht",
+			"Op houten driepoot"
+		],
+		"specs": [
+			{ "label": "Licht", "value": "Dimbaar, warm en wit licht" }
+		],
+		"variants": [],
+		"images": [
+			{ "file": "Kami-Lamp-Front.jpeg", "alt": "Brandende Kami Lamp met gefacetteerde kap op een houten driepoot" },
+			{ "file": "Kami-Lamp-Closeup.jpeg", "alt": "Close-up van de gefacetteerde, amberkleurig verlichte kap van de Kami Lamp" },
+			{ "file": "Kami-Lamp-Top.jpeg", "alt": "Kami Lamp schuin van bovenaf gezien" }
+		],
+		"seo": {
+			"title": "Kami Lamp – 3D-geprinte designlamp met origami-patroon",
+			"description": "De Kami Lamp: een 3D-geprinte designlamp met origami-geïnspireerde facetten op een houten driepoot. Eigen ontwerp uit Limburg. Binnenkort weer beschikbaar."
+		},
+		"related": ["kami-vase", "helio-lamp", "orbits-lamp"]
+	},
+	{
+		"id": "mijnschacht-nulland",
+		"name": "Mijnschacht Nulland",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Een stijlvol eerbetoon aan Limburgse geschiedenis, perfect als cadeau of decorstuk.",
+		"description": [
+			"Schacht Nulland in Kerkrade is een van de laatste tastbare herinneringen aan de Domaniale Mijn. Generaties koempels verdienden in deze mijn hun brood. Het gebouw staat er nog, en met dit model staat het ook bij jou: de bogen, de toren en de details, laag voor laag opgebouwd.",
+			"Het is geen souvenir maar een eerbetoon. Voor op de kast van iemand wiens vader of opa ondergronds werkte, of voor iedereen die vindt dat dit verhaal verteld moet blijven worden. Verkrijgbaar in twee formaten."
+		],
+		"highlights": [
+			"Gedetailleerd model van Schacht Nulland, Kerkrade",
+			"Verkrijgbaar in 15 cm en 25 cm",
+			"Een cadeau met betekenis"
+		],
+		"specs": [
+			{ "label": "Formaten", "value": "15 cm of 25 cm" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "15cm", "label": "15 cm", "price": 24.95 },
+			{ "id": "25cm", "label": "25 cm", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "Schacht-nulland2.jpg", "alt": "Close-up van het 3D-geprinte model van Mijnschacht Nulland met bogen en toren" },
+			{ "file": "Schacht-Nulland1.jpg", "alt": "3D-geprint model van Mijnschacht Nulland op een wit blad" }
+		],
+		"seo": {
+			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
+			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het Limburgse mijnverleden, 3D-geprint in Limburg. In 15 en 25 cm, vanaf €24,95."
+		},
+		"related": ["dr-joep", "koempel-eend", "kirchroa-sleutelhanger"]
+	},
+	{
+		"id": "dr-joep",
+		"name": "D'r Joep",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Strak design met Limburgse roots, een moderne klassieker voor op je bureau of kast.",
+		"description": [
+			"D'r Joep, de mijnwerker die symbool staat voor iedereen die in Limburg ondergronds werkte. Hier opnieuw vormgegeven in strakke vlakken, als een origami-figuur: jas open, lamp in de hand, blik vooruit. Herkenbaar van een afstand, verrassend modern van dichtbij.",
+			"Het is een beeld dat twee dingen tegelijk doet. Het eert een verleden en het staat gewoon goed op je kast. Verkrijgbaar in twee formaten, voor op het bureau of als blikvanger in de kamer."
+		],
+		"highlights": [
+			"Modern, gefacetteerd ontwerp",
+			"Verkrijgbaar in 15 cm en 25 cm",
+			"Een cadeau met Limburgse ziel"
+		],
+		"specs": [
+			{ "label": "Formaten", "value": "15 cm of 25 cm" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "15cm", "label": "15 cm", "price": 12.95 },
+			{ "id": "25cm", "label": "25 cm", "price": 24.95 }
+		],
+		"images": [
+			{ "file": "dr-joep-zwart.jpg", "alt": "Zwart gefacetteerd beeld van mijnwerker D'r Joep op een houten tafel" },
+			{ "file": "dr-joep-grey.jpg", "alt": "Grijs gefacetteerd beeld van D'r Joep op sokkel, met mijnlamp in de hand" }
+		],
+		"seo": {
+			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld in modern design",
+			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
+		},
+		"related": ["mijnschacht-nulland", "koempel-eend", "kirchroa-sleutelhanger"]
+	},
+	{
+		"id": "koempel-eend",
+		"name": "Koempel-eend",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": true,
+		"tagline": "Modern icoon van Limburgse trots, het perfecte cadeau of eyecatcher op je bureau.",
+		"description": [
+			"Een badeend met een mijnwerkershelm en een lamp in de vleugel. Meer uitleg heeft de Koempel-eend niet nodig. Koempel is Limburgs voor mijnwerker, en deze kleine kameraad draagt dat verleden met een knipoog.",
+			"Hij is het cadeau dat altijd werkt: voor de collega die Limburg verliet, voor opa die het allemaal nog weet, of gewoon voor op je eigen bureau. Klein van stuk, groot in karakter."
+		],
+		"highlights": [
+			"Met mijnwerkershelm en lamp",
+			"Een cadeau met een knipoog",
+			"Eigen ontwerp, geprint in Limburg"
+		],
+		"specs": [
+			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 6.95 }
+		],
+		"images": [
+			{ "file": "Koempel-Eend.jpg", "alt": "Gele Koempel-eend met zwarte mijnwerkershelm en lamp, met Mijnschacht Nulland op de achtergrond" }
+		],
+		"seo": {
+			"title": "Koempel-eend – Limburgse mijnwerkerseend, 3D-geprint",
+			"description": "De Koempel-eend: een badeend met mijnwerkershelm en lamp. Een Limburgs cadeau met een knipoog, 3D-geprint in Limburg. €6,95."
+		},
+		"related": ["dr-joep", "mijnschacht-nulland", "vlaai-sleutelhanger"]
+	},
+	{
+		"id": "vlaai-sleutelhanger",
+		"name": "Vlaai Sleutelhanger",
+		"type": "sleutelhanger",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": false,
+		"tagline": "Pruimenvlaai, altijd vlaai bij je!",
+		"description": [
+			"Een punt pruimenvlaai met een keurig raster van deeg, maar dan voor aan je sleutelbos. Zo heb je altijd vlaai bij je, zonder kruimels.",
+			"Een klein Limburgs gebaar voor jezelf of om cadeau te doen. Leuk als extraatje bij een groter cadeau."
+		],
+		"highlights": [
+			"Punt pruimenvlaai met deegraster",
+			"Klein cadeau met Limburgse smaak"
+		],
+		"specs": [],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 3.95 }
+		],
+		"images": [
+			{ "file": "Vlaai-sleutelhanger.jpeg", "alt": "Sleutelhanger in de vorm van een punt pruimenvlaai met deegraster" }
+		],
+		"seo": {
+			"title": "Vlaai Sleutelhanger – Limburgse pruimenvlaai aan je sleutels",
+			"description": "Sleutelhanger in de vorm van een punt Limburgse pruimenvlaai. Een klein cadeau met een glimlach, 3D-geprint in Limburg. €3,95."
+		},
+		"related": ["poefel-sleutelhanger", "kirchroa-sleutelhanger", "koempel-eend"]
+	},
+	{
+		"id": "poefel-sleutelhanger",
+		"name": "Poefel Sleutelhanger",
+		"type": "sleutelhanger",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": false,
+		"tagline": "De echte Limburgse poefel, altijd op zak!",
+		"description": [
+			"De poefel: goudbruin gebakken, wit van de poedersuiker en met een hart van jam. Deze sleutelhanger ziet er bijna eetbaar uit, maar gaat een stuk langer mee.",
+			"Voor iedereen die weet dat carnaval pas begint als de poefels op tafel staan."
+		],
+		"highlights": [
+			"Met poedersuiker en jamvulling, tot in detail",
+			"Klein cadeau met Limburgse smaak"
+		],
+		"specs": [],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 4.95 }
+		],
+		"images": [
+			{ "file": "Poefel-Sleutelhanger.jpeg", "alt": "Sleutelhanger in de vorm van een poefel met poedersuiker en jamvulling" }
+		],
+		"seo": {
+			"title": "Poefel Sleutelhanger – Limburgse poefel aan je sleutels",
+			"description": "Sleutelhanger in de vorm van een echte Limburgse poefel, compleet met poedersuiker en jam. 3D-geprint in Limburg. €4,95."
+		},
+		"related": ["vlaai-sleutelhanger", "kirchroa-sleutelhanger", "koempel-eend"]
+	},
+	{
+		"id": "kirchroa-sleutelhanger",
+		"name": "Kirchroa Sleutelhanger",
+		"type": "sleutelhanger",
+		"collection": "limburg",
+		"material": "",
+		"sale": "cart",
+		"featured": false,
+		"tagline": "Jouw stad, jouw sleutelhanger! Custom namen mogelijk.",
+		"description": [
+			"Een plaatsnaambord in het klein, met de naam zoals je hem thuis uitspreekt: Kirchroa. Blauw met witte letters, net als het echte bord aan de rand van de stad.",
+			"Kom je ergens anders vandaan? Custom namen zijn mogelijk. Zet je eigen plaats, wijk of bijnaam in het opmerkingenveld bij je bestelling, dan maak ik hem voor jou."
+		],
+		"highlights": [
+			"In de stijl van een plaatsnaambord",
+			"Custom namen mogelijk"
+		],
+		"specs": [
+			{ "label": "Personalisatie", "value": "Eigen (plaats)naam mogelijk, vermeld dit bij je bestelling" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 3.95 }
+		],
+		"images": [
+			{ "file": "Kirchroa-Sleutelhanger.jpeg", "alt": "Blauwe sleutelhanger in de vorm van een plaatsnaambord met de tekst Kirchroa" }
+		],
+		"seo": {
+			"title": "Kirchroa Sleutelhanger – plaatsnaambord met jouw eigen naam",
+			"description": "Sleutelhanger als plaatsnaambord van Kirchroa (Kerkrade). Ook met je eigen plaats of naam. 3D-geprint in Limburg. €3,95."
+		},
+		"related": ["vlaai-sleutelhanger", "poefel-sleutelhanger", "dr-joep"]
+	},
+	{
+		"id": "blonde-non",
+		"name": "Blonde Non",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "",
+		"sale": "external",
+		"externalUrl": "https://www.brouwerij-rolduc.nl/webshop.html",
+		"externalLabel": "Bekijk bij Rolduc",
+		"featured": false,
+		"tagline": "Een speciaal ontwerp gemaakt voor Brouwerij Rolduc, exclusief daar verkrijgbaar.",
+		"description": [
+			"Een non met een krans van bloemen in het haar en een kruisje op de borst. De Blonde Non is ontworpen in opdracht van Brouwerij Rolduc en brengt hun bier tot leven als beeld.",
+			"Ze is exclusief verkrijgbaar via de webshop van de brouwerij. Wil je ook een eigen figuur, mascotte of relatiegeschenk laten ontwerpen voor jouw bedrijf? Neem dan contact op."
+		],
+		"highlights": [
+			"Ontworpen in opdracht van Brouwerij Rolduc",
+			"Exclusief verkrijgbaar bij de brouwerij"
+		],
+		"specs": [],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 19.95 }
+		],
+		"images": [
+			{ "file": "Blonde-Non-3d.jpeg", "alt": "Roze 3D-geprinte buste van de Blonde Non met bloemenkrans" }
+		],
+		"seo": {
+			"title": "Blonde Non – 3D-geprint beeld voor Brouwerij Rolduc",
+			"description": "De Blonde Non: een 3D-geprinte buste, speciaal ontworpen voor Brouwerij Rolduc en exclusief daar verkrijgbaar. Ontwerp door JelgerS3D."
+		},
+		"related": ["custom-lightbox", "dr-joep", "koempel-eend"]
+	},
+	{
+		"id": "custom-lightbox",
+		"name": "Custom Lightbox",
+		"type": "lightbox",
+		"collection": "maatwerk",
+		"material": "",
+		"sale": "request",
+		"priceFrom": 24.95,
+		"featured": true,
+		"tagline": "Jouw logo, naam of ontwerp, verlicht en exclusief voor jou gemaakt.",
+		"description": [
+			"Je logo, maar dan als lichtobject. De Custom Lightbox wordt volledig rond jouw ontwerp gebouwd: de contouren volgen je logo, de kleuren zijn de jouwe en het licht doet de rest. Op de balie, in de vergaderruimte of thuis op je werkplek.",
+			"Je stuurt je logo of idee op, ik denk mee over wat technisch het mooist uitkomt en je krijgt vooraf een voorstel met prijs. Bij grotere oplages, bijvoorbeeld als relatiegeschenk, geldt korting."
+		],
+		"highlights": [
+			"Volledig op maat, tot 25 cm",
+			"Tot 4 kleuren",
+			"Korting bij grotere oplage"
+		],
+		"specs": [
+			{ "label": "Formaat", "value": "Tot 25 cm" },
+			{ "label": "Kleuren", "value": "Tot 4 kleuren" },
+			{ "label": "Aanleveren", "value": "PNG, JPG, PDF, AI of SVG" }
+		],
+		"variants": [],
+		"images": [
+			{ "file": "JS3D-LightBox.jpeg", "alt": "Verlichte lightbox in de vorm van het JelgerS3D-logo" }
+		],
+		"seo": {
+			"title": "Custom Lightbox – jouw logo als 3D-geprinte lichtbak",
+			"description": "Laat je logo, naam of ontwerp maken als verlichte 3D-geprinte lightbox. Tot 25 cm en 4 kleuren, vanaf €24,95. Korting bij grotere oplage."
+		},
+		"related": ["blonde-non", "kirchroa-sleutelhanger", "helio-lamp"]
+	}
+]

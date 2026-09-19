@@ -1,0 +1,81 @@
+/* Productpagina (producten/<id>.html) */
+
+.pdp-container{padding-top:1.25rem}
+
+.breadcrumbs ol{display:flex;flex-wrap:wrap;gap:0.5rem;font-size:0.85rem;color:var(--fg-muted)}
+.breadcrumbs li + li::before{content:'/';margin-right:0.5rem;color:var(--border)}
+.breadcrumbs a{color:var(--fg-muted);text-decoration:none}
+.breadcrumbs a:hover{color:var(--brand)}
+.breadcrumbs [aria-current]{color:var(--soft)}
+
+.pdp{display:grid;grid-template-columns:minmax(0, 1.1fr) minmax(0, 1fr);gap:clamp(2rem, 5vw, 4rem);align-items:start;margin-top:1.5rem}
+
+/* Galerij: swipebaar via scroll-snap, thumbnails eronder */
+.pdp-gallery{position:sticky;top:calc(var(--nav-height) + 1.5rem)}
+/* max-height houdt foto + thumbnails samen binnen het scherm */
+.pdp-slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;aspect-ratio:4 / 5;max-height:max(420px, calc(100vh - var(--nav-height) - 11rem));width:100%;border-radius:var(--radius-lg);background:var(--dark-secondary);border:1px solid var(--border);scrollbar-width:none}
+.pdp-slides::-webkit-scrollbar{display:none}
+.pdp-slide{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always}
+.pdp-slide.is-landscape{background:#fff}
+.pdp-zoom{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.pdp-zoom img{display:block;width:100%;height:100%;object-fit:cover}
+.pdp-slide.is-landscape .pdp-zoom img{object-fit:contain;padding:1.5rem}
+.pdp-thumbs{display:flex;gap:0.6rem;margin-top:0.75rem;flex-wrap:wrap}
+.pdp-thumb{width:72px;height:72px;border-radius:10px;overflow:hidden;border:2px solid transparent;padding:0;background:var(--dark-secondary);cursor:pointer;opacity:0.55}
+.pdp-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.pdp-thumb:hover{opacity:0.9}
+.pdp-thumb.is-active{border-color:var(--brand);opacity:1}
+
+/* Koopblok */
+.pdp-title{font-size:clamp(2rem, 4.5vw, 3rem);letter-spacing:-0.03em;margin:0 0 0.75rem 0;color:var(--soft)}
+.pdp-tagline{font-size:1.125rem;color:var(--fg-muted);line-height:1.6;margin:0 0 1.5rem 0;max-width:46ch}
+.pdp-price{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--soft);margin:0;line-height:1}
+.pdp-price-muted{font-size:1.25rem;color:var(--fg-muted)}
+.pdp-price-note{font-size:0.82rem;color:var(--fg-muted);margin:0.5rem 0 0 0}
+.pdp-form,.pdp-buy > .btn{margin-top:1.5rem}
+.pdp-add,.pdp-buy > .btn{font-size:1.05rem;padding:1rem 1.5rem}
+.pdp-note{font-size:0.85rem;color:var(--fg-muted);margin:0.75rem 0 0 0;text-align:center}
+
+.product-options{display:flex;flex-direction:column;gap:0.5rem;margin:0 0 1.25rem 0}
+.product-options legend{font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--fg-muted);margin-bottom:0.6rem;padding:0}
+.size-option{display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:0.95rem;color:var(--soft);background:var(--dark-secondary);transition:border-color 0.2s ease, background-color 0.2s ease}
+.size-option:hover{border-color:var(--brand)}
+.size-option input{accent-color:var(--brand);width:18px;height:18px;margin:0;cursor:pointer}
+.size-option-price{margin-left:auto;font-weight:600;color:var(--fg-muted)}
+.size-option:has(input:checked){border-color:var(--brand);background:var(--brand-glow)}
+.size-option:has(input:checked) .size-option-price{color:var(--brand)}
+.size-option:has(input:focus-visible){outline:2px solid var(--brand);outline-offset:2px}
+
+.pdp-usps{margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:0.6rem}
+.pdp-usps li{position:relative;padding-left:1.75rem;font-size:0.92rem;color:var(--soft)}
+.pdp-usps li::before{content:'✓';position:absolute;left:0;color:var(--brand);font-weight:700}
+
+/* Verhaal + specificaties */
+.pdp-details{display:grid;grid-template-columns:minmax(0, 1.4fr) minmax(0, 1fr);gap:clamp(2rem, 5vw, 4rem);margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border)}
+.pdp-details h2{font-size:1.5rem;margin-bottom:1.25rem}
+.pdp-story p{font-size:1.1rem;line-height:1.85;color:#b9c6c4;max-width:62ch;margin:0 0 1.25rem 0}
+.pdp-story p:first-of-type::first-letter{font-family:var(--font-display);font-size:2.7em;font-weight:800;float:left;line-height:0.9;padding:0.08em 0.12em 0 0;color:var(--brand)}
+.pdp-specs .feature-list{margin-bottom:1.5rem}
+.spec-list > div{display:flex;justify-content:space-between;gap:1.5rem;padding:0.8rem 0;border-bottom:1px solid var(--border);font-size:0.92rem}
+.spec-list > div:first-child{border-top:1px solid var(--border)}
+.spec-list dt{color:var(--fg-muted);flex-shrink:0}
+.spec-list dd{color:var(--soft);text-align:right}
+
+.pdp-related{padding-top:3rem;padding-bottom:4rem}
+.pdp-related h2{font-size:1.5rem}
+.pdp-related .grid-products{grid-template-columns:repeat(auto-fill, minmax(240px, 1fr))}
+
+/* Mobiele koopbalk: prijs + knop altijd binnen duimbereik */
+.pdp-sticky{display:none}
+@media (max-width:900px){
+	.pdp{grid-template-columns:minmax(0, 1fr);gap:1.5rem;margin-top:1rem}
+	.pdp-gallery{position:static}
+	.pdp-details{grid-template-columns:minmax(0, 1fr);margin-top:3rem;padding-top:2rem}
+	.pdp-sticky:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:1rem;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:0.75rem 1rem;padding-bottom:calc(0.75rem + env(safe-area-inset-bottom));background:rgba(26,29,36,0.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);box-shadow:0 -8px 24px rgba(0,0,0,0.35);animation:fadeInUp 0.25s ease}
+	/* Ruimte onderaan zodat de balk de footer niet afdekt */
+	body:has(.pdp-sticky){padding-bottom:5rem}
+	.pdp-sticky div{display:flex;flex-direction:column;min-width:0}
+	.pdp-sticky strong{font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+	.pdp-sticky span{font-size:0.95rem;color:var(--brand);font-weight:700}
+	.pdp-sticky .btn{flex-shrink:0;padding:0.7rem 1.25rem}
+}

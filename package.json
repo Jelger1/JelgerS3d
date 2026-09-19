@@ -1,0 +1,14 @@
+{
+  "name": "jelgers3d",
+  "version": "2.0.0",
+  "private": true,
+  "description": "JelgerS3D.nl - statische site, gegenereerd uit data/products.json",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node tools/dev.js",
+    "check": "node tools/check.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.0"
+  }
+}

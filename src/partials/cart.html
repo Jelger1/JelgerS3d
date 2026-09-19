@@ -1,0 +1,112 @@
+<div id="cart-overlay" class="cart-overlay" aria-hidden="true"></div>
+<aside id="cart-sidebar" class="cart-sidebar" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true" inert>
+	<div class="cart-header">
+		<h2 id="cart-title">Winkelwagen</h2>
+		<button id="cart-close" class="cart-close" type="button" aria-label="Winkelwagen sluiten">✕</button>
+	</div>
+	<p id="cart-added" class="cart-added" role="status" hidden></p>
+	<div id="cart-items" class="cart-items"></div>
+	<div class="cart-footer">
+		<div class="cart-total">
+			<strong>Totaal</strong>
+			<strong id="cart-total-price">€0,00</strong>
+		</div>
+		<p class="cart-shipping-note">{{shippingNote}} · je betaalt pas na bevestiging</p>
+		<button id="cart-checkout" class="btn btn-primary btn-block" type="button">Bestelling afronden</button>
+		<button id="cart-continue" class="btn outline btn-block" type="button">Verder winkelen</button>
+	</div>
+</aside>
+
+<div id="checkout-overlay" class="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title" aria-hidden="true" inert>
+	<div class="checkout-panel">
+		<div class="checkout-header">
+			<h2 id="checkout-title">Gegevens invullen</h2>
+			<button id="checkout-close" class="cart-close" type="button" aria-label="Sluiten">✕</button>
+		</div>
+		<div class="checkout-body">
+			<div class="checkout-info-banner">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+				<div>
+					<strong>Hoe werkt het?</strong>
+					<p>Elk product wordt speciaal voor jou geprint. Na je aanvraag neem ik persoonlijk contact op om kleur, details en verzending te bespreken. Betaling volgt pas daarna.</p>
+				</div>
+			</div>
+			<div id="checkout-summary" class="checkout-summary"></div>
+			<form id="checkout-form" class="checkout-form" data-access-key="{{orderKey}}">
+				<div class="form-group">
+					<label for="checkout-name">Naam *</label>
+					<input type="text" id="checkout-name" name="name" required autocomplete="name" placeholder="Je volledige naam">
+				</div>
+				<div class="form-group">
+					<label for="checkout-email">E-mailadres *</label>
+					<input type="email" id="checkout-email" name="email" required autocomplete="email" placeholder="je@email.nl">
+				</div>
+				<div class="form-group">
+					<label for="checkout-phone">Telefoonnummer *</label>
+					<input type="tel" id="checkout-phone" name="phone" required autocomplete="tel" placeholder="06 12345678">
+				</div>
+				<div class="form-group">
+					<label for="checkout-address">Adres *</label>
+					<input type="text" id="checkout-address" name="address" required autocomplete="street-address" placeholder="Straat + huisnummer">
+				</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="checkout-postcode">Postcode *</label>
+						<input type="text" id="checkout-postcode" name="postcode" required autocomplete="postal-code" placeholder="1234 AB">
+					</div>
+					<div class="form-group">
+						<label for="checkout-city">Plaats *</label>
+						<input type="text" id="checkout-city" name="city" required autocomplete="address-level2" placeholder="Woonplaats">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="checkout-notes">Opmerkingen</label>
+					<textarea id="checkout-notes" name="notes" rows="3" placeholder="Gewenste kleur, eigen naam, bijzonderheden, etc."></textarea>
+				</div>
+				<p class="checkout-disclaimer">{{shippingNote}}. Dit is een aanvraag, geen directe betaling.</p>
+				<p id="checkout-msg" class="checkout-msg" role="alert"></p>
+				<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Aanvraag versturen</button>
+			</form>
+			<div id="checkout-success" class="checkout-success" hidden>
+				<div class="success-icon" aria-hidden="true">✓</div>
+				<h3>Bedankt voor je aanvraag!</h3>
+				<p>Je bestelling is ontvangen. Ik neem zo snel mogelijk <strong>persoonlijk contact</strong> met je op om alles door te spreken.</p>
+				<ol class="success-steps">
+					<li class="success-step">
+						<span class="step-number" aria-hidden="true">1</span>
+						<div>
+							<strong>Aanvraag ontvangen</strong>
+							<p>Je bestelling is bij mij binnengekomen</p>
+						</div>
+					</li>
+					<li class="success-step">
+						<span class="step-number" aria-hidden="true">2</span>
+						<div>
+							<strong>Ik neem contact op</strong>
+							<p>We bespreken kleur, details en verzending</p>
+						</div>
+					</li>
+					<li class="success-step">
+						<span class="step-number" aria-hidden="true">3</span>
+						<div>
+							<strong>Betaling &amp; productie</strong>
+							<p>Pas na akkoord wordt er betaald en geprint</p>
+						</div>
+					</li>
+				</ol>
+				<button id="checkout-success-close" class="btn btn-primary btn-block" type="button">Sluiten</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true" inert>
+	<div class="modal-content">
+		<button id="modal-close" class="modal-close" type="button" aria-label="Sluiten">✕</button>
+		<button id="modal-prev" class="modal-nav modal-prev" type="button" aria-label="Vorige foto">‹</button>
+		<h2 id="modal-title"></h2>
+		<img id="modal-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="">
+		<span id="modal-counter" class="modal-counter"></span>
+		<button id="modal-next" class="modal-nav modal-next" type="button" aria-label="Volgende foto">›</button>
+	</div>
+</div>
