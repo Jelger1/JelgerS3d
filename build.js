@@ -238,7 +238,7 @@ async function build() {
 	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ')');
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
-	if (!(site.address && site.address.street && site.address.postcode)) {
+	if (!(site.address && site.address.street && site.address.postcode) && !(site.address && site.address.onRequest)) {
 		console.log('\n⚠ WETTELIJK VERPLICHT: vul je vestigingsadres in bij data/site.json > address (street en postcode).\n  Nu staat alleen "' + ((site.address && site.address.city) || '') + '" in de footer, de privacyverklaring en de algemene voorwaarden.');
 	}
 	if (report.todos.length) console.log('\nNog in te vullen in data/products.json:\n - ' + report.todos.join('\n - '));

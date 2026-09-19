@@ -6,7 +6,11 @@ function legalValues(site) {
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
 		email: h.esc(site.email), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
-		addressHtml: h.addressLine(site, '<br>'), updated: updated
+		// Zonder straat op de site: eerlijk zeggen waar de klant het volledige adres wél krijgt
+		addressHtml: h.addressLine(site, '<br>') + (site.address && site.address.onRequest && !site.address.street
+			? ', ' + h.esc(site.address.country || 'Nederland') + '<br><span class="text-page-note">Ik werk vanuit huis. Het volledige adres staat in je orderbevestiging en op je factuur, en krijg je op verzoek per e-mail.</span>'
+			: ''),
+		updated: updated
 	};
 }
 

@@ -44,6 +44,7 @@
 /* Juridische pagina's: bedrijfsgegevens, datum en de tabel met doelen en bewaartermijnen */
 .text-page-meta{font-size:0.85rem;color:var(--fg-muted);margin-top:-0.25rem}
 .text-page-address{font-style:normal;line-height:1.75;color:var(--fg-muted);padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card);margin:0 0 1rem 0}
+.text-page-note{display:inline-block;margin-top:0.35rem;font-size:0.88rem;font-style:italic}
 .text-page ol{margin:0 0 1rem 0;padding-left:1.35rem;list-style:decimal}
 .table-scroll{overflow-x:auto;margin:0 0 1.25rem 0;border:1px solid var(--border);border-radius:var(--radius)}
 .text-table{width:100%;min-width:640px;border-collapse:collapse;font-size:0.88rem;line-height:1.55}
