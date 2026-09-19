@@ -1,5 +1,5 @@
 # Bouwt de site (npm run build) en publiceert de map dist/ op GitHub Pages.
-# Vereist eenmalig: Settings > Pages > Build and deployment > Source: "GitHub Actions".
+# Draait automatisch bij elke wijziging op main, ook als je een bestand op github.com aanpast.
 name: Site bouwen en publiceren
 
 on:
@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 
@@ -40,5 +41,20 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # Staat Pages in de repo-instellingen nog op "Deploy from a branch", dan publiceert GitHub zelf ook
+      # de hoofdmap van de repo. De laatste publicatie is de zichtbare, dus wacht tot die klaar is:
+      # zo wint deze (de echte site uit dist/) altijd. Staat Pages op "GitHub Actions", dan is er niets om op te wachten.
+      - name: Wacht op de klassieke Pages-build (als die nog aanstaat)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            status=$(gh api "repos/${{ github.repository }}/actions/runs?head_sha=${{ github.sha }}" \
+              --jq '[.workflow_runs[] | select(.name == "pages build and deployment")][0].status // "geen"')
+            echo "Klassieke Pages-build: $status"
+            if [ "$status" = "completed" ]; then break; fi
+            if [ "$status" = "geen" ] && [ "$i" -ge 4 ]; then break; fi
+            sleep 10
+          done
       - id: deployment
         uses: actions/deploy-pages@v4

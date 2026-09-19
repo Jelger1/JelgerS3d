@@ -8,9 +8,11 @@ centrale bron: `data/products.json`. Je hoeft dus nooit meer per product HTML te
 | Wat wil je? | Hoe? |
 | --- | --- |
 | De site lokaal bekijken | Dubbelklik `start.bat`. De site opent op http://localhost:3000 en ververst de build bij elke wijziging. |
-| De site klaarzetten voor upload | Dubbelklik `build.bat`. Upload daarna de **inhoud van de map `dist/`** naar je hosting. |
+| Controleren of alles klopt | Dubbelklik `build.bat`. Die bouwt de site in `dist/` en controleert alle links. |
+| Wijzigingen online zetten | Zet je wijzigingen op GitHub in de branch `main` (push, of pas een bestand aan op github.com). GitHub bouwt en publiceert de site dan automatisch; na ongeveer een minuut staat het op jelgers3d.nl. |
 
-Upload alleen `dist/`. De rest van deze map (originele foto's, data, broncode) hoort niet op de server.
+De map `dist/` hoef je nooit te uploaden: GitHub bouwt hem zelf (zie `.github/workflows/deploy.yml`).
+Ging er iets mis? Kijk op https://github.com/Jelger1/JelgerS3d/actions of de laatste run groen is.
 
 ## Een product toevoegen
 
