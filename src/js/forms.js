@@ -1,5 +1,6 @@
 // Contactformulier op de homepage.
 import { sendForm, track } from './util.js';
+import { validateField } from './validate.js';
 
 export function initForms() {
 	const form = document.getElementById('contact-form');
@@ -7,6 +8,8 @@ export function initForms() {
 	const message = document.getElementById('form-msg');
 	const submitBtn = form.querySelector('button[type="submit"]');
 	const SUBMIT_LABEL = submitBtn.textContent;
+
+	if (form.elements.privacy) form.elements.privacy.addEventListener('change', function () { validateField(form.elements.privacy); });
 
 	function say(text, ok) {
 		message.textContent = text;
@@ -20,8 +23,13 @@ export function initForms() {
 		const text = form.elements.message.value.trim();
 		if (!name || !email || !text) { say('Vul alle velden in.', false); return; }
 		if (!form.elements.email.checkValidity()) { say('Controleer je e-mailadres.', false); return; }
+		if (form.elements.privacy && !validateField(form.elements.privacy)) { form.elements.privacy.focus(); return; }
 
 		const data = new FormData(form);
+		if (form.elements.privacy) {
+			data.delete('privacy');
+			data.set('message', text + '\n\nAkkoord met privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL'));
+		}
 		data.append('subject', 'Contactaanvraag van ' + name + ' via JelgerS3D.nl');
 		data.append('from_name', 'JelgerS3D Website');
 

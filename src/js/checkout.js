@@ -36,7 +36,8 @@ function orderText(values, lines, total) {
 			+ 'Postcode: ' + values.postcode + '\n'
 			+ 'Plaats: ' + values.city + '\n'
 			+ 'Land: ' + values.country + '\n')
-		+ (values.notes ? '\nOpmerkingen: ' + values.notes + '\n' : '');
+		+ (values.notes ? '\nOpmerkingen: ' + values.notes + '\n' : '')
+		+ (values.privacy ? '\nAkkoord met algemene voorwaarden en privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL') + '\n' : '');
 }
 
 export function initCheckout() {

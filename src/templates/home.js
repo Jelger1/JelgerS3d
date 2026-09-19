@@ -52,6 +52,7 @@ function homePage(ctx, template) {
 		'rail:design': rail('design'),
 		'rail:limburg': rail('limburg'),
 		contactKey: h.esc(site.web3forms.contactKey),
+		privacyCheckbox: h.privacyCheckbox(site, '', 'cf-privacy', false),
 		reviews: c.reviewsSection(ctx.reviews, 'Wat klanten zeggen')
 	};
 	Object.keys(site.collections).forEach(function (key) {

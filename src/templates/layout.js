@@ -21,6 +21,9 @@ function layout(page, ctx) {
 	const footer = h.fill(ctx.partials.footer, {
 		root: root,
 		year: String(ctx.year),
+		name: h.esc(site.name),
+		email: h.esc(site.email),
+		addressLine: h.addressLine(site),
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),
 		instagram: h.esc(site.instagram),

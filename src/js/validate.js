@@ -12,7 +12,8 @@ const RULES = {
 		return country && country.value === 'Nederland' && !NL_POSTCODE.test(value) ? 'Een Nederlandse postcode ziet eruit als 1234 AB.' : '';
 	},
 	city: function (value) { return !value ? 'Vul je woonplaats in.' : ''; },
-	text: function (value) { return value.length < 5 ? 'Vertel kort wat je wilt laten maken.' : ''; }
+	text: function (value) { return value.length < 5 ? 'Vertel kort wat je wilt laten maken.' : ''; },
+	privacy: function (value, input) { return input.checked ? '' : 'Vink dit aan om het formulier te kunnen versturen.'; }
 };
 
 function errorElement(input) {
@@ -25,7 +26,7 @@ function errorElement(input) {
 		el.id = input.id + '-error';
 		el.hidden = true;
 		input.setAttribute('aria-describedby', el.id);
-		input.insertAdjacentElement('afterend', el);
+		(input.closest('.form-consent') || input).insertAdjacentElement(input.closest('.form-consent') ? 'beforeend' : 'afterend', el);
 	}
 	return el;
 }
@@ -56,12 +57,13 @@ export function validateForm(form) {
 // Controleer een veld zodra je het verlaat; na een fout ook tijdens het typen, zodat de melding direct verdwijnt
 export function watchForm(form) {
 	form.addEventListener('focusout', function (event) {
-		if (event.target.name && RULES[event.target.name] && event.target.value) validateField(event.target);
+		if (event.target.name && RULES[event.target.name] && event.target.value && event.target.type !== 'checkbox') validateField(event.target);
 	});
 	form.addEventListener('input', function (event) {
 		if (event.target.getAttribute('aria-invalid') === 'true') validateField(event.target);
 	});
 	form.addEventListener('change', function (event) {
+		if (event.target.type === 'checkbox' && RULES[event.target.name]) validateField(event.target);
 		// Ander land gekozen: de postcode kan nu wel of niet meer kloppen
 		if (event.target.name === 'country' && form.elements.postcode.value) validateField(form.elements.postcode);
 	});

@@ -28,6 +28,7 @@ export function initRequest() {
 				+ 'Gewenste afmeting: ' + (values.size || '-') + '\nAantal: ' + (values.quantity || '1') + '\n\n'
 				+ 'Omschrijving:\n' + values.text + '\n'
 			: values.email + ' wil een bericht zodra de ' + product + ' weer beschikbaar is.';
+		const consent = values.privacy ? '\n\nAkkoord met privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL') : '';
 
 		const data = new FormData();
 		data.append('access_key', form.dataset.accessKey);
@@ -35,7 +36,7 @@ export function initRequest() {
 		data.append('from_name', 'JelgerS3D Website');
 		if (values.name) data.append('name', values.name);
 		data.append('email', values.email);
-		data.append('message', text);
+		data.append('message', text + consent);
 		if (form.elements.botcheck.checked) data.append('botcheck', 'true');
 
 		submitBtn.disabled = true;

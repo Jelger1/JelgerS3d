@@ -256,5 +256,17 @@
 		"ga4": "",
 		"googleAds": "",
 		"adsConversionLabel": ""
+	},
+	"address": {
+		"street": "",
+		"postcode": "",
+		"city": "Kerkrade",
+		"country": "Nederland"
+	},
+	"legal": {
+		"updated": "2026-09-19"
+	},
+	"forms": {
+		"privacyCheckbox": true
 	}
 }

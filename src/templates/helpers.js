@@ -82,6 +82,34 @@ function cropSrcset(manifest, file, root) {
 	return variantsOf(manifest[file], true).map(function (v) { return (root || '') + 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', ');
 }
 
+// Vestigingsadres uit site.json > address. Zolang straat en postcode leeg zijn blijft het bij de plaats
+// (de build waarschuwt dan: een volledig adres is wettelijk verplicht).
+function addressLine(site, separator) {
+	const a = site.address || {};
+	const parts = [];
+	if (a.street) parts.push(esc(a.street));
+	parts.push(esc([a.postcode, a.city].filter(Boolean).join(' ')));
+	return parts.join(separator || ', ');
+}
+
+// Verplichte, nooit vooraf aangevinkte checkbox voor formulieren. withTerms: ook akkoord op de algemene voorwaarden
+// (bestelformulier). Uit te zetten met site.json > forms.privacyCheckbox = false; de tekst wordt dan een mededeling.
+function privacyCheckbox(site, root, id, withTerms) {
+	const privacy = '<a href="' + (root || '') + 'privacy.html" target="_blank" rel="noopener">privacyverklaring</a>';
+	const terms = '<a href="' + (root || '') + 'voorwaarden.html" target="_blank" rel="noopener">algemene voorwaarden</a>';
+	if (!(site.forms && site.forms.privacyCheckbox)) {
+		return '<p class="form-privacy-note">' + (withTerms ? 'Op je bestelling zijn de ' + terms + ' van toepassing. ' : '') + 'Hoe ik met je gegevens omga lees je in de ' + privacy + '.</p>';
+	}
+	const text = withTerms
+		? 'Ik ga akkoord met de ' + terms + ' en met de verwerking van mijn gegevens zoals beschreven in de ' + privacy + '.'
+		: 'Ik ga akkoord met de verwerking van mijn gegevens zoals beschreven in de ' + privacy + '.';
+	return '<div class="form-consent">'
+		+ '<label class="form-consent-label" for="' + id + '"><input type="checkbox" id="' + id + '" name="privacy" value="akkoord" required aria-describedby="' + id + '-error">'
+		+ '<span>' + text + ' <span aria-hidden="true">*</span></span></label>'
+		+ '<p class="field-error" id="' + id + '-error" hidden></p>'
+		+ '</div>';
+}
+
 function jsonLd(data) {
 	// "</script>" in data mag de scripttag nooit kunnen afsluiten
 	return '<script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '</script>';
@@ -97,5 +125,6 @@ function fill(template, values) {
 
 module.exports = {
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl,
-	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill
+	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
+	addressLine: addressLine, privacyCheckbox: privacyCheckbox
 };

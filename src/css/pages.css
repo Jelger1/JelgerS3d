@@ -40,3 +40,55 @@
 .cookie-banner-actions{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem}
 .cookie-banner-actions .btn{padding:0.6rem 1rem;font-size:0.9rem;text-align:center}
 @media (max-width:600px){.cookie-banner{left:0.75rem;right:0.75rem;bottom:0.75rem;max-width:none}}
+
+/* Juridische pagina's: bedrijfsgegevens, datum en de tabel met doelen en bewaartermijnen */
+.text-page-meta{font-size:0.85rem;color:var(--fg-muted);margin-top:-0.25rem}
+.text-page-address{font-style:normal;line-height:1.75;color:var(--fg-muted);padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card);margin:0 0 1rem 0}
+.text-page ol{margin:0 0 1rem 0;padding-left:1.35rem;list-style:decimal}
+.table-scroll{overflow-x:auto;margin:0 0 1.25rem 0;border:1px solid var(--border);border-radius:var(--radius)}
+.text-table{width:100%;min-width:640px;border-collapse:collapse;font-size:0.88rem;line-height:1.55}
+.text-table th,.text-table td{padding:0.8rem 0.9rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border);color:var(--fg-muted)}
+.text-table thead th{background:var(--dark-card);color:var(--soft);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
+.text-table tbody th{color:var(--soft);font-weight:600;width:24%}
+.text-table tbody tr:last-child th,.text-table tbody tr:last-child td{border-bottom:0}
+
+/* Akkoord-checkbox in formulieren: nooit vooraf aangevinkt */
+.form-consent{margin:0.25rem 0 1rem 0}
+/* Dubbele klasse: moet winnen van de algemene formulierstijl (.checkout-form label / input) */
+.form-consent .form-consent-label{display:flex;align-items:flex-start;gap:0.7rem;cursor:pointer;margin:0;font-size:0.88rem;line-height:1.5;color:var(--fg-muted);font-weight:400;letter-spacing:0}
+.form-consent .form-consent-label input[type="checkbox"]{appearance:auto;-webkit-appearance:auto;flex:0 0 20px;width:20px;height:20px;margin:0.1rem 0 0 0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;accent-color:var(--brand);cursor:pointer}
+.form-consent .form-consent-label input[type="checkbox"]:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.form-consent-label a,.form-privacy-note a{color:var(--brand)}
+.form-consent .field-error{margin-left:calc(20px + 0.7rem)}
+.form-privacy-note{font-size:0.85rem;color:var(--fg-muted);line-height:1.5;margin:0.25rem 0 1rem 0}
+
+/* Footer: verplichte bedrijfsgegevens */
+.footer-business{font-style:normal;font-size:0.88rem;line-height:1.8;color:var(--fg-muted);text-align:center}
+.footer-business strong{color:var(--soft)}
+.footer-business a{color:var(--fg-muted);text-decoration:underline;text-underline-offset:3px}
+.footer-business a:hover{color:var(--brand)}
+.foot-nav{flex-wrap:wrap;justify-content:center}
+
+/* Cookiemelding: derde knop en het voorkeurenvenster */
+.cookie-banner-prefs{display:block;width:100%;margin-top:0.6rem;padding:0.4rem;background:none;border:0;font:inherit;font-size:0.88rem;color:var(--soft);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.cookie-banner-prefs:hover{color:var(--brand)}
+.cookie-dialog{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(0,0,0,0.7);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity 0.25s ease, visibility 0s 0.25s}
+.cookie-dialog[aria-hidden="false"]{opacity:1;visibility:visible;transition:opacity 0.25s ease, visibility 0s}
+.cookie-dialog-panel{width:100%;max-width:520px;max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);display:flex;flex-direction:column;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden}
+.cookie-dialog-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.25rem;border-bottom:1px solid var(--border)}
+.cookie-dialog-head h2{margin:0;font-size:1.2rem;display:block}
+.cookie-dialog-body{padding:1.25rem;overflow-y:auto}
+.cookie-dialog-body > p{margin:0 0 1rem 0;font-size:0.92rem;line-height:1.6;color:var(--fg-muted)}
+.cookie-dialog-body a{color:var(--brand)}
+.cookie-option{display:flex;align-items:flex-start;justify-content:space-between;gap:1.25rem;padding:1rem 0;border-top:1px solid var(--border);cursor:pointer}
+.cookie-option strong{display:block;color:var(--soft);font-size:0.98rem;margin-bottom:0.2rem}
+.cookie-option small{display:block;color:var(--fg-muted);font-size:0.85rem;line-height:1.5}
+.cookie-dialog-foot{display:flex;flex-wrap:wrap;gap:0.6rem;padding:1rem 1.25rem;border-top:1px solid var(--border)}
+.cookie-dialog-foot .btn{flex:1 1 140px;padding:0.65rem 1rem;font-size:0.9rem;text-align:center}
+/* Schakelaar */
+.switch{appearance:none;-webkit-appearance:none;flex-shrink:0;position:relative;width:46px;height:26px;margin:0.15rem 0 0 0;border-radius:var(--radius-full);background:var(--dark-secondary);border:1px solid var(--border);cursor:pointer;transition:background-color 0.2s ease, border-color 0.2s ease}
+.switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--fg-muted);transition:transform 0.2s ease, background-color 0.2s ease}
+.switch:checked{background:var(--brand);border-color:var(--brand)}
+.switch:checked::after{transform:translateX(20px);background:var(--dark)}
+.switch:disabled{opacity:0.6;cursor:not-allowed}
+.switch:focus-visible{outline:2px solid var(--brand);outline-offset:2px}

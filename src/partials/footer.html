@@ -3,11 +3,14 @@
 		<ul class="footer-tagline">
 			{{usps}}
 		</ul>
-		<p class="footer-copyright">© {{year}} JelgerS3D · 3D-design met karakter · Handgemaakt in Limburg</p>
-		<p class="footer-legal">KVK: {{kvk}} · BTW: {{btw}}</p>
 		<nav class="foot-categories" aria-label="Categorieën">
 			{{categoryLinks}}
 		</nav>
+		<!-- Wettelijk verplichte bedrijfsgegevens (informatieplicht webwinkels, art. 3:15d BW) -->
+		<address class="footer-business">
+			<strong>{{name}}</strong> · {{addressLine}}<br>
+			KvK {{kvk}} · Btw {{btw}} · <a href="mailto:{{email}}">{{email}}</a>
+		</address>
 		<nav class="foot-nav" aria-label="Footermenu">
 			<a href="{{root}}index.html">Home</a>
 			<span class="separator" aria-hidden="true">·</span>
@@ -15,8 +18,12 @@
 			<span class="separator" aria-hidden="true">·</span>
 			<a href="{{instagram}}" target="_blank" rel="noopener noreferrer">Instagram</a>
 			<span class="separator" aria-hidden="true">·</span>
-			<a href="{{root}}privacy.html">Privacy</a>
-			<button type="button" class="foot-link-button" data-cookie-settings hidden>Cookie-instellingen</button>
+			<a href="{{root}}privacy.html">Privacyverklaring</a>
+			<span class="separator" aria-hidden="true">·</span>
+			<a href="{{root}}voorwaarden.html">Algemene voorwaarden</a>
+			<span class="separator" aria-hidden="true">·</span>
+			<button type="button" class="foot-link-button" data-cookie-settings>Cookie-instellingen</button>
 		</nav>
+		<p class="footer-copyright">© {{year}} {{name}} · 3D-design met karakter · Handgemaakt in Limburg</p>
 	</div>
 </footer>

@@ -1,37 +1,95 @@
-<!-- Privacyverklaring. Gewone HTML: pas de tekst gerust aan. {{...}} wordt door build.js ingevuld uit data/site.json. -->
+<!-- Privacyverklaring. Gewone HTML: pas de tekst gerust aan. {{...}} wordt door build.js ingevuld uit data/site.json
+     (bedrijfsnaam, adres, KvK, btw, e-mail). Vul je adres in bij data/site.json > address. -->
 <h1>Privacyverklaring</h1>
-<p class="text-page-intro">{{name}} is de eenmanszaak van {{owner}} in {{city}}. Ik ga zorgvuldig om met je gegevens en gebruik ze alleen waarvoor je ze met mij deelt. Hieronder lees je precies wat dat betekent.</p>
+<p class="text-page-intro">{{name}} gaat zorgvuldig om met je persoonsgegevens en houdt zich aan de Algemene Verordening Gegevensbescherming (AVG). In deze verklaring lees je welke gegevens ik verwerk, waarom, hoe lang ik ze bewaar en wat je rechten zijn.</p>
+<p class="text-page-meta">Laatst bijgewerkt: {{updated}}</p>
 
-<h2>Welke gegevens ik ontvang</h2>
+<h2>1. Wie is verantwoordelijk?</h2>
+<p>Verwerkingsverantwoordelijke is:</p>
+<address class="text-page-address">
+	<strong>{{name}}</strong> (eenmanszaak van {{owner}})<br>
+	{{addressHtml}}<br>
+	KvK-nummer: {{kvk}} · Btw-nummer: {{btw}}<br>
+	E-mail: <a href="mailto:{{email}}">{{email}}</a>
+</address>
+<p>Voor alle vragen over privacy of om een van je rechten uit te oefenen kun je mailen naar bovenstaand adres.</p>
+
+<h2>2. Welke gegevens verwerk ik, waarom en hoe lang?</h2>
+<p>Ik verwerk alleen gegevens die je zelf aan mij geeft, en alleen voor het doel waarvoor je ze geeft.</p>
+<div class="table-scroll">
+<table class="text-table">
+	<thead>
+		<tr><th scope="col">Doel</th><th scope="col">Gegevens</th><th scope="col">Grondslag (AVG)</th><th scope="col">Bewaartermijn</th></tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">Je bestelling afhandelen, maken en leveren</th>
+			<td>Naam, e-mailadres, telefoonnummer, je bestelling en opmerkingen. Bij verzenden ook je adres.</td>
+			<td>Uitvoering van de overeenkomst (art. 6 lid 1 onder b)</td>
+			<td>Tot twee jaar nadat je bestelling is afgerond, in verband met vragen en garantie</td>
+		</tr>
+		<tr>
+			<th scope="row">Een aanvraag voor maatwerk of een offerte behandelen</th>
+			<td>Naam, e-mailadres, je omschrijving en de bestanden die je aanlevert (zoals een logo)</td>
+			<td>Stappen vóór het sluiten van een overeenkomst, op jouw verzoek (art. 6 lid 1 onder b)</td>
+			<td>Tot één jaar na het laatste contact als er geen opdracht uit volgt</td>
+		</tr>
+		<tr>
+			<th scope="row">Je vraag of bericht beantwoorden</th>
+			<td>Naam, e-mailadres en wat je zelf schrijft</td>
+			<td>Gerechtvaardigd belang: het kunnen beantwoorden van vragen (art. 6 lid 1 onder f)</td>
+			<td>Tot één jaar na afhandeling</td>
+		</tr>
+		<tr>
+			<th scope="row">Je laten weten dat een product weer beschikbaar is</th>
+			<td>E-mailadres</td>
+			<td>Jouw toestemming (art. 6 lid 1 onder a), die je altijd kunt intrekken</td>
+			<td>Tot het bericht is verstuurd of tot je je toestemming intrekt</td>
+		</tr>
+		<tr>
+			<th scope="row">Mijn administratie voeren</th>
+			<td>Factuurgegevens: naam, adres, bestelling en bedrag</td>
+			<td>Wettelijke verplichting (art. 6 lid 1 onder c), de fiscale bewaarplicht</td>
+			<td>Zeven jaar</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<p>Ik verwerk geen bijzondere persoonsgegevens, neem geen geautomatiseerde besluiten en maak geen profielen. Ik verkoop of verhuur je gegevens nooit en stuur je geen nieuwsbrieven of reclame zonder dat je daar zelf om vraagt. De website is niet gericht op kinderen jonger dan 16 jaar.</p>
+
+<h2>3. Met wie deel ik gegevens?</h2>
+<p>Alleen met partijen die nodig zijn om de website te laten werken of je bestelling te leveren:</p>
 <ul>
-	<li><strong>Bij een bestelling:</strong> je naam, e-mailadres, telefoonnummer, je bestelling en eventuele opmerkingen. Laat je je bestelling verzenden, dan ook je adres.</li>
-	<li><strong>Bij een aanvraag of een bericht:</strong> je naam, e-mailadres en wat je zelf in het formulier schrijft.</li>
+	<li><strong>Web3Forms</strong>: de formulierdienst die verstuurde formulieren als e-mail bij mij aflevert.</li>
+	<li><strong>Mijn e-mailprovider</strong> (Google): bestellingen en berichten komen in mijn mailbox terecht.</li>
+	<li><strong>GitHub Pages</strong>: de hosting van de website. Zoals elke webserver verwerkt die bij een bezoek technische gegevens, zoals je IP-adres.</li>
+	<li><strong>De vervoerder</strong>: als je je bestelling laat verzenden, krijgt die je naam en adres voor de bezorging.</li>
+	<li><strong>De Belastingdienst of mijn boekhouder</strong>, als de wet dat vraagt.</li>
 </ul>
+<p>Sommige van deze dienstverleners verwerken gegevens buiten de Europese Economische Ruimte, onder meer in de Verenigde Staten. Dat gebeurt alleen met de waarborgen die de AVG voorschrijft, zoals het EU-VS Data Privacy Framework of de modelcontracten van de Europese Commissie.</p>
 
-<h2>Waarvoor ik ze gebruik</h2>
+<h2 id="cookies">4. Cookies en opslag in je browser</h2>
 <ul>
-	<li>Om contact met je op te nemen over je bestelling of vraag.</li>
-	<li>Om je bestelling te maken en te verzenden of voor je klaar te leggen.</li>
-	<li>Om te voldoen aan mijn wettelijke administratieplicht.</li>
-</ul>
-<p>Ik verkoop of verhuur je gegevens nooit aan anderen en ik stuur je geen nieuwsbrieven of reclame zonder dat je daar zelf om vraagt.</p>
-
-<h2>Hoe het technisch werkt</h2>
-<ul>
-	<li><strong>Formulieren:</strong> wat je invult wordt via de formulierdienst Web3Forms naar mijn e-mail gestuurd. Daarna staat het in mijn mailbox.</li>
-	<li><strong>Winkelwagen:</strong> de inhoud van je winkelwagen wordt alleen in je eigen browser bewaard. Die gegevens gaan nergens naartoe tot je zelf een bestelling verstuurt.</li>
-	<li><strong>Hosting:</strong> de website staat bij GitHub Pages. Zoals elke webserver verwerkt die bij een bezoek technische gegevens zoals je IP-adres.</li>
+	<li><strong>Noodzakelijk:</strong> de inhoud van je winkelwagen en je cookiekeuze worden in je eigen browser bewaard (localStorage). Die gegevens blijven op jouw apparaat tot je zelf een bestelling verstuurt. Hiervoor is geen toestemming nodig.</li>
 	<li><strong>Lettertypen en afbeeldingen</strong> staan op de website zelf en worden dus niet bij andere partijen opgehaald.</li>
 </ul>
-
-<h2>Cookies en statistieken</h2>
 {{cookieText}}
 
-<h2>Hoe lang ik gegevens bewaar</h2>
-<p>Niet langer dan nodig is om je vraag of bestelling af te handelen. Gegevens die bij een factuur horen bewaar ik zeven jaar, omdat de Belastingdienst dat verplicht.</p>
+<h2>5. Beveiliging</h2>
+<p>Ik neem passende maatregelen om je gegevens te beschermen. De website gebruikt een beveiligde verbinding (https) en alleen ik heb toegang tot de mailbox waarin bestellingen en berichten binnenkomen. Mocht er ondanks alles iets misgaan met je gegevens, dan meld ik dat volgens de regels van de AVG.</p>
 
-<h2>Jouw rechten</h2>
-<p>Je mag altijd vragen welke gegevens ik van je heb, en ze laten aanpassen of verwijderen. Stuur daarvoor een mail naar <a href="mailto:{{email}}">{{email}}</a>. Ben je het niet eens met hoe ik met je gegevens omga, dan hoor ik dat graag eerst zelf. Je kunt ook een klacht indienen bij de Autoriteit Persoonsgegevens.</p>
+<h2>6. Jouw rechten</h2>
+<p>Je hebt het recht om:</p>
+<ul>
+	<li>je gegevens <strong>in te zien</strong>;</li>
+	<li>onjuiste gegevens te laten <strong>corrigeren</strong> (rectificatie);</li>
+	<li>je gegevens te laten <strong>verwijderen</strong>;</li>
+	<li>de verwerking te laten <strong>beperken</strong> of er <strong>bezwaar</strong> tegen te maken;</li>
+	<li>je gegevens te <strong>ontvangen</strong> in een gangbaar formaat (dataportabiliteit);</li>
+	<li>een gegeven <strong>toestemming in te trekken</strong>. Voor cookies doe je dat via "Cookie-instellingen" onderaan elke pagina.</li>
+</ul>
+<p>Stuur je verzoek naar <a href="mailto:{{email}}">{{email}}</a>. Je krijgt binnen een maand antwoord. Om zeker te weten dat het verzoek van jou komt, kan ik je vragen je te identificeren. Gegevens die ik wettelijk moet bewaren (zoals facturen) kan ik niet eerder verwijderen.</p>
+<p>Ben je het niet eens met hoe ik met je gegevens omga? Dan hoor ik dat graag eerst zelf. Je hebt ook altijd het recht om een klacht in te dienen bij de <a href="https://www.autoriteitpersoonsgegevens.nl" rel="noopener">Autoriteit Persoonsgegevens</a>.</p>
 
-<h2>Contact</h2>
-<p>{{name}} · {{owner}} · {{city}}<br>KVK {{kvk}} · <a href="mailto:{{email}}">{{email}}</a></p>
+<h2>7. Wijzigingen</h2>
+<p>Als de website of de wet verandert, pas ik deze verklaring aan. De datum bovenaan laat zien wanneer dat voor het laatst is gebeurd.</p>

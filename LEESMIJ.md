@@ -100,6 +100,24 @@ productpagina's, de winkelwagen, het afrekenen en in de bestelmail.
 De build maakt ook `feed.xml` (productfeed voor Google Merchant Center), `sitemap.xml`, `robots.txt`, `404.html`
 en `privacy.html` (tekst in `src/pages/privacy.html`).
 
+### Juridisch: adres, privacy, voorwaarden en cookies
+
+- **Vestigingsadres (wettelijk verplicht):** vul in `data/site.json` onder `address` je `street` en `postcode` in.
+  Het adres komt dan vanzelf in de footer, de privacyverklaring en de algemene voorwaarden. Zolang het leeg is
+  toont de site alleen de plaats en waarschuwt de build je bij elke keer bouwen.
+- **Privacyverklaring en algemene voorwaarden:** de teksten staan in `src/pages/privacy.html` en
+  `src/pages/voorwaarden.html`. Bedrijfsnaam, adres, KvK, btw en e-mail worden ingevuld uit `site.json`.
+  Pas je de tekst aan, zet dan ook `legal.updated` in `site.json` op de datum van vandaag.
+  Het zijn zorgvuldige basisteksten, geen juridisch advies.
+- **Checkbox in formulieren:** alle formulieren hebben een verplichte, nooit vooraf aangevinkte checkbox; het
+  akkoord (met datum en tijd) staat in de mail die je ontvangt. Bij het bestelformulier geldt het akkoord ook voor de
+  algemene voorwaarden. Wil je de checkbox vervangen door een gewone mededeling, zet dan
+  `forms.privacyCheckbox` in `site.json` op `false`.
+- **Cookies:** zonder Google-ID's plaatst de site geen enkele tracking- of marketingcookie en verschijnt er dus geen
+  cookiemelding (er is dan niets om toestemming voor te vragen). "Cookie-instellingen" in de footer laat altijd zien
+  wat er gebruikt wordt. Zodra je ID's invult (zie hieronder) verschijnt de melding met "Weigeren",
+  "Alles accepteren" en "Voorkeuren beheren".
+
 ### Bestellen en meten
 
 - `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.
@@ -108,9 +126,10 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
   Er wordt niets gemeten of verstuurd zolang `analytics` in `data/site.json` leeg is.
 - **Google Analytics of Google Ads aanzetten:** vul in `data/site.json` onder `analytics` je ID's in, bijvoorbeeld
   `"ga4": "G-XXXXXXX"`, `"googleAds": "AW-XXXXXXX"` en het conversielabel uit Google Ads bij `adsConversionLabel`.
-  Vanaf dat moment verschijnt er vanzelf een cookiemelding. Google wordt pas geladen nadat een bezoeker op
-  "Accepteren" klikt; weigeren is net zo makkelijk. Een verstuurde bestelling telt dan als conversie in Google Ads.
-  De privacyverklaring past zich automatisch aan.
+  Vanaf dat moment verschijnt er vanzelf een cookiemelding. Er wordt niets van Google geladen voordat een bezoeker
+  toestemming geeft; weigeren is net zo makkelijk als accepteren, en via "Voorkeuren beheren" kiest de bezoeker per
+  categorie (Statistieken = Analytics, Marketing = Google Ads). De keuze wordt 12 maanden onthouden. Een verstuurde
+  bestelling telt dan als conversie in Google Ads. De privacyverklaring past zich automatisch aan.
 - In de winkelwagen staan onder "Maak het compleet" kleine extra's (tot €15) die bij de inhoud passen. Welke producten
   bij elkaar horen bepaal je met `related` in `products.json`.
 

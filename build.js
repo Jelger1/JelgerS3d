@@ -11,7 +11,7 @@ const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
-const { privacyPage, notFoundPage } = require('./src/templates/pages');
+const { privacyPage, termsPage, notFoundPage } = require('./src/templates/pages');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
@@ -221,7 +221,7 @@ async function build() {
 
 	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx)]
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), privacyPage(ctx, read('src/pages/privacy.html')), notFoundPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
 
@@ -238,6 +238,9 @@ async function build() {
 	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ')');
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
+	if (!(site.address && site.address.street && site.address.postcode)) {
+		console.log('\n⚠ WETTELIJK VERPLICHT: vul je vestigingsadres in bij data/site.json > address (street en postcode).\n  Nu staat alleen "' + ((site.address && site.address.city) || '') + '" in de footer, de privacyverklaring en de algemene voorwaarden.');
+	}
 	if (report.todos.length) console.log('\nNog in te vullen in data/products.json:\n - ' + report.todos.join('\n - '));
 	console.log('\nKlaar in ' + ((Date.now() - started) / 1000).toFixed(1) + 's. Zet je wijzigingen op GitHub (branch main) om ze live te zetten.\n');
 }

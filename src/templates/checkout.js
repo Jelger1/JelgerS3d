@@ -81,6 +81,7 @@ function checkoutPage(ctx) {
 		+ '\t\t\t</fieldset>\n'
 		// Onzichtbaar veld tegen spamrobots (Web3Forms negeert inzendingen waarbij dit is aangevinkt)
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+		+ '\t\t\t' + h.privacyCheckbox(site, '', 'co-privacy', true) + '\n'
 		+ '\t\t\t<p id="checkout-msg" class="checkout-msg" role="alert"></p>\n'
 		+ '\t\t\t<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Aanvraag versturen</button>\n'
 		+ '\t\t\t<p class="checkout-disclaimer">' + h.esc(site.shipping.note) + '. Dit is een aanvraag: je betaalt pas na bevestiging.</p>\n'
