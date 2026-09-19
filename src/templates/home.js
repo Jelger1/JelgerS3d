@@ -84,7 +84,9 @@ function homePage(ctx, template) {
 			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
 			email: site.email,
 			founder: { '@type': 'Person', name: site.owner, jobTitle: '3D Designer & Maker' },
-			address: { '@type': 'PostalAddress', addressLocality: site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
+			address: Object.assign({ '@type': 'PostalAddress', addressLocality: (site.address && site.address.city) || site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
+				site.address && site.address.street ? { streetAddress: site.address.street } : {},
+				site.address && site.address.postcode ? { postalCode: site.address.postcode } : {}),
 			areaServed: { '@type': 'Country', name: 'Nederland' },
 			vatID: site.btw,
 			sameAs: [site.instagram]

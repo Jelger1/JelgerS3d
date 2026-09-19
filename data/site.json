@@ -258,11 +258,10 @@
 		"adsConversionLabel": ""
 	},
 	"address": {
-		"street": "",
+		"street": "Abtenlaan 42",
 		"postcode": "",
 		"city": "Kerkrade",
-		"country": "Nederland",
-		"onRequest": true
+		"country": "Nederland"
 	},
 	"legal": {
 		"updated": "2026-09-19"

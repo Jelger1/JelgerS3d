@@ -102,12 +102,11 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
 
 ### Juridisch: adres, privacy, voorwaarden en cookies
 
-- **Vestigingsadres:** je hebt ervoor gekozen je (huis)adres niet op de website te zetten. De site toont daarom
-  alleen "Kerkrade" en zegt in de privacyverklaring en de voorwaarden dat het volledige adres in de orderbevestiging
-  en op de factuur staat (`address.onRequest: true` in `data/site.json`). **Zet je adres dus altijd in de bevestiging
-  die je een klant stuurt vóórdat die akkoord geeft.** Formeel hoort het vestigingsadres ook op de website zelf
-  (art. 3:15d BW). Neem je later een zakelijk adres, vul dan `street` en `postcode` in: het verschijnt dan vanzelf
-  in de footer en in beide documenten.
+- **Vestigingsadres (wettelijk verplicht, art. 3:15d BW):** staat in `data/site.json` onder `address` en komt vanzelf
+  in de footer, de privacyverklaring, de algemene voorwaarden en het bedrijfsschema voor Google. Verhuis je of neem je
+  een zakelijk adres, dan pas je het alleen daar aan. Wil je het adres ooit níet op de site tonen, laat dan `street` leeg
+  en zet `"onRequest": true`: de site toont dan alleen de plaats en zegt dat het volledige adres in de orderbevestiging staat
+  (je voldoet dan formeel niet aan de vermeldingsplicht op de website).
 - **Privacyverklaring en algemene voorwaarden:** de teksten staan in `src/pages/privacy.html` en
   `src/pages/voorwaarden.html`. Bedrijfsnaam, adres, KvK, btw en e-mail worden ingevuld uit `site.json`.
   Pas je de tekst aan, zet dan ook `legal.updated` in `site.json` op de datum van vandaag.

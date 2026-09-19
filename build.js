@@ -238,8 +238,11 @@ async function build() {
 	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ')');
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
-	if (!(site.address && site.address.street && site.address.postcode) && !(site.address && site.address.onRequest)) {
-		console.log('\n⚠ WETTELIJK VERPLICHT: vul je vestigingsadres in bij data/site.json > address (street en postcode).\n  Nu staat alleen "' + ((site.address && site.address.city) || '') + '" in de footer, de privacyverklaring en de algemene voorwaarden.');
+	const address = site.address || {};
+	if (!address.street && !address.onRequest) {
+		console.log('\n⚠ WETTELIJK VERPLICHT: vul je vestigingsadres in bij data/site.json > address (street en postcode).\n  Nu staat alleen "' + (address.city || '') + '" in de footer, de privacyverklaring en de algemene voorwaarden.');
+	} else if (address.street && !address.postcode) {
+		console.log('\nLet op: bij data/site.json > address ontbreekt je postcode nog. Het adres staat nu als "' + address.street + ', ' + (address.city || '') + '" op de site.');
 	}
 	if (report.todos.length) console.log('\nNog in te vullen in data/products.json:\n - ' + report.todos.join('\n - '));
 	console.log('\nKlaar in ' + ((Date.now() - started) / 1000).toFixed(1) + 's. Zet je wijzigingen op GitHub (branch main) om ze live te zetten.\n');
