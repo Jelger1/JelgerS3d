@@ -1,0 +1,45 @@
+{
+	"url": "https://www.jelgers3d.nl",
+	"name": "JelgerS3D",
+	"owner": "Jelger Sieler",
+	"slogan": "3D-design met karakter",
+	"email": "sielerjelger@gmail.com",
+	"instagram": "https://www.instagram.com/jelgers3d/",
+	"kvk": "99394030",
+	"btw": "NL005382244B28",
+	"region": "Limburg",
+	"defaultOgImage": "Kami-Vase-3kleuren2.jpg",
+	"homeImages": {
+		"hero": { "file": "Printer-H2C.jpg", "alt": "De Bambu Lab H2C 3D-printer met vier kleuren filament, waarop alle JelgerS3D-ontwerpen worden geprint" },
+		"about": { "file": "Jelger-Pic.jpg", "alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D" }
+	},
+	"web3forms": {
+		"orderKey": "a36505b1-9726-4de3-927c-d7984947f0bb",
+		"contactKey": "76745e70-8371-4e48-be49-d5c52540cf06"
+	},
+	"shipping": {
+		"note": "Prijzen zijn exclusief verzendkosten"
+	},
+	"types": {
+		"vaas": { "label": "Vazen", "singular": "Vaas" },
+		"lamp": { "label": "Lampen", "singular": "Lamp" },
+		"beeld": { "label": "Beelden & modellen", "singular": "Beeld" },
+		"sleutelhanger": { "label": "Sleutelhangers", "singular": "Sleutelhanger" },
+		"lightbox": { "label": "Lightboxen", "singular": "Lightbox" }
+	},
+	"collections": {
+		"design": { "label": "Design Collectie", "intro": "Sfeermakers voor je interieur, elk stuk uniek en helemaal van jou" },
+		"limburg": { "label": "Limburgse Trots", "intro": "Moderne iconen met een Limburgs hart, perfect als cadeau of eyecatcher" },
+		"maatwerk": { "label": "Op maat", "intro": "Jouw idee, logo of naam, exclusief voor jou gemaakt" }
+	},
+	"usps": [
+		"Persoonlijk advies bij elk ontwerp",
+		"Zorgvuldige verpakking & snelle levering",
+		"Kwaliteitsgarantie op alle producten"
+	],
+	"productUsps": [
+		"Speciaal voor jou geprint in Limburg",
+		"Persoonlijk contact over kleur en details",
+		"Je betaalt pas na bevestiging"
+	]
+}
