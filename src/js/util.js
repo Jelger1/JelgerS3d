@@ -18,3 +18,18 @@ export function sendForm(formData) {
 		.then(function (response) { return response.json(); })
 		.then(function (data) { return Boolean(data && data.success); });
 }
+
+// Zet een meetmoment klaar in de dataLayer (GA4-formaat). Er wordt niets verstuurd zolang er geen
+// Google Tag op de site staat; zodra die er is, pakt hij deze events vanzelf op.
+export function track(event, params) {
+	window.dataLayer = window.dataLayer || [];
+	if (params && params.ecommerce) window.dataLayer.push({ ecommerce: null });
+	window.dataLayer.push(Object.assign({ event: event }, params || {}));
+}
+
+// Winkelwagenregels -> GA4 "items"
+export function trackItems(lines) {
+	return lines.map(function (line) {
+		return { item_id: line.id, item_name: line.name, item_variant: line.label || undefined, price: line.price, quantity: line.qty };
+	});
+}

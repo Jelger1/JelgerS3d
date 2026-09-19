@@ -1,0 +1,73 @@
+/* Webshop: filters, sorteren, actieve filters en de suggesties in de winkelwagen. */
+
+/* Filterbalk (desktop): chips per groep. Het zijn echte checkboxes, dus toetsenbord en screenreader werken vanzelf. */
+.shop-filters{margin:0 0 1.25rem 0;padding:1.25rem 1.5rem;background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg)}
+.shop-filters-head,.shop-filters-foot,.shop-filters-backdrop,.shop-filter-toggle{display:none}
+.shop-filters-body{display:flex;flex-wrap:wrap;gap:1.25rem 2.5rem}
+.filter-group{min-width:0}
+.filter-group legend{font-size:0.7rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin-bottom:0.6rem;padding:0}
+.chips{display:flex;flex-wrap:wrap;gap:0.5rem}
+.chip{position:relative;display:inline-flex}
+.chip input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+.chip span{display:inline-flex;align-items:center;gap:0.45rem;padding:0.5rem 0.95rem;border:1px solid var(--border);border-radius:var(--radius-full);background:var(--dark-secondary);color:var(--soft);font-size:0.88rem;cursor:pointer;transition:background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;user-select:none}
+.chip small{font-size:0.72rem;color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.chip:hover span{border-color:var(--brand)}
+.chip input:checked + span{background:var(--brand);border-color:var(--brand);color:var(--dark);font-weight:600}
+.chip input:checked + span small{color:rgba(18,21,28,0.7)}
+.chip input:focus-visible + span{outline:2px solid var(--brand);outline-offset:2px}
+.chip.is-empty span{opacity:0.35;cursor:not-allowed}
+.chip.is-empty:hover span{border-color:var(--border)}
+
+.shop-toolbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.shop-count{margin:0;color:var(--fg-muted);font-size:0.95rem}
+.shop-count strong{color:var(--soft)}
+.shop-sort{display:inline-flex;align-items:center;gap:0.6rem;font-size:0.88rem;color:var(--fg-muted);margin-left:auto}
+.shop-sort select{appearance:none;-webkit-appearance:none;background:var(--dark-card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%237c838f' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 0.9rem center;border:1px solid var(--border);border-radius:var(--radius-full);color:var(--soft);font:inherit;padding:0.5rem 2.4rem 0.5rem 1rem;cursor:pointer}
+.shop-sort select:hover,.shop-sort select:focus-visible{border-color:var(--brand);outline:none}
+
+.shop-active{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin-bottom:1.25rem}
+.active-chip{display:inline-flex;align-items:center;gap:0.4rem;padding:0.35rem 0.75rem;border-radius:var(--radius-full);border:1px solid rgba(3,188,202,0.4);background:var(--brand-glow);color:var(--soft);font:inherit;font-size:0.82rem;cursor:pointer}
+.active-chip:hover{border-color:var(--brand);color:var(--brand)}
+.active-chip span{font-size:0.7rem;opacity:0.8}
+.shop-active .btn-text{font-size:0.82rem;padding:0 0.25rem}
+
+.shop-empty{text-align:center;padding:4rem 1rem;border:1px dashed var(--border);border-radius:var(--radius-lg);color:var(--fg-muted)}
+.shop-empty p{margin-bottom:0.75rem}
+.shop-empty strong{color:var(--soft);font-size:1.1rem}
+
+/* Kaarten die na een filterkeuze verschijnen */
+.product-card.is-entering{animation:cardIn 0.35s cubic-bezier(0.4, 0, 0.2, 1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px) scale(0.98)}to{opacity:1;transform:none}}
+
+/* Mobiel: de filters worden een paneel dat van onderen inschuift */
+@media (max-width:900px){
+	.shop-filter-toggle{display:inline-flex;align-items:center;gap:0.5rem;padding:0.55rem 1.1rem;font-size:0.9rem}
+	.shop-filter-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 5px;border-radius:var(--radius-full);background:var(--brand);color:var(--dark);font-size:0.7rem;font-weight:700}
+	.shop-count{order:3;width:100%}
+	.shop-filters{position:fixed;left:0;right:0;bottom:0;z-index:1000;margin:0;padding:0;max-height:85vh;max-height:85dvh;border-radius:var(--radius-lg) var(--radius-lg) 0 0;border-bottom:0;display:flex;flex-direction:column;transform:translateY(100%);visibility:hidden;transition:transform 0.3s ease, visibility 0s 0.3s;box-shadow:0 -16px 48px rgba(0,0,0,0.5)}
+	.shop-filters[aria-hidden="false"]{transform:none;visibility:visible;transition:transform 0.3s ease, visibility 0s}
+	.shop-filters-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid var(--border);flex-shrink:0}
+	.shop-filters-head h2{margin:0;font-size:1.15rem;display:block}
+	.shop-filters-head h2::before{display:none}
+	.shop-filters-body{flex-direction:column;flex-wrap:nowrap;gap:1.5rem;padding:1.25rem;overflow-y:auto;-webkit-overflow-scrolling:touch}
+	.chip span{padding:0.65rem 1.05rem;font-size:0.95rem}
+	.shop-filters-foot{display:flex;gap:0.75rem;padding:1rem 1.25rem;padding-bottom:calc(1rem + env(safe-area-inset-bottom));border-top:1px solid var(--border);flex-shrink:0}
+	.shop-filters-foot .btn{flex:1;text-align:center;padding:0.8rem 1rem}
+	.shop-filters-backdrop{display:block;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 0.3s}
+	.shop-filters-backdrop.is-open{opacity:1;pointer-events:auto}
+}
+
+/* Winkelwagen: artikelen en suggesties scrollen samen */
+.cart-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.cart-scroll .cart-items{flex:none;overflow:visible}
+.cart-suggest{padding:0.5rem 1rem 1.5rem}
+.cart-suggest h3{font-family:var(--font-body);font-size:0.7rem;font-weight:500;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted);margin:0 0 0.75rem 0}
+.cart-suggest-list{display:flex;flex-direction:column;gap:0.5rem}
+.cart-suggest-item{display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:0.85rem;padding:0.6rem;border:1px dashed var(--border);border-radius:var(--radius)}
+.cart-suggest-item img{width:48px;height:60px;object-fit:cover;border-radius:6px;display:block}
+.cart-suggest-item div{display:flex;flex-direction:column;min-width:0}
+.cart-suggest-item a{color:var(--soft);text-decoration:none;font-size:0.9rem;font-weight:600}
+.cart-suggest-item a:hover{color:var(--brand)}
+.cart-suggest-item span{font-size:0.85rem;color:var(--fg-muted)}
+.cart-suggest-add{width:36px;height:36px;border-radius:50%;border:1px solid var(--brand);background:transparent;color:var(--brand);font-size:1.25rem;line-height:1;cursor:pointer}
+.cart-suggest-add:hover{background:var(--brand);color:var(--dark)}

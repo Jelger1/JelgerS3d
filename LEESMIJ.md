@@ -54,6 +54,28 @@ dan iets kleiner of groter. Klikt een bezoeker op de foto, dan ziet hij altijd d
 - Hoeveel ruimte er rond het product blijft stel je voor de hele site in via `productFrame.fill` in `data/site.json`
   (0.62 = het product vult hooguit 62% van het kader). Per foto afwijken kan met `"fill": 0.5`.
 
+### Filters in de webshop
+
+De filters maken zichzelf uit de data; je hoeft er niets voor te programmeren.
+
+- **Type** en **Collectie** komen uit `type` en `collection` van elk product. De namen, en de kop die boven de webshop
+  verschijnt als iemand op één type filtert, staan in `data/site.json` onder `types`. Zet sterretjes om het deel
+  dat de accentkleur krijgt: `"3D-geprinte *designvazen*"`.
+- **Materiaal** verschijnt vanzelf als filter zodra je bij producten `material` invult (bijv. `"PLA"`).
+- **Prijs**: de groepen staan in `data/site.json` onder `priceBuckets`.
+- Elke filterkeuze staat in de link, bijvoorbeeld `webshop.html?type=vaas` of `webshop.html?collectie=limburg&prijs=tot-10`.
+  Zo'n link kun je delen of gebruiken als landingspagina voor een advertentie.
+
+### Bestellen en meten
+
+- `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.
+  Die aparte bedanktpagina kun je in Google Ads of Analytics instellen als conversie.
+- De site zet meetmomenten klaar (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`) in een `dataLayer`.
+  Er wordt niets gemeten of verstuurd zolang er geen Google Tag op de site staat. Zet je die er later op, dan heb je
+  ook een cookiemelding nodig.
+- In de winkelwagen staan onder "Maak het compleet" kleine extra's (tot €15) die bij de inhoud passen. Welke producten
+  bij elkaar horen bepaal je met `related` in `products.json`.
+
 Prijs aanpassen? Wijzig alleen de prijs in `products.json` en bouw opnieuw. Winkelwagens van
 bezoekers rekenen altijd met de actuele prijs.
 
@@ -65,8 +87,8 @@ assets/        originele foto's en logo's
 src/pages/     index.html: de tekst van de homepage
 src/partials/  header, footer en winkelwagen (gedeeld door alle pagina's)
 src/templates/ de opbouw van de productpagina, de webshop en de productkaart
-src/css/       styles.css (basis + homepage), components.css, product.css
-src/js/        losse modules: cart.js (opslag), cart-ui.js, checkout.js, product.js, ...
+src/css/       styles.css (basis + homepage), components.css, product.css, shop.css (filters), checkout.css
+src/js/        losse modules: cart.js (opslag), cart-ui.js, shop.js (filters), checkout.js, request.js, validate.js, ...
 tools/         images.js (foto's verkleinen), dev.js (lokale server), check.js (linkcontrole)
 build.js       bouwt alles naar dist/
 dist/          het eindresultaat. Wordt gegenereerd: pas hier niets handmatig aan.

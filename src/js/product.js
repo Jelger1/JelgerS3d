@@ -1,7 +1,8 @@
 // Productpagina: galerij, variantkeuze met live prijs, toevoegen en de mobiele koopbalk.
 import { addAndShow } from './cart-ui.js';
 import { openLightbox } from './lightbox.js';
-import { euro, prefersReducedMotion } from './util.js';
+import catalog from './catalog.js';
+import { euro, prefersReducedMotion, track as trackEvent } from './util.js';
 
 function initGallery() {
 	const gallery = document.querySelector('[data-gallery]');
@@ -88,7 +89,16 @@ function initBuyForm() {
 	}
 }
 
+function trackView() {
+	const el = document.querySelector('[data-product]');
+	const product = el && catalog[el.dataset.product];
+	if (!product) return;
+	const price = product.variants.length ? product.variants[0].price : undefined;
+	trackEvent('view_item', { ecommerce: { currency: 'EUR', value: price, items: [{ item_id: el.dataset.product, item_name: product.name, price: price }] } });
+}
+
 export function initProduct() {
 	initGallery();
 	initBuyForm();
+	trackView();
 }

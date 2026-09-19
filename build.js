@@ -9,13 +9,14 @@ const layout = require('./src/templates/layout');
 const homePage = require('./src/templates/home');
 const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
+const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['reset.css', 'styles.css', 'components.css', 'product.css'];
+const CSS_FILES = ['reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css'];
 
 function readJson(file) {
 	try {
@@ -100,7 +101,8 @@ function buildCatalog(products, images) {
 			url: h.productUrl(p),
 			image: h.imgPath(images, p.images[0].file, 400, '', true),
 			sale: p.sale,
-			variants: p.variants || []
+			variants: p.variants || [],
+			related: p.related || []
 		};
 	});
 	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';
@@ -176,7 +178,7 @@ async function build() {
 		}
 	};
 
-	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx)]
+	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx), checkoutPage(ctx), thanksPage(ctx)]
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
 
@@ -193,7 +195,7 @@ async function build() {
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
 	if (report.todos.length) console.log('\nNog in te vullen in data/products.json:\n - ' + report.todos.join('\n - '));
-	console.log('\nKlaar in ' + ((Date.now() - started) / 1000).toFixed(1) + 's. Upload de inhoud van de map dist/ naar je hosting.\n');
+	console.log('\nKlaar in ' + ((Date.now() - started) / 1000).toFixed(1) + 's. Zet je wijzigingen op GitHub (branch main) om ze live te zetten.\n');
 }
 
 build().catch(function (error) {

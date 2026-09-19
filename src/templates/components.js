@@ -40,7 +40,11 @@ function productCard(product, ctx, opts) {
 
 	return '<article class="product-card' + (opts.className ? ' ' + opts.className : '') + '"'
 		+ ' data-id="' + h.esc(product.id) + '" data-type="' + h.esc(product.type) + '" data-collection="' + h.esc(product.collection) + '"'
-		+ (h.minPrice(product) != null ? ' data-price="' + h.minPrice(product) + '"' : '') + '>\n'
+		+ ' data-name="' + h.esc(product.name) + '"'
+		+ (product.material ? ' data-material="' + h.esc(product.material) + '"' : '')
+		+ (h.minPrice(product) != null ? ' data-price="' + h.minPrice(product) + '"' : '')
+		// Alleen op de webshop: de volgorde voor "Aanbevolen"
+		+ (opts.index != null ? ' data-index="' + opts.index + '"' : '') + '>\n'
 		+ '\t<a class="product-thumb" href="' + url + '" tabindex="-1" aria-hidden="true">' + media
 		+ (product.sale === 'soon' ? '<span class="badge badge-promo">Binnenkort</span>' : '')
 		+ '</a>\n'

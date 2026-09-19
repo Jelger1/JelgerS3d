@@ -30,8 +30,8 @@ function layout(page, ctx) {
 	});
 
 	const cart = h.fill(ctx.partials.cart, {
-		shippingNote: h.esc(site.shipping.note),
-		orderKey: h.esc(site.web3forms.orderKey)
+		root: root,
+		shippingNote: h.esc(site.shipping.note)
 	});
 
 	const preload = page.preload

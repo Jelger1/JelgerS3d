@@ -126,8 +126,6 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .cart-footer .btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* Checkout: kleine aanvullingen op de bestaande stijl */
-.checkout-summary h3{margin:0 0 0.75rem 0;font-size:1rem;color:var(--soft)}
-.checkout-success h3{display:block}
 .modal-content h2{padding:1.25rem 4rem 1rem 1.5rem;margin:0;color:var(--soft);font-size:1.15rem;display:block}
 .modal-nav{display:flex}
 .modal-counter{display:block}

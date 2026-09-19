@@ -30,8 +30,6 @@ function gallery(product, ctx, root) {
 }
 
 function buyBox(product, ctx, root) {
-	const contactUrl = root + 'index.html?onderwerp=' + encodeURIComponent(product.id) + '#contact-form';
-
 	if (product.sale === 'cart') {
 		const multiple = product.variants.length > 1;
 		const options = multiple
@@ -51,12 +49,38 @@ function buyBox(product, ctx, root) {
 		return '<a class="btn btn-primary btn-block" href="' + h.esc(product.externalUrl) + '" target="_blank" rel="noopener">' + h.esc(product.externalLabel) + '</a>\n'
 			+ '\t\t<p class="pdp-note">Dit ontwerp is exclusief verkrijgbaar via de webshop van de opdrachtgever.</p>';
 	}
+	const key = h.esc(ctx.site.web3forms.contactKey);
+	const name = h.esc(product.name);
+
 	if (product.sale === 'request') {
-		return '<a class="btn btn-primary btn-block" href="' + contactUrl + '">Vraag jouw prijs en ontwerp aan</a>\n'
-			+ '\t\t<p class="pdp-note">Vrijblijvend. Je ontvangt eerst een voorstel met prijs.</p>';
+		// Maatwerk: aanvraag direct op de productpagina, zonder omweg via het contactformulier
+		return '<form class="request-form" data-request="offerte" data-product="' + h.esc(product.id) + '" data-product-name="' + name + '" data-access-key="' + key + '" novalidate>\n'
+			+ '\t\t\t<h2 class="request-title">Vraag jouw prijs en ontwerp aan</h2>\n'
+			+ '\t\t\t<div class="form-row">\n'
+			+ '\t\t\t\t<div class="form-group"><label for="rq-name">Naam <span aria-hidden="true">*</span></label><input type="text" id="rq-name" name="name" required autocomplete="name"></div>\n'
+			+ '\t\t\t\t<div class="form-group"><label for="rq-email">E-mailadres <span aria-hidden="true">*</span></label><input type="email" id="rq-email" name="email" required autocomplete="email"></div>\n'
+			+ '\t\t\t</div>\n'
+			+ '\t\t\t<div class="form-row">\n'
+			+ '\t\t\t\t<div class="form-group"><label for="rq-size">Gewenste afmeting</label><input type="text" id="rq-size" name="size" placeholder="Bijv. 20 cm breed"></div>\n'
+			+ '\t\t\t\t<div class="form-group form-group-narrow"><label for="rq-qty">Aantal</label><input type="number" id="rq-qty" name="quantity" min="1" value="1" inputmode="numeric"></div>\n'
+			+ '\t\t\t</div>\n'
+			+ '\t\t\t<div class="form-group"><label for="rq-text">Wat wil je laten maken? <span aria-hidden="true">*</span></label><textarea id="rq-text" name="text" rows="3" required placeholder="Je logo, naam of idee, en waar hij komt te staan"></textarea></div>\n'
+			+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+			+ '\t\t\t<p class="checkout-msg" data-request-msg role="alert"></p>\n'
+			+ '\t\t\t<button type="submit" class="btn btn-primary btn-block">Verstuur aanvraag</button>\n'
+			+ '\t\t\t<p class="pdp-note">Vrijblijvend. Je ontvangt eerst een voorstel met prijs. Je logo of afbeelding (PNG, JPG, PDF, AI of SVG) stuur je daarna per mail na.</p>\n'
+			+ '\t\t</form>\n'
+			+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik neem zo snel mogelijk contact met je op met een voorstel.</p></div>';
 	}
-	return '<a class="btn btn-primary btn-block" href="' + contactUrl + '">Houd mij op de hoogte</a>\n'
-		+ '\t\t<p class="pdp-note">Dit product is op dit moment niet te bestellen.</p>';
+	return '<form class="request-form" data-request="beschikbaarheid" data-product="' + h.esc(product.id) + '" data-product-name="' + name + '" data-access-key="' + key + '" novalidate>\n'
+		+ '\t\t\t<h2 class="request-title">Houd mij op de hoogte</h2>\n'
+		+ '\t\t\t<div class="form-group"><label for="rq-email">E-mailadres <span aria-hidden="true">*</span></label><input type="email" id="rq-email" name="email" required autocomplete="email" placeholder="je@email.nl"></div>\n'
+		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+		+ '\t\t\t<p class="checkout-msg" data-request-msg role="alert"></p>\n'
+		+ '\t\t\t<button type="submit" class="btn btn-primary btn-block">Laat het me weten</button>\n'
+		+ '\t\t\t<p class="pdp-note">Dit product is op dit moment niet te bestellen. Je krijgt één bericht zodra hij er weer is, verder niets.</p>\n'
+		+ '\t\t</form>\n'
+		+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Genoteerd!</strong><p>Je hoort van mij zodra de ' + name + ' weer beschikbaar is.</p></div>';
 }
 
 function productLd(product, ctx) {
