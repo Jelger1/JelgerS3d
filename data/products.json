@@ -382,6 +382,43 @@
 		"related": ["vlaai-sleutelhanger", "poefel-sleutelhanger", "dr-joep"]
 	},
 	{
+		"id": "straatnaam-sleutelhanger",
+		"name": "Straatnaam Sleutelhanger",
+		"type": "sleutelhanger",
+		"collection": "maatwerk",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"personalize": { "label": "Jouw straatnaam", "placeholder": "Abtenlaan" },
+		"badge": "Ontwerp zelf",
+		"featured": true,
+		"tagline": "Ontwerp je eigen straatnaambord: typ je straat en zie hem direct.",
+		"description": [
+			"Het blauwe bord met de witte rand hangt op elke straathoek, en toch is er maar één dat van jou is. Typ je straatnaam en je ziet direct hoe je sleutelhanger eruit komt te zien: gecentreerd, in strakke witte letters, net als het echte bord.",
+			"Je eerste eigen huis, de straat waar je opgroeide, of een cadeau voor iemand die gaat verhuizen. Het hoeft ook geen straat te zijn: een naam, een bijnaam of de naam van de vereniging kan net zo goed. Ik print hem speciaal voor jou, hier in Limburg."
+		],
+		"highlights": [
+			"Ontwerp hem zelf en zie direct het resultaat",
+			"Elke straatnaam, naam of tekst tot 32 tekens",
+			"Speciaal voor jou geprint na bestelling"
+		],
+		"specs": [
+			{ "label": "Personalisatie", "value": "Eigen tekst tot 32 tekens, automatisch passend gemaakt" },
+			{ "label": "Uitvoering", "value": "Blauw bord met witte rand en witte letters, met sleutelring" },
+			{ "label": "Retour", "value": "Gepersonaliseerd product, daarom niet te retourneren" }
+		],
+		"variants": [
+			{ "id": "standaard", "label": "", "price": 3.95 }
+		],
+		"images": [
+			{ "file": "Straatnaam-Sleutelhanger-Ontwerp.png", "subject": [10, 38, 86, 61], "fill": 0.86, "background": "auto", "alt": "Ontwerpvoorbeeld van de straatnaam sleutelhanger: blauw bord met witte rand, de tekst Jouw Straat en een sleutelring" }
+		],
+		"seo": {
+			"title": "Straatnaam sleutelhanger – ontwerp je eigen straatnaambord",
+			"description": "Maak je eigen sleutelhanger als Nederlands straatnaambord. Typ je straatnaam, zie direct het resultaat en laat hem 3D-printen in Limburg. €3,95."
+		},
+		"related": ["kirchroa-sleutelhanger", "vlaai-sleutelhanger", "poefel-sleutelhanger"]
+	},
+	{
 		"id": "blonde-non",
 		"name": "Blonde Non",
 		"type": "beeld",

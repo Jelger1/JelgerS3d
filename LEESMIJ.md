@@ -54,6 +54,27 @@ dan iets kleiner of groter. Klikt een bezoeker op de foto, dan ziet hij altijd d
 - Hoeveel ruimte er rond het product blijft stel je voor de hele site in via `productFrame.fill` in `data/site.json`
   (0.62 = het product vult hooguit 62% van het kader). Per foto afwijken kan met `"fill": 0.5`.
 
+### Ontwerptool: "Maak je eigen sleutelhanger"
+
+De Straatnaam Sleutelhanger is een gewoon product in `data/products.json`, met één extra eigenschap:
+
+```json
+"personalize": { "label": "Jouw straatnaam", "placeholder": "Abtenlaan" }
+```
+
+Daardoor toont de productpagina een live preview in plaats van de fotogalerij, krijgt de kaart de knop
+"Ontwerp de jouwe" en verschijnt de sectie op de homepage vanzelf. Haal je `personalize` weg, dan is het weer een
+gewoon product en verdwijnt de sectie op de homepage.
+
+- **Prijs, naam en teksten** pas je aan zoals bij elk ander product.
+- **Het bord zelf** (kleuren, maten, lettertype, maximale lengte van 32 tekens) staat in `src/js/keychain-sign.js`.
+  Dezelfde tekenfunctie maakt de live preview én de PNG-download, dus die zijn altijd gelijk.
+- **Bestellen:** de tekst reist mee in de winkelwagen (elke andere tekst is een eigen regel) en staat in je bestelmail
+  als `TEKST OP HET PRODUCT: ...`. De knop "Bestel per mail" opent een vooringevulde mail; een bijlage toevoegen kan
+  een website niet voor de klant doen, daarom staat in de mail de tip om de gedownloade preview zelf toe te voegen.
+- **De productfoto** (`assets/Straatnaam-Sleutelhanger-Ontwerp.png`) is een render van de tool zelf. Heb je een echte
+  foto van een geprinte sleutelhanger, zet die dan als eerste in `images`: die is overtuigender.
+
 ### Filters in de webshop
 
 De filters maken zichzelf uit de data; je hoeft er niets voor te programmeren.
@@ -146,8 +167,9 @@ assets/        originele foto's en logo's
 src/pages/     index.html: de tekst van de homepage
 src/partials/  header, footer en winkelwagen (gedeeld door alle pagina's)
 src/templates/ de opbouw van de productpagina, de webshop en de productkaart
-src/css/       styles.css (basis + homepage), components.css, product.css, shop.css (filters), checkout.css
-src/js/        losse modules: cart.js (opslag), cart-ui.js, shop.js (filters), checkout.js, request.js, validate.js, ...
+src/css/       styles.css (basis), components.css, product.css, shop.css (filters), checkout.css, home.css, pages.css, keychain.css
+src/js/        losse modules: cart.js (opslag), cart-ui.js, shop.js (filters), checkout.js, request.js, validate.js,
+               consent.js (cookies), keychain.js + keychain-sign.js (ontwerptool), ...
 tools/         images.js (foto's verkleinen), dev.js (lokale server), check.js (linkcontrole)
 build.js       bouwt alles naar dist/
 dist/          het eindresultaat. Wordt gegenereerd: pas hier niets handmatig aan.

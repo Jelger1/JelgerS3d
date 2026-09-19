@@ -18,7 +18,7 @@ const ROOT = __dirname;
 const DIST = path.join(ROOT, 'dist');
 const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
-const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css'];
+const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css'];
 
 function readJson(file) {
 	try {
@@ -56,6 +56,7 @@ function validate(products, reviews, site) {
 		});
 		if ((p.variants || []).length > 1 && p.variants.some(function (v) { return !v.label; })) errors.push(where + ': bij meerdere varianten heeft elke variant een label nodig');
 		if (p.sale === 'external' && !p.externalUrl) errors.push(where + ': externalUrl ontbreekt');
+		if (p.personalize && (p.sale !== 'cart' || (p.variants || []).length !== 1)) errors.push(where + ': een product met "personalize" moet sale "cart" hebben en precies één variant');
 		if (!(p.images && p.images.length)) errors.push(where + ': minstens één afbeelding nodig');
 		(p.images || []).forEach(function (image) {
 			if (!fs.existsSync(path.join(ROOT, 'assets', image.file))) errors.push(where + ': afbeelding assets/' + image.file + ' bestaat niet');
@@ -108,7 +109,8 @@ function buildCatalog(products, images) {
 			image: h.imgPath(images, p.images[0].file, 400, '', true),
 			sale: p.sale,
 			variants: p.variants || [],
-			related: p.related || []
+			related: p.related || [],
+			personalize: Boolean(p.personalize)
 		};
 	});
 	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';

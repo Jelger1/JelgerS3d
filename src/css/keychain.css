@@ -1,0 +1,52 @@
+/* "Maak je eigen sleutelhanger": de ontwerptool op de productpagina en de teaser op de homepage. */
+
+/* Het podium waar de live preview op staat */
+.keychain-stage{position:relative;border-radius:var(--radius-lg);border:1px solid var(--border);background:radial-gradient(ellipse at 50% 35%, #232936 0%, var(--dark-card) 70%);overflow:hidden}
+.keychain-stage canvas{display:block;width:100%;height:auto;aspect-ratio:2 / 1}
+.keychain-stage-label{position:absolute;left:1rem;top:0.85rem;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--fg-muted)}
+.keychain-stage-label::before{content:'';display:inline-block;width:7px;height:7px;margin-right:0.5rem;border-radius:50%;background:#2ecc71;box-shadow:0 0 0 0 rgba(46,204,113,0.6);animation:keychainPulse 2.2s ease-out infinite;vertical-align:1px}
+@keyframes keychainPulse{0%{box-shadow:0 0 0 0 rgba(46,204,113,0.55)}70%,100%{box-shadow:0 0 0 9px rgba(46,204,113,0)}}
+
+/* Productpagina: het podium vult de plek van de fotogalerij, met het bord groot in beeld */
+.pdp-gallery .keychain-stage{display:flex;align-items:center;aspect-ratio:4 / 3}
+.keychain-note{margin:0.75rem 0 0 0;font-size:0.85rem;color:var(--fg-muted);line-height:1.5}
+
+/* Invoerveld */
+.keychain-field{margin:1.5rem 0 0 0}
+.keychain-field label{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:0.5rem;font-weight:600;font-size:0.92rem;color:var(--soft)}
+.keychain-field label small{font-weight:400;font-size:0.8rem;color:var(--fg-muted);font-variant-numeric:tabular-nums}
+.keychain-input{width:100%;padding:0.95rem 1.1rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-secondary);color:var(--soft);font:inherit;font-size:1.15rem;font-weight:600;box-sizing:border-box}
+.keychain-input::placeholder{color:var(--fg-muted);font-weight:400}
+.keychain-input:focus{outline:none;border-color:var(--brand);background:var(--dark);box-shadow:0 0 0 4px var(--brand-glow)}
+.keychain-hint{margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--fg-muted)}
+
+/* Knoppen */
+.keychain-actions{display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;margin-top:1.25rem}
+.keychain-actions .pdp-add{grid-column:1 / -1}
+.keychain-actions .btn{text-align:center;padding:0.8rem 1rem;font-size:0.92rem}
+.keychain-actions .pdp-add{font-size:1.05rem;padding:1rem 1.5rem}
+.keychain-actions .btn:disabled,.keychain-actions .btn[aria-disabled="true"]{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none}
+.keychain-custom-note{margin:1rem 0 0 0;padding:0.75rem 0.95rem;border-radius:var(--radius);border:1px solid var(--border);background:var(--dark-card);font-size:0.85rem;color:var(--fg-muted);line-height:1.5}
+.keychain-custom-note a{color:var(--brand)}
+
+/* Teaser op de homepage: valt op door de live preview, niet door schreeuwerige kleuren */
+.keychain-teaser{display:grid;grid-template-columns:minmax(0, 1fr) minmax(0, 1.1fr);gap:clamp(2rem, 5vw, 4rem);align-items:center;padding:clamp(1.5rem, 4vw, 3rem);border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(135deg, rgba(36,96,194,0.14), rgba(36,96,194,0) 60%), var(--dark-card)}
+.keychain-teaser h2{margin:0 0 0.85rem 0}
+.keychain-teaser-text > p:not(.kicker){margin:0;color:var(--fg-muted);font-size:1.05rem;line-height:1.7;max-width:48ch}
+.keychain-teaser .keychain-field{margin-top:1.5rem;max-width:420px}
+.keychain-teaser .cta-row{margin-top:1.25rem;align-items:center;flex-wrap:wrap}
+.keychain-teaser-price{color:var(--fg-muted);font-size:0.95rem}
+.keychain-teaser-price strong{color:var(--soft)}
+
+@media (max-width:900px){
+	.keychain-teaser{grid-template-columns:minmax(0, 1fr)}
+	.keychain-teaser .keychain-stage{order:-1}
+	/* Op een telefoon blijft de preview bovenaan staan terwijl je typt (het toetsenbord bedekt anders het bord) */
+	.pdp[data-keychain] .pdp-gallery{position:sticky;top:var(--nav-height);z-index:20;max-width:none;width:auto;padding:0.5rem 0;background:var(--dark);box-shadow:0 0 0 100vmax var(--dark);clip-path:inset(0 -100vmax)}
+	.pdp-gallery .keychain-stage{aspect-ratio:2 / 1}
+}
+@media (max-width:600px){
+	.keychain-actions{grid-template-columns:minmax(0, 1fr)}
+	.keychain-teaser .cta-row{flex-direction:column;align-items:stretch}
+	.keychain-teaser .cta-row .btn{text-align:center}
+}

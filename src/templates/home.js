@@ -33,7 +33,32 @@ function homePage(ctx, template) {
 		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
 	}).join('\n\t\t');
 
+	// "Maak je eigen sleutelhanger": verschijnt zodra er een product met "personalize" in products.json staat
+	const custom = ctx.products.find(function (p) { return p.personalize; });
+	const keychainTeaser = custom
+		? '<section class="section container" aria-labelledby="keychain-heading">\n'
+			+ '\t<div class="keychain-teaser" data-keychain>\n'
+			+ '\t\t<div class="keychain-teaser-text">\n'
+			+ '\t\t\t<p class="kicker">Nieuw: ontwerp zelf</p>\n'
+			+ '\t\t\t<h2 id="keychain-heading">Maak je eigen sleutelhanger en laat hem <span class="highlight">printen</span></h2>\n'
+			+ '\t\t\t<p>Jouw straat als echt straatnaambord aan je sleutelbos. Typ hieronder een naam en zie direct hoe hij wordt.</p>\n'
+			+ '\t\t\t<div class="keychain-field">\n'
+			+ '\t\t\t\t<label for="kc-teaser">' + h.esc(custom.personalize.label) + '</label>\n'
+			+ '\t\t\t\t<input type="text" id="kc-teaser" class="keychain-input" data-keychain-input placeholder="' + h.esc(custom.personalize.placeholder) + '" autocomplete="off" autocapitalize="words" spellcheck="false">\n'
+			+ '\t\t\t</div>\n'
+			+ '\t\t\t<p class="cta-row"><a class="btn primary" href="' + h.productUrl(custom) + '" data-keychain-link="' + h.productUrl(custom) + '">Ontwerp de jouwe</a>'
+			+ ' <span class="keychain-teaser-price">Speciaal voor jou geprint · <strong>' + h.priceLabel(custom) + '</strong></span></p>\n'
+			+ '\t\t</div>\n'
+			+ '\t\t<div class="keychain-stage">\n'
+			+ '\t\t\t<span class="keychain-stage-label">Live voorbeeld</span>\n'
+			+ '\t\t\t<canvas data-keychain-canvas role="img" aria-label="Voorbeeld van de sleutelhanger" width="1200" height="600"></canvas>\n'
+			+ '\t\t</div>\n'
+			+ '\t</div>\n'
+			+ '</section>'
+		: '';
+
 	const values = {
+		keychainTeaser: keychainTeaser,
 		heroImage: h.img(ctx.images, site.homeImages.hero.file, {
 			alt: site.homeImages.hero.alt,
 			sizes: '(max-width: 900px) 320px, 460px', eager: true

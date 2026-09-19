@@ -20,8 +20,6 @@ const ADDON_MAX = 15;
 
 let highlightKey = null;
 
-function lineKey(line) { return line.id + ':' + line.variant; }
-
 function render() {
 	const lines = cart.getLines();
 	const count = cart.count();
@@ -40,8 +38,7 @@ function render() {
 	}
 
 	itemsEl.innerHTML = '<ul class="cart-list">' + lines.map(function (line) {
-		const key = lineKey(line);
-		return '<li class="cart-item' + (key === highlightKey ? ' is-new' : '') + '" data-id="' + esc(line.id) + '" data-variant="' + esc(line.variant) + '">'
+		return '<li class="cart-item' + (line.key === highlightKey ? ' is-new' : '') + '" data-key="' + esc(line.key) + '">'
 			+ '<a href="' + root + esc(line.url) + '" tabindex="-1" aria-hidden="true"><img src="' + root + esc(line.image) + '" alt="" class="cart-item-image" width="64" height="64" loading="lazy"></a>'
 			+ '<div class="cart-item-info">'
 			+ '<h3><a href="' + root + esc(line.url) + '">' + esc(line.name) + '</a></h3>'
@@ -67,7 +64,8 @@ function renderSuggestions(lines) {
 	const price = function (id) { return catalog[id].variants[0].price; };
 	const isAddon = function (id) {
 		const p = catalog[id];
-		return p && p.sale === 'cart' && p.variants.length === 1 && !inCart.has(id) && price(id) <= ADDON_MAX;
+		// Producten met een eigen tekst kun je niet met één klik toevoegen: die ontwerp je eerst
+		return p && p.sale === 'cart' && p.variants.length === 1 && !p.personalize && !inCart.has(id) && price(id) <= ADDON_MAX;
 	};
 	const related = lines.flatMap(function (line) { return catalog[line.id].related; });
 	const cheapest = Object.keys(catalog).filter(isAddon).sort(function (a, b) { return price(a) - price(b); });
@@ -103,12 +101,14 @@ export function closeCart() {
 
 // Toevoegen + directe feedback: de zijbalk opent met het nieuwe artikel uitgelicht
 // en de keuze "Verder winkelen" of "Bestelling afronden".
-export function addAndShow(id, variantId, source) {
-	highlightKey = id + ':' + variantId;
-	if (!cart.add(id, variantId, 1)) return;
-	const added = cart.getLines().find(function (line) { return line.id === id && line.variant === variantId; });
+// text: de persoonlijke tekst bij producten die je zelf ontwerpt (bv. de straatnaam-sleutelhanger)
+export function addAndShow(id, variantId, source, text) {
+	const key = cart.add(id, variantId, 1, text);
+	if (!key) return;
+	highlightKey = key;
+	const added = cart.getLines().find(function (line) { return line.key === key; });
 	track('add_to_cart', { source: source || 'product', ecommerce: { currency: 'EUR', value: added.price, items: [{ item_id: id, item_name: added.name, item_variant: added.label || undefined, price: added.price, quantity: 1 }] } });
-	addedEl.textContent = '✓ ' + cart.productName(id, variantId) + ' is toegevoegd';
+	addedEl.textContent = '✓ ' + added.fullName + ' is toegevoegd';
 	addedEl.hidden = false;
 	openCart();
 
@@ -131,16 +131,16 @@ export function initCartUi() {
 	itemsEl.addEventListener('click', function (event) {
 		const item = event.target.closest('.cart-item');
 		if (!item) return;
-		const id = item.dataset.id, variant = item.dataset.variant;
+		const key = item.dataset.key;
 		const qtyBtn = event.target.closest('[data-qty]');
 		if (qtyBtn) {
-			const line = cart.getLines().find(function (l) { return l.id === id && l.variant === variant; });
-			if (line) cart.setQty(id, variant, line.qty + Number(qtyBtn.dataset.qty));
+			const line = cart.getLines().find(function (l) { return l.key === key; });
+			if (line) cart.setQty(key, line.qty + Number(qtyBtn.dataset.qty));
 			// Na het hertekenen de focus op dezelfde knop houden
-			const again = itemsEl.querySelector('.cart-item[data-id="' + id + '"][data-variant="' + variant + '"] [data-qty="' + qtyBtn.dataset.qty + '"]');
-			(again || document.getElementById('cart-close')).focus();
+			const again = Array.from(itemsEl.querySelectorAll('.cart-item')).find(function (el) { return el.dataset.key === key; });
+			((again && again.querySelector('[data-qty="' + qtyBtn.dataset.qty + '"]')) || document.getElementById('cart-close')).focus();
 		} else if (event.target.closest('[data-remove]')) {
-			cart.remove(id, variant);
+			cart.remove(key);
 			document.getElementById('cart-close').focus();
 		}
 	});

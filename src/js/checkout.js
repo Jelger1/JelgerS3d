@@ -24,7 +24,8 @@ export function linesHtml(lines, total) {
 function orderText(values, lines, total) {
 	return 'BESTELLING VIA JELGERS3D.NL\n\n'
 		+ 'Producten:\n' + lines.map(function (line) {
-			return line.qty + '× ' + line.fullName + ' — ' + euro(line.lineTotal) + (line.qty > 1 ? ' (' + euro(line.price) + ' per stuk)' : '');
+			return line.qty + '× ' + line.fullName + ' — ' + euro(line.lineTotal) + (line.qty > 1 ? ' (' + euro(line.price) + ' per stuk)' : '')
+				+ (line.text ? '\n   TEKST OP HET PRODUCT: ' + line.text : '');
 		}).join('\n')
 		+ '\n\nTotaal: ' + euro(total) + '\n\n'
 		+ 'Klantgegevens:\n'

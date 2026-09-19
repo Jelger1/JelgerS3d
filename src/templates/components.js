@@ -14,6 +14,7 @@ function kicker(product, ctx) {
 // De actie onderaan een kaart hangt af van hoe het product verkocht wordt
 function cardAction(product, root) {
 	const url = h.productUrl(product, root);
+	if (product.personalize) return '<a class="btn btn-add-cart" href="' + url + '">Ontwerp de jouwe</a>';
 	if (product.sale === 'cart' && product.variants.length === 1) {
 		return '<button class="btn btn-add-cart" type="button" data-add="' + h.esc(product.id) + '" data-variant="' + h.esc(product.variants[0].id) + '">In winkelwagen</button>';
 	}

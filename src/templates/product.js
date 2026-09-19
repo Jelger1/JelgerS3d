@@ -29,7 +29,38 @@ function gallery(product, ctx, root) {
 		+ '\t</div>';
 }
 
+// Ontwerptool (producten met "personalize"): het podium met de live preview...
+function keychainStage() {
+	return '<div class="pdp-gallery">\n'
+		+ '\t\t<div class="keychain-stage">\n'
+		+ '\t\t\t<span class="keychain-stage-label">Live voorbeeld</span>\n'
+		+ '\t\t\t<canvas data-keychain-canvas role="img" aria-label="Voorbeeld van de sleutelhanger" width="1200" height="600"></canvas>\n'
+		+ '\t\t</div>\n'
+		+ '\t</div>';
+}
+
+// ...en het invoerveld met de knoppen
+function keychainBuyBox(product, ctx, root) {
+	const variant = product.variants[0];
+	return '<form class="keychain-form" data-keychain-form data-product="' + h.esc(product.id) + '" data-variant="' + h.esc(variant.id) + '" novalidate>\n'
+		+ '\t\t\t<div class="keychain-field">\n'
+		+ '\t\t\t\t<label for="kc-text">' + h.esc(product.personalize.label) + ' <small data-keychain-count aria-hidden="true"></small></label>\n'
+		+ '\t\t\t\t<input type="text" id="kc-text" class="keychain-input" data-keychain-input placeholder="' + h.esc(product.personalize.placeholder) + '" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="done" aria-describedby="kc-hint">\n'
+		+ '\t\t\t\t<p class="keychain-hint" id="kc-hint" data-keychain-hint>Typ je straatnaam om je ontwerp te zien.</p>\n'
+		+ '\t\t\t</div>\n'
+		+ '\t\t\t<div class="keychain-actions">\n'
+		+ '\t\t\t\t<button type="submit" class="btn btn-primary pdp-add" data-keychain-needs-text>In winkelwagen</button>\n'
+		+ '\t\t\t\t<button type="button" class="btn outline" data-keychain-download data-keychain-needs-text>Download preview (.png)</button>\n'
+		+ '\t\t\t\t<a class="btn outline" href="mailto:' + h.esc(ctx.site.email) + '" data-keychain-mail="' + h.esc(ctx.site.email) + '" data-keychain-needs-text>Bestel per mail</a>\n'
+		+ '\t\t\t</div>\n'
+		+ '\t\t</form>\n'
+		+ '\t\t<p class="keychain-note">Het voorbeeld laat zien hoe je tekst op het bord komt. De echte sleutelhanger wordt laag voor laag geprint; kleur en letters kunnen daardoor licht afwijken.</p>\n'
+		+ '\t\t<p class="keychain-custom-note">Deze sleutelhanger wordt speciaal met jouw tekst gemaakt en kan daarom niet worden geretourneerd (zie de <a href="' + root + 'voorwaarden.html">algemene voorwaarden</a>). Controleer de spelling dus goed.</p>\n'
+		+ '\t\t<p class="deadline-note" data-deadlines="' + h.esc(JSON.stringify(ctx.site.deadlines || [])) + '" hidden></p>';
+}
+
 function buyBox(product, ctx, root) {
+	if (product.personalize) return keychainBuyBox(product, ctx, root);
 	if (product.sale === 'cart') {
 		const multiple = product.variants.length > 1;
 		const options = multiple
@@ -159,8 +190,8 @@ function productPage(product, ctx) {
 
 	const main = '<div class="container pdp-container">\n'
 		+ '\t' + c.breadcrumbs(crumbs) + '\n'
-		+ '\t<article class="pdp">\n'
-		+ '\t' + gallery(product, ctx, root) + '\n'
+		+ '\t<article class="pdp"' + (product.personalize ? ' data-keychain' : '') + '>\n'
+		+ '\t' + (product.personalize ? keychainStage() : gallery(product, ctx, root)) + '\n'
 		+ '\t<div class="pdp-buy">\n'
 		+ '\t\t<p class="product-kicker">' + c.kicker(product, ctx) + '</p>\n'
 		+ (product.badge ? '\t\t<p class="pdp-badge">' + h.esc(product.badge) + '</p>\n' : '')
@@ -205,7 +236,7 @@ function productPage(product, ctx) {
 				+ '\t</div>\n'
 				+ '</section>\n'
 			: '')
-		+ (product.sale === 'cart'
+		+ (product.sale === 'cart' && !product.personalize
 			? '<div class="pdp-sticky" data-sticky hidden>\n'
 				+ '\t<div><strong>' + h.esc(product.name) + '</strong><span data-sticky-price>' + price + '</span></div>\n'
 				+ '\t<button type="button" class="btn btn-primary" data-sticky-add>In winkelwagen</button>\n'
@@ -225,7 +256,8 @@ function productPage(product, ctx) {
 		description: product.seo.description,
 		ogImage: firstEntry.og,
 		ogType: 'product',
-		preload: { srcset: h.cropSrcset(ctx.images, first.file, root), sizes: GALLERY_SIZES },
+		// Bij de ontwerptool staat er een live preview in plaats van de foto: dan valt er niets vooraf te laden
+		preload: product.personalize ? null : { srcset: h.cropSrcset(ctx.images, first.file, root), sizes: GALLERY_SIZES },
 		jsonLd: ld,
 		main: main
 	};

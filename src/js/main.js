@@ -10,6 +10,7 @@ import { initProduct } from './product.js';
 import { initRequest } from './request.js';
 import { initShop } from './shop.js';
 import { initCheckout, initThanks } from './checkout.js';
+import { initKeychain } from './keychain.js';
 
 const page = document.body.dataset.page;
 
@@ -27,5 +28,6 @@ if (page === 'product') {
 	initProduct();
 	initRequest();
 }
+initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina en homepage)
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();

@@ -25,7 +25,7 @@
 }
 
 /* Smooth Scrolling */
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden;overflow-x:clip}
 
 /* Scroll Animations */
 @keyframes fadeInUp{
@@ -56,7 +56,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;
 
 /* Layout */
 *{box-sizing:border-box}
-body{font-family:var(--font-body); color:var(--soft); background:var(--dark); line-height:1.6; margin:0; padding:0;overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+body{font-family:var(--font-body); color:var(--soft); background:var(--dark); line-height:1.6; margin:0; padding:0;overflow-x:hidden;overflow-x:clip;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 body::before{content:'';position:fixed;top:-50%;right:-10%;width:800px;height:800px;background:radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
 body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:600px;background:radial-gradient(circle, rgba(2,143,166,0.08) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
 .container{max-width:var(--max-width); margin:0 auto; padding:2rem clamp(1rem,3vw,2rem);position:relative;z-index:1}
