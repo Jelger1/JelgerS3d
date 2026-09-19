@@ -41,17 +41,23 @@ function productUrl(product, root) {
 }
 
 // Responsive <img> met srcset uit het afbeeldingsmanifest.
-// opts: alt, sizes, root, className, eager (boven de vouw), attrs (extra attributen als string)
+// opts: alt, sizes, root, className, eager (boven de vouw), attrs (extra attributen als string),
+//       crop (true = de productuitsnede met het product in het midden, in plaats van de volledige foto)
+function variantsOf(entry, crop) {
+	return crop && entry.crop ? entry.crop.variants : entry.variants;
+}
+
 function img(manifest, file, opts) {
 	opts = opts || {};
 	const entry = manifest[file];
 	if (!entry) throw new Error('Afbeelding niet gevonden in assets/: ' + file);
 	const root = opts.root || '';
 	const base = root + 'assets/img/';
-	const srcset = entry.variants.map(function (v) { return base + v.file + ' ' + v.w + 'w'; }).join(', ');
+	const variants = variantsOf(entry, opts.crop);
+	const srcset = variants.map(function (v) { return base + v.file + ' ' + v.w + 'w'; }).join(', ');
 	// Middelste variant als fallback-src
-	const fallback = entry.variants[Math.min(1, entry.variants.length - 1)];
-	const largest = entry.variants[entry.variants.length - 1];
+	const fallback = variants[Math.min(1, variants.length - 1)];
+	const largest = variants[variants.length - 1];
 	return '<img src="' + base + fallback.file + '"'
 		+ ' srcset="' + srcset + '"'
 		+ ' sizes="' + esc(opts.sizes || '100vw') + '"'
@@ -63,16 +69,17 @@ function img(manifest, file, opts) {
 		+ '>';
 }
 
-function imgPath(manifest, file, width, root) {
+function imgPath(manifest, file, width, root, crop) {
 	const entry = manifest[file];
 	if (!entry) throw new Error('Afbeelding niet gevonden in assets/: ' + file);
-	const variant = entry.variants.find(function (v) { return v.w >= width; }) || entry.variants[entry.variants.length - 1];
+	const variants = variantsOf(entry, crop);
+	const variant = variants.find(function (v) { return v.w >= width; }) || variants[variants.length - 1];
 	return (root || '') + 'assets/img/' + variant.file;
 }
 
-function isLandscape(manifest, file) {
-	const entry = manifest[file];
-	return entry ? entry.width / entry.height > 1.15 : false;
+// srcset van de productuitsnede, voor <link rel="preload">
+function cropSrcset(manifest, file, root) {
+	return variantsOf(manifest[file], true).map(function (v) { return (root || '') + 'assets/img/' + v.file + ' ' + v.w + 'w'; }).join(', ');
 }
 
 function jsonLd(data) {
@@ -90,5 +97,5 @@ function fill(template, values) {
 
 module.exports = {
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl,
-	img: img, imgPath: imgPath, isLandscape: isLandscape, jsonLd: jsonLd, fill: fill
+	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill
 };

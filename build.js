@@ -57,6 +57,11 @@ function validate(products, reviews, site) {
 		(p.images || []).forEach(function (image) {
 			if (!fs.existsSync(path.join(ROOT, 'assets', image.file))) errors.push(where + ': afbeelding assets/' + image.file + ' bestaat niet');
 			if (!image.alt) warnings.push(where + ': alt-tekst ontbreekt bij ' + image.file);
+			const s = image.subject;
+			if (!s) warnings.push(where + ': geen "subject" bij ' + image.file + ', de foto wordt vanuit het midden bijgesneden');
+			else if (!Array.isArray(s) || s.length !== 4 || s.some(function (n) { return typeof n !== 'number' || n < 0 || n > 100; }) || s[0] >= s[2] || s[1] >= s[3]) {
+				errors.push(where + ': "subject" bij ' + image.file + ' moet [links, boven, rechts, onder] zijn, in procenten van 0 tot 100');
+			}
 		});
 		if (!p.seo || !p.seo.title || !p.seo.description) errors.push(where + ': seo.title en seo.description zijn verplicht');
 		else {
@@ -93,7 +98,7 @@ function buildCatalog(products, images) {
 		catalog[p.id] = {
 			name: p.name,
 			url: h.productUrl(p),
-			image: h.imgPath(images, p.images[0].file, 400),
+			image: h.imgPath(images, p.images[0].file, 400, '', true),
 			sale: p.sale,
 			variants: p.variants || []
 		};
@@ -115,6 +120,13 @@ async function build() {
 
 	// 1. Afbeeldingen (incrementeel)
 	const ogFor = products.map(function (p) { return p.images[0].file; }).concat(site.defaultOgImage);
+	// Elke productfoto krijgt een uitsnede met het product in het midden (zie "subject" in products.json)
+	const crops = {};
+	products.forEach(function (p) {
+		p.images.forEach(function (image) {
+			crops[image.file] = { subject: image.subject || null, background: image.background || null, fill: image.fill || null };
+		});
+	});
 	// Alleen foto's die de site echt toont worden verwerkt en meegestuurd
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file);
@@ -123,7 +135,9 @@ async function build() {
 		outDir: path.join(DIST, 'assets/img'),
 		ogDir: path.join(DIST, 'assets/og'),
 		ogFor: ogFor,
-		only: used
+		only: used,
+		crops: crops,
+		frame: site.productFrame
 	});
 	const images = imageResult.manifest;
 

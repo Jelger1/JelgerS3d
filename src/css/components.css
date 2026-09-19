@@ -53,8 +53,6 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .product-card:hover,.product-card:focus-within{box-shadow:0 10px 40px rgba(0,0,0,0.3), 0 0 20px var(--brand-glow);transform:translateY(-4px);border-color:rgba(3,188,202,0.3)}
 .product-thumb{display:block;position:relative;aspect-ratio:4 / 5;overflow:hidden;background:var(--dark-secondary)}
 .product-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.45s ease}
-.product-thumb.is-landscape{background:#fff}
-.product-thumb.is-landscape img{object-fit:contain;padding:1rem}
 .product-thumb-alt{opacity:0}
 @media (hover:hover){
 	.product-card:hover .product-thumb img{transform:scale(1.04)}
