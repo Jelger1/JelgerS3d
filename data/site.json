@@ -253,7 +253,8 @@
 		}
 	],
 	"analytics": {
-		"ga4": "",
+		"gtm": "GTM-MQLPSW9X",
+		"ga4": "G-0SLM0NK7CF",
 		"googleAds": "",
 		"adsConversionLabel": ""
 	},
@@ -264,7 +265,7 @@
 		"country": "Nederland"
 	},
 	"legal": {
-		"updated": "2026-09-19"
+		"updated": "2026-09-22"
 	},
 	"forms": {
 		"privacyCheckbox": true

@@ -42,7 +42,8 @@ function layout(page, ctx) {
 
 	// Alleen als er ID's zijn ingevuld komen ze in de pagina; consent.js doet de rest
 	const analytics = site.analytics || {};
-	const analyticsAttrs = (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
+	const analyticsAttrs = (analytics.gtm ? ' data-gtm="' + h.esc(analytics.gtm) + '"' : '')
+		+ (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
 		+ (analytics.googleAds ? ' data-ads="' + h.esc(analytics.googleAds) + '"' : '')
 		+ (analytics.adsConversionLabel ? ' data-ads-label="' + h.esc(analytics.adsConversionLabel) + '"' : '');
 

@@ -90,6 +90,14 @@ function validate(products, reviews, site) {
 		});
 	});
 
+	// Een ID in het verkeerde veld breekt niets zichtbaars, er wordt dan alleen stilletjes niets gemeten
+	const analytics = site.analytics || {};
+	const idFormats = { gtm: ['GTM-', /^GTM-[A-Z0-9]+$/], ga4: ['G-', /^G-[A-Z0-9]+$/], googleAds: ['AW-', /^AW-\d+$/] };
+	Object.keys(idFormats).forEach(function (key) {
+		if (analytics[key] && !idFormats[key][1].test(analytics[key])) warnings.push('site.json > analytics.' + key + ': "' + analytics[key] + '" is geen geldig ID (dat begint met ' + idFormats[key][0] + ')');
+	});
+	if (analytics.gtm && !analytics.ga4 && !analytics.googleAds) warnings.push('site.json > analytics: Tag Manager laadt pas na toestemming voor statistieken of marketing; zonder ga4 of googleAds wordt het dus nooit geladen');
+
 	return { errors: errors, warnings: warnings, todos: todos };
 }
 
