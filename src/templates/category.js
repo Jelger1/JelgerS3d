@@ -20,7 +20,7 @@ function categoryPage(page, ctx) {
 	const products = productsFor(page, ctx.products);
 	const path = page.slug + '.html';
 	const crumbs = [
-		{ label: 'Home', path: '', url: 'index.html' },
+		{ label: 'Home', path: '', url: './' },
 		{ label: 'Webshop', path: 'webshop.html', url: 'webshop.html' },
 		{ label: page.label, path: path }
 	];

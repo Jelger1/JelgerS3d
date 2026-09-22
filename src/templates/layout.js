@@ -11,15 +11,20 @@ function layout(page, ctx) {
 	const ogImage = site.url + '/assets/og/' + page.ogImage;
 	const v = '?v=' + ctx.version;
 
+	// Links naar de homepage gaan naar de map ("./", "../" of "/"), niet naar index.html: dat is voor Google een
+	// tweede adres van dezelfde pagina
+	const home = root || './';
 	let header = h.fill(ctx.partials.header, {
 		root: root,
+		home: home,
 		currentShop: page.name === 'shop' ? ' aria-current="page"' : ''
 	});
 	// Op de homepage zelf scrollen de ankerlinks binnen de pagina
-	if (page.name === 'home') header = header.replace(/href="index\.html#/g, 'href="#');
+	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
 
 	const footer = h.fill(ctx.partials.footer, {
 		root: root,
+		home: home,
 		year: String(ctx.year),
 		name: h.esc(site.name),
 		email: h.esc(site.email),

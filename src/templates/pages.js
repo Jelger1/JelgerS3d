@@ -104,7 +104,7 @@ function notFoundPage(ctx) {
 			+ '\t<p class="kicker">Foutcode 404</p>\n'
 			+ '\t<h1>Deze pagina is <span class="highlight">niet gevonden</span></h1>\n'
 			+ '\t<p class="text-page-intro">Misschien is het product uit de collectie gehaald of klopt de link niet meer. Geen zorgen, de rest staat er nog.</p>\n'
-			+ '\t<p class="cta-row"><a class="btn primary" href="/webshop.html">Naar de webshop</a> <a class="btn outline" href="/index.html">Naar de homepage</a></p>\n'
+			+ '\t<p class="cta-row"><a class="btn primary" href="/webshop.html">Naar de webshop</a> <a class="btn outline" href="/">Naar de homepage</a></p>\n'
 			+ '\t<ul class="chips">\n\t\t' + links + '\n\t</ul>\n'
 			+ '</div>'
 	};

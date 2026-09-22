@@ -177,7 +177,7 @@ function productPage(product, ctx) {
 	const firstEntry = ctx.images[first.file];
 
 	const crumbs = [
-		{ label: 'Home', path: '', url: root + 'index.html' },
+		{ label: 'Home', path: '', url: root },
 		{ label: 'Webshop', path: 'webshop.html', url: root + 'webshop.html' },
 		{ label: product.name, path: h.productUrl(product) }
 	];
