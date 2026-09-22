@@ -147,32 +147,32 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
   `forms.privacyCheckbox` in `site.json` op `false`.
 - **Cookies:** zonder Google-ID's plaatst de site geen enkele tracking- of marketingcookie en verschijnt er dus geen
   cookiemelding (er is dan niets om toestemming voor te vragen). "Cookie-instellingen" in de footer laat altijd zien
-  wat er gebruikt wordt. Zodra er ID's zijn ingevuld (nu Google Analytics en Tag Manager, zie hieronder) verschijnt
-  de melding met "Weigeren", "Alles accepteren" en "Voorkeuren beheren".
+  wat er gebruikt wordt. Zodra er ID's zijn ingevuld (nu Tag Manager met Google Analytics, zie hieronder)
+  verschijnt de melding met "Weigeren", "Alles accepteren" en "Voorkeuren beheren".
 
 ### Bestellen en meten
 
 - `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.
   Die aparte bedanktpagina kun je in Google Ads of Analytics instellen als conversie.
-- De site zet meetmomenten klaar (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`).
-  Ze gaan pas naar Google als de bezoeker toestemming geeft; zonder ID's in `data/site.json` > `analytics` nooit.
-- **Google Analytics en Tag Manager staan aan:** in `data/site.json` onder `analytics` staan `"ga4": "G-0SLM0NK7CF"`
-  en `"gtm": "GTM-MQLPSW9X"`. Er wordt niets van Google geladen voordat een bezoeker toestemming geeft; weigeren is net
-  zo makkelijk als accepteren, en via "Voorkeuren beheren" kiest de bezoeker per categorie (Statistieken = Analytics,
-  Marketing = Google Ads). De keuze wordt 12 maanden onthouden. Trekt iemand zijn toestemming in, dan verwijdert de
-  site ook de cookies van Google. De privacyverklaring past zich automatisch aan.
-  - Analytics krijgt de meetmomenten hierboven rechtstreeks van de site. Markeer `generate_lead` in Analytics als
-    belangrijke gebeurtenis: dat is een verstuurde bestelling.
-  - **Tag Manager** is er voor extra tags. Zet daar géén Google Analytics- of Google-tag met `G-0SLM0NK7CF` in (en
-    ook geen Google Ads-tags als `googleAds` hieronder is ingevuld), anders telt alles dubbel.
-  - Tag Manager laadt pas na toestemming en krijgt via Consent Mode mee waarvoor wel en niet. Tags van Google houden
-    daar zelf rekening mee. Bij andere tags (zoals de Meta-pixel) stel je dat in bij de tag: Geavanceerde instellingen >
-    Toestemmingsinstellingen (Consent Settings), met `ad_storage` voor advertenties of `analytics_storage` voor
-    statistieken. Zolang `googleAds` leeg is bestaat de categorie Marketing niet en blijft `ad_storage` geweigerd.
-    Een nieuwe partij hoort ook in de privacyverklaring.
-- **Google Ads aanzetten:** vul `"googleAds": "AW-XXXXXXX"` en het conversielabel uit Google Ads bij
-  `adsConversionLabel` in. Dan komt de categorie Marketing erbij (bezoekers krijgen de vraag opnieuw) en telt een
-  verstuurde bestelling als conversie in Google Ads.
+- De site zet meetmomenten klaar in de dataLayer (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`, in
+  het ecommerce-formaat van GA4). De site verstuurt zelf niets; wat ermee gebeurt, stel je in Tag Manager in.
+- **Alles loopt via Google Tag Manager** (`"gtm": "GTM-MQLPSW9X"` in `data/site.json` > `analytics`). De code van
+  Tag Manager staat bovenaan de `<head>` en direct na `<body>` van elke pagina. Google Analytics zit ín Tag Manager;
+  de site laadt geen eigen gtag.js. `"ga4"` en `"googleAds"` in `site.json` bepalen alleen welke categorieën de
+  cookiemelding toont (Statistieken, Marketing) en wat er in de privacyverklaring staat.
+  - Direct boven Tag Manager staat de standaardtoestemming (Consent Mode v2): alles geweigerd, of de keuze die de
+    bezoeker eerder maakte. Tags van Google houden daar zelf rekening mee. Bij andere tags (zoals de Meta-pixel) stel
+    je het in bij de tag: Geavanceerde instellingen > Toestemmingsinstellingen, met `analytics_storage` of `ad_storage`.
+  - Na elke keuze in de cookiemelding komt er een dataLayer-event `cookie_consent_update`. Gebruik dat als trigger
+    voor tags die pas na toestemming mogen starten.
+  - De webshop-meetmomenten in GA4: maak in Tag Manager een trigger "Aangepaste gebeurtenis" met de naam
+    `view_item|add_to_cart|begin_checkout|generate_lead` (regex aan) en een tag "Google Analytics: GA4-gebeurtenis" met
+    gebeurtenisnaam `{{Event}}` en "E-commercegegevens verzenden" (bron: dataLayer). Markeer `generate_lead` in
+    Analytics als belangrijke gebeurtenis: dat is een verstuurde bestelling.
+  - De keuze wordt 12 maanden onthouden. Trekt iemand zijn toestemming in, dan verwijdert de site de cookies van
+    Google en herlaadt de pagina.
+- **Google Ads:** zet de tags in Tag Manager (conversie op `generate_lead`) en vul `"googleAds": "AW-XXXXXXX"` in.
+  Dan komt de categorie Marketing erbij (bezoekers krijgen de vraag opnieuw) en noemt de privacyverklaring Google Ads.
 - In de winkelwagen staan onder "Maak het compleet" kleine extra's (tot €15) die bij de inhoud passen. Welke producten
   bij elkaar horen bepaal je met `related` in `products.json`.
 

@@ -255,8 +255,7 @@
 	"analytics": {
 		"gtm": "GTM-MQLPSW9X",
 		"ga4": "G-0SLM0NK7CF",
-		"googleAds": "",
-		"adsConversionLabel": ""
+		"googleAds": ""
 	},
 	"address": {
 		"street": "Abtenlaan 42",

@@ -1,16 +1,16 @@
-// Cookietoestemming (AVG + ePrivacy/Telecommunicatiewet) en het laden van Google-tags.
+// Cookietoestemming (AVG + ePrivacy/Telecommunicatiewet) voor Google Tag Manager.
 //
 // Uitgangspunten:
-//   - Zonder ID's in data/site.json > analytics plaatst de site geen enkele tracking- of marketingcookie.
-//     Er is dan niets om toestemming voor te vragen, dus verschijnt er geen banner. "Cookie-instellingen"
-//     in de footer laat wel altijd zien wat er gebruikt wordt.
-//   - Met ID's: alles staat standaard op geweigerd (Consent Mode v2) en er wordt GEEN Google-script geladen
-//     totdat de bezoeker toestemming geeft.
-//   - Google Analytics en Google Ads laadt de site zelf (gtag.js). Google Tag Manager is er voor extra tags: het laadt
-//     zodra de bezoeker ergens toestemming voor geeft en krijgt via Consent Mode mee waarvoor wel en niet.
-//     Zet Analytics of Ads daarom niet óók in Tag Manager, dan telt alles dubbel.
+//   - Alle tags, ook Google Analytics, zitten in Tag Manager. Tag Manager staat bovenaan elke pagina
+//     (src/templates/layout.js), met direct daarvóór de standaardtoestemming (Consent Mode v2): alles geweigerd,
+//     of de keuze die de bezoeker eerder maakte. Deze module toont de banner en geeft nieuwe keuzes door.
+//   - Tags in Tag Manager moeten die toestemming respecteren. Tags van Google doen dat zelf; bij andere tags stel je
+//     het in bij de tag. Na elke keuze komt er een dataLayer-event "cookie_consent_update".
+//   - De categorieën volgen uit data/site.json > analytics (ga4 = Statistieken, googleAds = Marketing). Zonder die
+//     ID's valt er niets te kiezen en verschijnt er geen banner; "Cookie-instellingen" in de footer werkt altijd.
 //   - "Alles accepteren" en "Weigeren" zijn even prominent; via "Voorkeuren beheren" kies je per categorie.
 //   - De keuze wordt 12 maanden onthouden en is altijd aan te passen of in te trekken via de footer.
+//     Opslagnaam en termijn staan ook in het inline script in layout.js: houd die gelijk.
 import { openDialog, closeDialog } from './dialog.js';
 
 const STORAGE_KEY = 'js3d-consent-v2';
@@ -18,8 +18,6 @@ const MAX_AGE_DAYS = 365;
 const html = document.documentElement;
 const ga4 = html.dataset.ga4 || '';
 const ads = html.dataset.ads || '';
-const adsLabel = html.dataset.adsLabel || '';
-const gtm = html.dataset.gtm || '';
 const root = document.body.dataset.root || '';
 // De cookies die Google per categorie plaatst; bij weigeren of intrekken ruimt de site ze op
 const GOOGLE_COOKIES = { statistics: /^_ga(_|$)/, marketing: /^_(gcl|gac)_/ };
@@ -32,10 +30,6 @@ const CATEGORIES = [
 ].filter(function (category) { return category.active; });
 const OPTIONAL = CATEGORIES.filter(function (category) { return !category.locked; });
 
-let gtagLoaded = false;
-let gtmLoaded = false;
-const configured = {}; // Google-ID's die al een config hebben gekregen
-const pending = []; // meetmomenten van vóór de toestemming, zie sendEvent()
 let bannerEl = null;
 let dialogEl = null;
 
@@ -76,39 +70,6 @@ function consentState(choice) {
 	};
 }
 
-function addScript(src) {
-	const script = document.createElement('script');
-	script.async = true;
-	script.src = src;
-	document.head.appendChild(script);
-}
-
-// Laadt gtag.js en Tag Manager, en alleen de onderdelen waarvoor toestemming is.
-// Komt er later op dezelfde pagina toestemming bij, dan worden alleen de nieuwe onderdelen toegevoegd.
-function loadTags(choice) {
-	gtag('consent', 'update', consentState(choice));
-	const ids = [];
-	if (ga4 && choice.statistics) ids.push(ga4);
-	if (ads && choice.marketing) ids.push(ads);
-	const fresh = ids.filter(function (id) { return !configured[id]; });
-	if (fresh.length) {
-		if (!gtagLoaded) {
-			gtagLoaded = true;
-			addScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(fresh[0]));
-			gtag('js', new Date());
-		}
-		fresh.forEach(function (id) { configured[id] = true; gtag('config', id); });
-		// Wat er op deze pagina al vóór de toestemming gebeurde (zoals view_item), gaat nu alsnog mee, ná de config
-		pending.splice(0).forEach(function (item) { dispatch(item[0], item[1]); });
-	}
-	// Tag Manager leest de toestemming hierboven uit dezelfde dataLayer, dus die staat al goed voordat er een tag start
-	if (gtm && !gtmLoaded && (choice.statistics || choice.marketing)) {
-		gtmLoaded = true;
-		window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-		addScript('https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(gtm));
-	}
-}
-
 // Verwijdert cookies waarvan de naam op het patroon past. Google zet ze op het hoofddomein (.jelgers3d.nl) en een
 // cookie verdwijnt alleen met hetzelfde domein erbij, dus probeer elk niveau van de hostnaam (en zonder domein).
 function removeCookies(pattern) {
@@ -127,17 +88,15 @@ function apply(choice) {
 	if (bannerEl) bannerEl.hidden = true;
 	if (dialogEl) closeDialog(dialogEl);
 	const revoked = previous && ((previous.statistics && !record.statistics) || (previous.marketing && !record.marketing));
-	const running = gtagLoaded || gtmLoaded;
-	if (revoked && running) {
-		// Eerst Google stilzetten, anders zet het de cookies die hieronder worden opgeruimd meteen opnieuw
-		if (ga4 && !record.statistics) window['ga-disable-' + ga4] = true;
-		gtag('consent', 'update', consentState(record));
-	}
+	// Bij intrekken eerst Analytics stilzetten, anders zet het de cookies die hieronder worden opgeruimd meteen opnieuw
+	if (revoked && ga4 && !record.statistics) window['ga-disable-' + ga4] = true;
+	gtag('consent', 'update', consentState(record));
 	if (!record.statistics) removeCookies(GOOGLE_COOKIES.statistics);
 	if (!record.marketing) removeCookies(GOOGLE_COOKIES.marketing);
-	// Draaiende tags zijn niet netjes te stoppen: herladen is de enige manier
-	if (revoked && running) { location.reload(); return; }
-	loadTags(record);
+	// Tags die al draaien zijn niet netjes te stoppen: herladen is de enige manier
+	if (revoked) { location.reload(); return; }
+	// Voor tags in Tag Manager die pas na een keuze mogen starten (trigger: aangepaste gebeurtenis)
+	window.dataLayer.push({ event: 'cookie_consent_update', consent_statistics: record.statistics, consent_marketing: record.marketing });
 }
 
 function acceptAll() { apply({ statistics: true, marketing: true }); }
@@ -216,34 +175,13 @@ function showPreferences() {
 	openDialog(dialogEl);
 }
 
-function dispatch(event, params) {
-	gtag('event', event, params);
-	// Een verstuurde bestelling telt als conversie in Google Ads, maar alleen met toestemming voor marketing
-	if (configured[ads] && adsLabel && event === 'generate_lead' && params.transaction_id) {
-		gtag('event', 'conversion', { send_to: ads + '/' + adsLabel, value: params.value, currency: params.currency, transaction_id: params.transaction_id });
-	}
-}
-
-// Wordt door track() in util.js aangeroepen bij elk meetmoment
-export function sendEvent(event, params) {
-	if (!OPTIONAL.length) return;
-	const flat = Object.assign({}, params || {});
-	if (flat.ecommerce) { Object.assign(flat, flat.ecommerce); delete flat.ecommerce; }
-	// Nog geen toestemming: bewaren. Er gaat niets naar Google tot loadTags() het verstuurt.
-	if (gtagLoaded) dispatch(event, flat);
-	else pending.push([event, flat]);
-}
-
 export function initConsent() {
 	document.querySelectorAll('[data-cookie-settings]').forEach(function (button) {
 		button.addEventListener('click', showPreferences);
 	});
-	if (!OPTIONAL.length) return; // geen tags ingesteld: niets te vragen
+	if (!OPTIONAL.length) return; // geen categorieën ingesteld: niets te vragen
 
 	window.dataLayer = window.dataLayer || [];
-	gtag('consent', 'default', consentState(null));
-
-	const choice = readChoice();
-	if (!choice) showBanner();
-	else loadTags(choice);
+	// De standaardtoestemming en een eerder gemaakte keuze staan al in de dataLayer (inline script in de <head>)
+	if (!readChoice()) showBanner();
 }

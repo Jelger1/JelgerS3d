@@ -22,11 +22,13 @@ function joinDutch(items) {
 function privacyPage(ctx, template) {
 	const site = ctx.site;
 	const analytics = site.analytics || {};
-	const measuring = Boolean(analytics.ga4 || analytics.googleAds);
-	// Tag Manager laadt alleen na toestemming voor een van de categorieën hierboven (zie consent.js)
-	const services = [analytics.ga4 && 'Google Analytics', analytics.googleAds && 'Google Ads', measuring && analytics.gtm && 'Google Tag Manager'].filter(Boolean);
+	// Alles loopt via Tag Manager, dat op elke pagina laadt (zie layout.js); zonder Tag Manager laadt er niets van Google
+	const gtm = Boolean(analytics.gtm);
+	const ga4 = gtm && analytics.ga4;
+	const ads = gtm && analytics.googleAds;
+	const services = [ga4 && 'Google Analytics', ads && 'Google Ads'].filter(Boolean);
 
-	const statisticsRow = analytics.ga4
+	const statisticsRow = ga4
 		? '\t\t<tr>\n'
 			+ '\t\t\t<th scope="row">Meten hoe de website wordt gebruikt, zodat ik hem kan verbeteren (Google Analytics)</th>\n'
 			+ '\t\t\t<td>Welke pagina\'s je bekijkt en wat je op de website doet, zoals producten in je winkelwagen leggen of een bestelling versturen (met de producten en het bedrag). Verder hoe je op de website kwam, je apparaat en browser, je globale locatie (land en stad) en een willekeurig cookie-ID. Volgens Google gebruikt Analytics je IP-adres alleen om die locatie te bepalen en wordt het niet opgeslagen.</td>\n'
@@ -35,21 +37,24 @@ function privacyPage(ctx, template) {
 			+ '\t\t</tr>'
 		: '';
 
-	const googleSharing = measuring
-		? '<p>Geef je toestemming voor cookies, dan ontvangt ook <strong>Google</strong> gegevens over je bezoek (' + joinDutch(services) + '). Meer daarover lees je bij <a href="#cookies">cookies</a>.</p>'
+	const googleSharing = gtm
+		? '<p>Daarnaast laadt de website op elke pagina <strong>Google Tag Manager</strong>' + (services.length ? ', met daarin ' + joinDutch(services) : '')
+			+ '. Daarbij ontvangt Google gegevens over je bezoek' + (services.length ? '; cookies worden alleen met jouw toestemming geplaatst' : '') + '. Meer daarover lees je bij <a href="#cookies">cookies</a>.</p>'
 		: '';
 
-	const cookieText = measuring
-		? '<p><strong>Alleen met jouw toestemming</strong> gebruik ik diensten van Google:</p>\n<ul>\n'
-			+ (analytics.ga4 ? '\t<li><strong>Statistieken (Google Analytics):</strong> meet hoe de website wordt gebruikt, zodat ik hem kan verbeteren. Google plaatst hiervoor de cookies <code>_ga</code> en <code>_ga_' + h.esc(analytics.ga4.replace(/^G-/, '')) + '</code>, die maximaal 2 jaar na je laatste bezoek bewaard blijven.</li>\n' : '')
-			+ (analytics.googleAds ? '\t<li><strong>Marketing (Google Ads):</strong> meet of een advertentie tot een bestelling heeft geleid. Hiervoor plaatst Google cookies.</li>\n' : '')
-			+ (analytics.gtm ? '\t<li><strong>Google Tag Manager:</strong> een hulpmiddel van Google om meetcodes op de website te beheren. Het wordt pas geladen nadat je toestemming hebt gegeven en plaatst zelf geen cookies.</li>\n' : '')
-			+ '</ul>\n'
-			+ '<p>Zolang je geen toestemming geeft, wordt er niets van Google geladen. Daarna kan Google je gegevens ook buiten de EER verwerken, met de waarborgen die hierboven staan. Je kiest per categorie en kunt je keuze altijd aanpassen of intrekken via "Cookie-instellingen" onderaan elke pagina. Trek je je toestemming in, dan verwijdert de website ook de cookies die Google al had geplaatst. Je keuze wordt maximaal 12 maanden onthouden; daarna vraag ik het opnieuw.</p>'
+	const cookieText = gtm
+		? '<p>Op elke pagina laadt de website <strong>Google Tag Manager</strong>, een hulpmiddel van Google om meetcodes te beheren. Tag Manager plaatst zelf geen cookies, maar Google ontvangt daarbij wel technische gegevens, zoals je IP-adres en welke pagina je bekijkt.</p>\n'
+			+ (services.length
+				? '<p>Via Tag Manager gebruik ik de volgende diensten van Google. Cookies plaatsen ze <strong>alleen met jouw toestemming</strong>:</p>\n<ul>\n'
+					+ (ga4 ? '\t<li><strong>Statistieken (Google Analytics):</strong> meet hoe de website wordt gebruikt, zodat ik hem kan verbeteren. Met je toestemming plaatst Google hiervoor de cookies <code>_ga</code> en <code>_ga_' + h.esc(analytics.ga4.replace(/^G-/, '')) + '</code>, die maximaal 2 jaar na je laatste bezoek bewaard blijven. Zonder toestemming plaatst Google Analytics geen cookies, maar kan het wel een melding zonder cookies en zonder ID sturen (bijvoorbeeld dat er een pagina is bekeken), waarmee Google bezoekersaantallen schat.</li>\n' : '')
+					+ (ads ? '\t<li><strong>Marketing (Google Ads):</strong> meet of een advertentie tot een bestelling heeft geleid. Met je toestemming plaatst Google hiervoor cookies.</li>\n' : '')
+					+ '</ul>\n'
+					+ '<p>Je kiest per categorie en kunt je keuze altijd aanpassen of intrekken via "Cookie-instellingen" onderaan elke pagina. Trek je je toestemming in, dan verwijdert de website ook de cookies die Google al had geplaatst. Google kan je gegevens ook buiten de EER verwerken, met de waarborgen die hierboven staan. Je keuze wordt maximaal 12 maanden onthouden; daarna vraag ik het opnieuw.</p>'
+				: '<p>Via Tag Manager worden geen diensten geladen die cookies plaatsen of je volgen.</p>')
 		: '<p>Deze website plaatst <strong>geen analytische cookies en geen marketingcookies</strong> en volgt je niet. Verandert dat ooit, dan vraag ik je eerst om toestemming via een cookiemelding waarin weigeren net zo makkelijk is als accepteren.</p>';
 
 	const body = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), Object.assign(legalValues(site), {
-		withConsent: measuring ? ' of waarvoor je toestemming geeft' : '',
+		usageData: ga4 ? ' en gegevens over hoe je de website gebruikt (Google Analytics, zie <a href="#cookies">cookies</a>)' : '',
 		statisticsRow: statisticsRow,
 		googleSharing: googleSharing,
 		cookieText: cookieText

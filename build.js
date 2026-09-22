@@ -96,7 +96,9 @@ function validate(products, reviews, site) {
 	Object.keys(idFormats).forEach(function (key) {
 		if (analytics[key] && !idFormats[key][1].test(analytics[key])) warnings.push('site.json > analytics.' + key + ': "' + analytics[key] + '" is geen geldig ID (dat begint met ' + idFormats[key][0] + ')');
 	});
-	if (analytics.gtm && !analytics.ga4 && !analytics.googleAds) warnings.push('site.json > analytics: Tag Manager laadt pas na toestemming voor statistieken of marketing; zonder ga4 of googleAds wordt het dus nooit geladen');
+	if (analytics.gtm && !analytics.ga4 && !analytics.googleAds) warnings.push('site.json > analytics: zonder ga4 of googleAds vraagt de cookiemelding nergens toestemming voor, dus tags in Tag Manager die toestemming nodig hebben starten nooit');
+	if (!analytics.gtm && (analytics.ga4 || analytics.googleAds)) warnings.push('site.json > analytics: Google Analytics en Google Ads worden alleen via Tag Manager geladen; zonder gtm meet de site niets');
+	if ('adsConversionLabel' in analytics) warnings.push('site.json > analytics.adsConversionLabel wordt niet meer gebruikt: stel de Google Ads-conversie in Tag Manager in (gebeurtenis generate_lead)');
 
 	return { errors: errors, warnings: warnings, todos: todos };
 }
