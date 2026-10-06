@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node build.js",
     "dev": "node tools/dev.js",
-    "check": "node tools/check.js"
+    "check": "node tools/check.js",
+    "video": "node tools/video.js"
   },
   "devDependencies": {
     "esbuild": "^0.28.2",

@@ -71,8 +71,18 @@ function buyBox(product, ctx, root) {
 				}).join('\n') + '\n\t\t\t</fieldset>'
 			: '<input type="hidden" name="variant" value="' + h.esc(product.variants[0].id) + '">';
 
+		// Wensveld (bv. een kleurwens): gaat mee als tekst bij de winkelwagenregel en staat zo ook in de bestelmail
+		const wish = product.wish
+			? '\t\t\t<div class="pdp-wish">\n'
+				+ '\t\t\t\t<label for="pdp-wish">' + h.esc(product.wish.label) + '</label>\n'
+				+ '\t\t\t\t<input type="text" id="pdp-wish" name="wish" maxlength="40" autocomplete="off" placeholder="' + h.esc(product.wish.placeholder) + '" aria-describedby="pdp-wish-hint">\n'
+				+ '\t\t\t\t<p class="pdp-wish-hint" id="pdp-wish-hint">' + h.esc(product.wish.hint) + '</p>\n'
+				+ '\t\t\t</div>\n'
+			: '';
+
 		return '<form class="pdp-form" data-product="' + h.esc(product.id) + '">\n'
 			+ '\t\t\t' + options + '\n'
+			+ wish
 			+ '\t\t\t<button type="submit" class="btn btn-primary btn-block pdp-add">In winkelwagen</button>\n'
 			+ '\t\t</form>\n'
 			// Eerlijke urgentie: verschijnt alleen in de weken voor een echte feestdag en verdwijnt daarna vanzelf (zie site.json > deadlines)
@@ -118,6 +128,29 @@ function buyBox(product, ctx, root) {
 		+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Genoteerd!</strong><p>Je hoort van mij zodra de ' + name + ' weer beschikbaar is.</p></div>';
 }
 
+// Introductieprijs: geen doorgestreepte "van"-prijs (die mag alleen als je hem echt hebt gevraagd), maar
+// in gewone taal tot wanneer de prijs geldt en wat hij daarna wordt. build.js rekent de datum zelf na.
+function introNote(product) {
+	if (!(product.intro && product.intro.active)) return '';
+	const until = new Date(product.intro.until + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+	return '\t\t<p class="pdp-intro-note"><strong>Introductieprijs</strong> tot en met ' + until
+		+ '. Daarna ' + h.euro(product.variants[0].regularPrice) + '.</p>\n';
+}
+
+// Promovideo (optioneel, "video" in products.json). Laadt pas als de bezoeker op play drukt.
+function videoSection(product, ctx, root) {
+	if (!product.video) return '';
+	const video = product.video;
+	return '<section class="container pdp-video" aria-labelledby="video-heading">\n'
+		+ '\t<h2 id="video-heading">' + h.esc(video.heading || 'Bekijk de video') + '</h2>\n'
+		+ '\t<video controls preload="none" playsinline width="1280" height="720" poster="' + h.imgPath(ctx.images, video.poster, 1200, root) + '">\n'
+		+ '\t\t<source src="' + root + 'assets/video/' + h.esc(video.file) + '" type="video/mp4">\n'
+		+ '\t\tJe browser kan deze video niet afspelen.\n'
+		+ '\t</video>\n'
+		+ (video.alt ? '\t<p class="pdp-video-caption">' + h.esc(video.alt) + '</p>\n' : '')
+		+ '</section>\n';
+}
+
 function productLd(product, ctx) {
 	const site = ctx.site;
 	const url = site.url + '/' + h.productUrl(product);
@@ -143,6 +176,8 @@ function productLd(product, ctx) {
 			availability: 'https://schema.org/InStock',
 			itemCondition: 'https://schema.org/NewCondition',
 			url: url,
+			// Zolang de introductieprijs loopt, weet Google tot wanneer deze prijs geldt
+			priceValidUntil: product.intro && product.intro.active ? product.intro.until : undefined,
 			seller: { '@type': 'Organization', name: site.name }
 		};
 	}
@@ -198,6 +233,7 @@ function productPage(product, ctx) {
 		+ '\t\t<h1 class="pdp-title">' + h.esc(product.name) + '</h1>\n'
 		+ '\t\t<p class="pdp-tagline">' + h.esc(product.tagline) + '</p>\n'
 		+ (price ? '\t\t<p class="pdp-price" id="pdp-price" aria-live="polite">' + price + '</p>\n' : '\t\t<p class="pdp-price pdp-price-muted">Binnenkort beschikbaar</p>\n')
+		+ introNote(product)
 		+ (product.sale === 'cart' ? '\t\t<p class="pdp-price-note">' + h.esc(site.shipping.note) + '</p>\n' : '')
 		+ '\t\t' + buyBox(product, ctx, root) + '\n'
 		+ '\t\t<ul class="pdp-usps">\n'
@@ -227,6 +263,7 @@ function productPage(product, ctx) {
 		+ '\t\t</section>\n'
 		+ '\t</div>\n'
 		+ '</div>\n\n'
+		+ videoSection(product, ctx, root)
 		+ c.reviewsSection(reviews, 'Wat klanten zeggen over de ' + product.name) + '\n'
 		+ (related.length
 			? '<section class="container pdp-related" aria-labelledby="related-heading">\n'

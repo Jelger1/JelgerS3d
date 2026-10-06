@@ -57,6 +57,16 @@ function validate(products, reviews, site) {
 		if ((p.variants || []).length > 1 && p.variants.some(function (v) { return !v.label; })) errors.push(where + ': bij meerdere varianten heeft elke variant een label nodig');
 		if (p.sale === 'external' && !p.externalUrl) errors.push(where + ': externalUrl ontbreekt');
 		if (p.personalize && (p.sale !== 'cart' || (p.variants || []).length !== 1)) errors.push(where + ': een product met "personalize" moet sale "cart" hebben en precies één variant');
+		if (p.intro) {
+			if (!(p.intro.price > 0) || !/^\d{4}-\d{2}-\d{2}$/.test(p.intro.until || '')) errors.push(where + ': "intro" heeft een price en een until nodig (datum als "2026-12-31")');
+			else if ((p.variants || []).length !== 1) errors.push(where + ': een introductieprijs kan alleen bij precies één variant (anders is onduidelijk welke prijs verlaagd wordt)');
+			else if (p.intro.price >= p.variants[0].price) errors.push(where + ': de introductieprijs moet lager zijn dan de gewone prijs in "variants"');
+		}
+		if (p.video) {
+			if (!p.video.file || !fs.existsSync(path.join(ROOT, 'assets/video', p.video.file))) errors.push(where + ': video "' + (p.video.file || '') + '" staat niet in assets/video/ (maak hem met "npm run video")');
+			if (!p.video.poster) errors.push(where + ': video heeft een "poster" nodig (een foto uit assets/ als voorbeeld)');
+			if (!p.video.alt) warnings.push(where + ': video zonder "alt", beschrijf kort wat er te zien is');
+		}
 		if (!(p.images && p.images.length)) errors.push(where + ': minstens één afbeelding nodig');
 		(p.images || []).forEach(function (image) {
 			if (!fs.existsSync(path.join(ROOT, 'assets', image.file))) errors.push(where + ': afbeelding assets/' + image.file + ' bestaat niet');
@@ -103,6 +113,24 @@ function validate(products, reviews, site) {
 	return { errors: errors, warnings: warnings, todos: todos };
 }
 
+// Introductieprijs ("intro": { "price": 49.95, "until": "2026-12-31" }). Zolang die loopt is dat de echte prijs:
+// op de kaart, op de productpagina, in de winkelwagen, in de productfeed en in schema.org. Is de datum voorbij,
+// dan rekent de site vanaf de eerstvolgende build vanzelf weer de gewone prijs uit "variants".
+// De ACM staat geen doorgestreepte "van"-prijs toe die niet echt is gevraagd; daarom noemt de pagina alleen
+// "introductieprijs tot <datum>, daarna <prijs>". Die gewone prijs moet je daarna dus ook echt rekenen.
+function applyIntro(products, today) {
+	products.forEach(function (product) {
+		if (!product.intro) return;
+		product.intro.active = product.intro.until >= today; // ISO-datums zijn als tekst te vergelijken
+		if (!product.intro.active) return;
+		product.variants.forEach(function (variant) {
+			variant.regularPrice = variant.price;
+			variant.price = product.intro.price;
+		});
+		if (!product.badge) product.badge = 'Introductieprijs';
+	});
+}
+
 // Zet ?v=<versie> achter relatieve imports, zodat browsers na een update nooit oude en nieuwe modules mengen
 function versionImports(source, version) {
 	return source.replace(/(from\s+|import\s+|import\s*\(\s*)(['"])(\.\/[^'"]+?\.js)\2/g, function (m, keyword, quote, spec) {
@@ -120,7 +148,8 @@ function buildCatalog(products, images) {
 			sale: p.sale,
 			variants: p.variants || [],
 			related: p.related || [],
-			personalize: Boolean(p.personalize)
+			personalize: Boolean(p.personalize),
+			wish: Boolean(p.wish)
 		};
 	});
 	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';
@@ -162,11 +191,13 @@ async function build() {
 	const products = readJson('data/products.json');
 	const reviews = readJson('data/reviews.json');
 
-	const report = validate(products, reviews, site);
+	const today = new Date().toISOString().slice(0, 10);
+	const report = validate(products, reviews, site); // eerst controleren, daarna pas prijzen aanpassen
 	if (report.errors.length) {
 		console.error('\nBuild gestopt, los eerst deze fouten op:\n - ' + report.errors.join('\n - ') + '\n');
 		process.exit(1);
 	}
+	applyIntro(products, today);
 
 	// 1. Afbeeldingen (incrementeel)
 	const ogFor = products.map(function (p) { return p.images[0].file; }).concat(site.defaultOgImage);
@@ -179,6 +210,7 @@ async function build() {
 	});
 	// Alleen foto's die de site echt toont worden verwerkt en meegestuurd
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
+		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
 		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file);
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
@@ -225,6 +257,16 @@ async function build() {
 		fs.copyFileSync(path.join(ROOT, 'assets', f), path.join(DIST, 'assets', f));
 	});
 
+	// Video's worden niet door de build gecomprimeerd (daar is ffmpeg voor nodig): "npm run video" maakt de
+	// webversie in assets/video/, hier gaat alleen de kopie naar dist/
+	const videoDir = path.join(ROOT, 'assets/video');
+	if (fs.existsSync(videoDir)) {
+		fs.mkdirSync(path.join(DIST, 'assets/video'), { recursive: true });
+		fs.readdirSync(videoDir).filter(function (f) { return /\.(mp4|webm)$/i.test(f); }).forEach(function (f) {
+			fs.copyFileSync(path.join(videoDir, f), path.join(DIST, 'assets/video', f));
+		});
+	}
+
 	fs.mkdirSync(path.join(DIST, 'assets/fonts'), { recursive: true });
 	fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(function (f) { return /\.(woff2|json)$/i.test(f); }).forEach(function (f) { // .json = lettertype voor de 3D-letters
 		fs.copyFileSync(path.join(ROOT, 'assets/fonts', f), path.join(DIST, 'assets/fonts', f));
@@ -250,7 +292,6 @@ async function build() {
 	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
 
 	// 6. sitemap.xml en robots.txt
-	const today = new Date().toISOString().slice(0, 10);
 	write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
 		+ pages.filter(function (p) { return !p.noindex; }).map(function (p) {
 			return '\t<url><loc>' + site.url + '/' + (p.path === 'index.html' ? '' : p.path) + '</loc><lastmod>' + today + '</lastmod></url>';
@@ -262,6 +303,12 @@ async function build() {
 	console.log('\n✓ ' + pages.length + ' pagina\'s gebouwd in dist/ (' + products.length + ' producten, versie ' + version + ')');
 	console.log('✓ Afbeeldingen: ' + imageResult.processed + ' nieuw verwerkt, ' + imageResult.total + ' totaal');
 	if (report.warnings.length) console.log('\nWaarschuwingen:\n - ' + report.warnings.join('\n - '));
+	// Een introductieprijs is een belofte met een datum: laat zien wanneer hij afloopt of dat hij voorbij is
+	products.filter(function (p) { return p.intro; }).forEach(function (p) {
+		const days = Math.round((new Date(p.intro.until) - new Date(today)) / 86400000);
+		if (!p.intro.active) console.log('\nDe introductieprijs van de ' + p.name + ' is voorbij (' + p.intro.until + '): de site rekent nu ' + h.euro(p.variants[0].price) + '.');
+		else if (days <= 14) console.log('\nLet op: de introductieprijs van de ' + p.name + ' loopt nog ' + days + ' dag(en), tot ' + p.intro.until + '. Daarna wordt het vanzelf ' + h.euro(p.variants[0].regularPrice) + '.');
+	});
 	const address = site.address || {};
 	if (!address.street && !address.onRequest) {
 		console.log('\n⚠ WETTELIJK VERPLICHT: vul je vestigingsadres in bij data/site.json > address (street en postcode).\n  Nu staat alleen "' + (address.city || '') + '" in de footer, de privacyverklaring en de algemene voorwaarden.');

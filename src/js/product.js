@@ -58,6 +58,11 @@ function initBuyForm() {
 		return field.value;
 	}
 
+	// Wens van de klant (bv. een kleurwens); gaat als tekst mee met de winkelwagenregel
+	function wish() {
+		return form.elements.wish ? form.elements.wish.value : '';
+	}
+
 	form.addEventListener('change', function (event) {
 		if (event.target.name !== 'variant') return;
 		const label = euro(event.target.dataset.price);
@@ -74,14 +79,14 @@ function initBuyForm() {
 
 	form.addEventListener('submit', function (event) {
 		event.preventDefault();
-		addAndShow(form.dataset.product, selectedVariant());
+		addAndShow(form.dataset.product, selectedVariant(), 'product', wish());
 	});
 
 	// Mobiele koopbalk: zichtbaar zolang de echte knop niet in beeld is. Dus ook direct bij
 	// binnenkomst, zodat prijs en koopknop op een telefoon altijd zonder scrollen te zien zijn.
 	if (sticky && 'IntersectionObserver' in window) {
 		sticky.querySelector('[data-sticky-add]').addEventListener('click', function () {
-			addAndShow(form.dataset.product, selectedVariant());
+			addAndShow(form.dataset.product, selectedVariant(), 'sticky', wish());
 		});
 		new IntersectionObserver(function (entries) {
 			sticky.hidden = entries[0].isIntersecting;

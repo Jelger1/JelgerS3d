@@ -15,10 +15,11 @@ function findVariant(id, variantId) {
 	return product.variants.find(function (v) { return v.id === variantId; }) || null;
 }
 
-// Persoonlijke tekst (bv. de straatnaam op een sleutelhanger): alleen bij producten met "personalize", en dan verplicht
+// Persoonlijke tekst bij een regel: verplicht bij "personalize" (de tekst op de sleutelhanger) en optioneel bij
+// producten met een wensveld, zoals een kleurwens. Bij de rest wordt tekst genegeerd.
 function cleanText(id, text) {
 	const product = catalog[id];
-	if (!product || !product.personalize) return '';
+	if (!product || !(product.personalize || product.wish)) return '';
 	return String(text || '').replace(/\s+/g, ' ').trim().slice(0, MAX_TEXT);
 }
 
@@ -97,6 +98,7 @@ export function getLines() {
 			variant: item.variant,
 			qty: item.qty,
 			text: item.text,
+			textLabel: product.personalize ? 'Tekst op het product' : 'Wens van de klant',
 			name: product.name,
 			label: details,
 			fullName: product.name + (details ? ' – ' + details : ''),

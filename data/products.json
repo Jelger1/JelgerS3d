@@ -147,7 +147,7 @@
 			"title": "Helio Lamp – 3D-geprinte design tafellamp in jouw kleur",
 			"description": "De Helio Lamp: een sfeervolle 3D-geprinte tafellamp van eigen ontwerp. 22 cm hoog, in meerdere kleuren, met of zonder LED-lamp (E14). Vanaf €34,95."
 		},
-		"related": ["orbits-lamp", "kami-vase", "wavase"]
+		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
 	},
 	{
 		"id": "orbits-lamp",
@@ -182,7 +182,68 @@
 			"title": "Orbits Lamp – dimbare 3D-geprinte tafellamp",
 			"description": "De Orbits Lamp: een slanke 3D-geprinte tafellamp geïnspireerd op UFO-vormen. Dimbaar, met warm én wit licht, 22 cm hoog. €24,95."
 		},
-		"related": ["helio-lamp", "kami-vase", "bold-vase"]
+		"related": ["mijnwerkerslamp", "helio-lamp", "kami-vase"]
+	},
+	{
+		"id": "mijnwerkerslamp",
+		"name": "Mijnwerkerslamp",
+		"type": "lamp",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "De mijnlamp van vroeger als tafellamp van nu, met een wifi-lamp in elke kleur.",
+		"description": [
+			"Onder de grond was de lamp van de koempel het enige licht dat meeging de schacht in. Deze Mijnwerkerslamp is daar een eerbetoon aan: de beugel bovenop, de geribbelde kap en de stoere voet, maar dan laag voor laag geprint en gemaakt voor je eettafel, vensterbank of nachtkastje.",
+			"Aan is hij warm en rustig. Het licht valt zacht door de geribbelde kap naar buiten en schijnt in strepen door de spleten in de kop omhoog. Uit blijft hij een object dat gewoon goed staat.",
+			"Er zit een wifi-lamp bij die je met je telefoon bedient: warm wit als je rustig wilt zitten, of elke kleur die bij het moment past. Het snoer is vier meter lang, dus je hoeft niet naast een stopcontact te gaan zitten.",
+			"De lamp op de foto's is steenkoolzwart met een matwitte kap. Wil je andere kleuren? Zet je kleurwens bij je bestelling, dan stem ik het met je af voordat ik ga printen."
+		],
+		"highlights": [
+			"Eigen ontwerp, laag voor laag geprint in Limburg",
+			"Wifi-lamp inbegrepen: elke kleur en sterkte via je telefoon",
+			"Lang snoer van 4 meter",
+			"Zelf je kleuren kiezen, of steenkoolzwart met matwitte kap"
+		],
+		"specs": [
+			{ "label": "Hoogte", "value": "30 cm" },
+			{ "label": "Breedte", "value": "11 cm" },
+			{ "label": "Diepte", "value": "11 cm" },
+			{ "label": "Fitting", "value": "E14, wifi-lamp inbegrepen" },
+			{ "label": "Snoer", "value": "4 meter" },
+			{ "label": "Kleur", "value": "Steenkoolzwart met matwitte kap, of je eigen kleurwens" }
+		],
+		"wish": {
+			"label": "Jouw kleurwens (optioneel)",
+			"placeholder": "Bijv. antraciet met een witte kap",
+			"hint": "Laat leeg voor steenkoolzwart met een matwitte kap. Ik stem je kleuren met je af voordat ik ga printen."
+		},
+		"intro": { "price": 49.95, "until": "2026-12-31" },
+		"variants": [
+			{ "id": "standaard", "price": 64.95 }
+		],
+		"images": [
+			{
+				"file": "3d-mijnlamp.jpeg",
+				"subject": [32, 12, 68, 90],
+				"alt": "Brandende 3D-geprinte mijnwerkerslamp in steenkoolzwart met matwitte kap op een houten tafel"
+			},
+			{
+				"file": "3d-mijnlamp2.jpeg",
+				"subject": [29, 5, 68, 90],
+				"alt": "De mijnwerkerslamp schuin van voren, met warm licht door de geribbelde kap en strepen licht door de spleten in de kop"
+			}
+		],
+		"video": {
+			"file": "mijnwerkerslamp-promo.mp4",
+			"poster": "Mijnwerkerslamp-Video.jpg",
+			"heading": "Zo zit de lamp in elkaar",
+			"alt": "Animatie waarin de onderdelen van de mijnwerkerslamp samenkomen: de voet met snoer, de fitting met lamp, de geribbelde kap en de kop met beugel. Daarna gaat de lamp in het donker aan."
+		},
+		"seo": {
+			"title": "Mijnwerkerslamp – 3D-geprinte mijnlamp met wifi-lamp",
+			"description": "3D-geprinte mijnwerkerslamp van eigen ontwerp: 30 cm hoog, wifi-lamp (E14) in elke kleur en een snoer van 4 meter. Kies zelf je kleuren. Nu €49,95."
+		},
+		"related": ["dr-joep", "mijnschacht-nulland", "helio-lamp"]
 	},
 	{
 		"id": "mijnschacht-nulland",
@@ -218,7 +279,7 @@
 			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
 			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het Limburgse mijnverleden, 3D-geprint in Limburg. In 15 en 25 cm, vanaf €24,95."
 		},
-		"related": ["dr-joep", "koempel-eend", "kirchroa-sleutelhanger"]
+		"related": ["mijnwerkerslamp", "dr-joep", "koempel-eend"]
 	},
 	{
 		"id": "dr-joep",
@@ -254,7 +315,7 @@
 			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld in modern design",
 			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
 		},
-		"related": ["mijnschacht-nulland", "koempel-eend", "kirchroa-sleutelhanger"]
+		"related": ["mijnwerkerslamp", "mijnschacht-nulland", "koempel-eend"]
 	},
 	{
 		"id": "koempel-eend",
@@ -287,7 +348,7 @@
 			"title": "Koempel-eend – Limburgse mijnwerkerseend, 3D-geprint",
 			"description": "De Koempel-eend: een badeend met mijnwerkershelm en lamp. Een Limburgs cadeau met een knipoog, 3D-geprint in Limburg. €6,95."
 		},
-		"related": ["dr-joep", "mijnschacht-nulland", "vlaai-sleutelhanger"]
+		"related": ["mijnwerkerslamp", "dr-joep", "mijnschacht-nulland"]
 	},
 	{
 		"id": "vlaai-sleutelhanger",

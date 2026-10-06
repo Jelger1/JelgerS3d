@@ -91,3 +91,21 @@
 .pdp-delivery summary::after{content:'+';color:var(--brand);font-size:1.3rem;line-height:1;transition:transform 0.25s ease}
 .pdp-delivery[open] summary::after{transform:rotate(45deg)}
 .pdp-delivery p{margin:0;padding:0 1.1rem 0.9rem;color:var(--fg-muted);font-size:0.9rem;line-height:1.6}
+
+/* Introductieprijs: in gewone taal onder de prijs, geen doorgestreepte "van"-prijs */
+.pdp-intro-note{margin:0.5rem 0 0 0;font-size:0.85rem;color:var(--brand)}
+.pdp-intro-note strong{color:var(--brand)}
+
+/* Wensveld bij het bestellen (bijvoorbeeld een kleurwens) */
+.pdp-wish{margin:1.25rem 0 0 0}
+.pdp-wish label{display:block;margin-bottom:0.5rem;font-weight:600;font-size:0.92rem;color:var(--soft)}
+.pdp-wish input{width:100%;padding:0.8rem 1rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-secondary);color:var(--soft);font:inherit;box-sizing:border-box}
+.pdp-wish input::placeholder{color:var(--fg-muted)}
+.pdp-wish input:focus{outline:none;border-color:var(--brand);background:var(--dark);box-shadow:0 0 0 4px var(--brand-glow)}
+.pdp-wish-hint{margin:0.5rem 0 0 0;font-size:0.82rem;color:var(--fg-muted)}
+
+/* Productvideo */
+.pdp-video{padding-top:3rem}
+.pdp-video h2{font-size:1.5rem;margin-bottom:1.25rem}
+.pdp-video video{display:block;width:100%;max-width:900px;height:auto;aspect-ratio:16/9;border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--dark-card)}
+.pdp-video-caption{max-width:900px;margin:0.75rem 0 0 0;font-size:0.85rem;color:var(--fg-muted)}

@@ -34,6 +34,21 @@ Ging er iets mis? Kijk op https://github.com/Jelger1/JelgerS3d/actions of de laa
    - `related`: id's van producten onder "Past erbij".
 3. Draai `build.bat`. De build controleert je data en vertelt in gewoon Nederlands wat er mist of niet klopt.
 
+### Extra's die een product kan hebben
+
+- **Introductieprijs** (`"intro": { "price": 49.95, "until": "2026-12-31" }`): zolang die datum niet voorbij is,
+  rekent de hele site die prijs (kaarten, winkelwagen, Google-feed) en staat er bij de prijs *"Introductieprijs tot
+  en met … Daarna €…"*. De gewone prijs blijft in `variants` staan; na de einddatum pakt de eerstvolgende build die
+  vanzelf weer op. Een doorgestreepte "van"-prijs gebruikt de site bewust niet: dat mag alleen als je die prijs de
+  30 dagen ervoor echt hebt gevraagd (regels van de ACM). Reken na de einddatum dus ook echt de gewone prijs.
+- **Kleurwens of andere wens** (`"wish": { "label": …, "placeholder": …, "hint": … }`): zet een tekstveld bij de
+  koopknop. Wat de klant invult (max. 40 tekens) komt in de winkelwagen te staan en in je bestelmail onder
+  "WENS VAN DE KLANT".
+- **Video** (`"video": { "file": …, "poster": …, "heading": …, "alt": … }`): onderaan de productpagina. De video
+  wordt pas gedownload als de bezoeker op play drukt. Maak de webversie eerst met
+  `npm run video -- <bestand in assets/> <naam> <seconde voor het voorbeeldbeeld>`; dat maakt een kleine 720p-versie
+  in `assets/video/` plus een voorbeeldbeeld. Daar is ffmpeg voor nodig; de build zelf heeft dat niet nodig.
+
 ### Het product netjes in het midden: `subject`
 
 Alle productfoto's worden getoond in een vast kader van 4:5. De build snijdt elke foto zo bij dat het

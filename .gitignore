@@ -4,3 +4,7 @@ dist/
 .env
 .env.*
 brag-output*/
+
+# Grote bronvideo's blijven lokaal; de kleine webversie in assets/video/ gaat wel mee (zie tools/video.js)
+/assets/*.mp4
+/assets/*.mov
