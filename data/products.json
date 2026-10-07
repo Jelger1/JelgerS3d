@@ -256,28 +256,30 @@
 		"tagline": "Een stijlvol eerbetoon aan Limburgse geschiedenis, perfect als cadeau of decorstuk.",
 		"description": [
 			"Schacht Nulland in Kerkrade is een van de laatste tastbare herinneringen aan de Domaniale Mijn. Generaties koempels verdienden in deze mijn hun brood. Het gebouw staat er nog, en met dit model staat het ook bij jou: de bogen, de toren en de details, laag voor laag opgebouwd.",
-			"Het is geen souvenir maar een eerbetoon. Voor op de kast van iemand wiens vader of opa ondergronds werkte, of voor iedereen die vindt dat dit verhaal verteld moet blijven worden. Verkrijgbaar in twee formaten."
+			"Het is geen souvenir maar een eerbetoon. Voor op de kast van iemand wiens vader of opa ondergronds werkte, of voor iedereen die vindt dat dit verhaal verteld moet blijven worden. In de sokkel staat \"Schacht Nulland\" gegraveerd."
 		],
 		"highlights": [
 			"Gedetailleerd model van Schacht Nulland, Kerkrade",
-			"Verkrijgbaar in 15 cm en 25 cm",
+			"Formaat 25 cm, met \"Schacht Nulland\" in de sokkel",
 			"Een cadeau met betekenis"
 		],
 		"specs": [
-			{ "label": "Formaten", "value": "15 cm of 25 cm" },
+			{ "label": "Formaat", "value": "25 cm" },
 			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
 		],
 		"variants": [
-			{ "id": "15cm", "label": "15 cm", "price": 24.95 },
 			{ "id": "25cm", "label": "25 cm", "price": 34.95 }
 		],
 		"images": [
-			{ "file": "Schacht-Nulland1.jpg", "subject": [6, 38, 88, 68], "alt": "3D-geprint model van Mijnschacht Nulland op een wit blad" },
-			{ "file": "Schacht-nulland2.jpg", "subject": [0, 8, 86, 92], "alt": "Close-up van het 3D-geprinte model van Mijnschacht Nulland met bogen en toren" }
+			{ "file": "Schacht-Nulland1.jpg", "subject": [4, 28, 94, 77], "alt": "3D-geprint model van Mijnschacht Nulland schuin van voren tegen een donkere achtergrond, met de hoge schoorsteen, de ronde uitbouw en de lage machinehal" },
+			{ "file": "schacht-nulland-3d-04-ventilator.jpg", "subject": [8, 22, 98, 76], "alt": "Het model van de andere kant, met het ventilatorwiel en de ronde schoorsteen naast de lage hal" },
+			{ "file": "schacht-nulland-3d-02-uitbouw.jpg", "subject": [0, 10, 100, 90], "alt": "Close-up van de ronde uitbouw met balkon en de schoorsteen, met \"Schacht Nulland\" in de sokkel gegraveerd" },
+			{ "file": "schacht-nulland-3d-03-steunberen-schachtwielen.jpg", "subject": [0, 29, 94, 94], "alt": "Zijaanzicht met de steunberen en de schachtwielen in de schuine gevel, met de gegraveerde sokkel op de voorgrond" },
+			{ "file": "schacht-nulland-3d-01-voorkant.jpg", "subject": [5, 28, 94, 74], "alt": "Het complete model van voren: de machinehal met ronde uitbouw en schoorsteen, en links de lage hal met koepel" }
 		],
 		"seo": {
 			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
-			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het Limburgse mijnverleden, 3D-geprint in Limburg. In 15 en 25 cm, vanaf €24,95."
+			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het Limburgse mijnverleden, 3D-geprint in Limburg. Formaat 25 cm, €34,95."
 		},
 		"related": ["mijnwerkerslamp", "dr-joep", "koempel-eend"]
 	},
