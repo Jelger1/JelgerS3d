@@ -258,22 +258,22 @@
 		"description": [
 			"Wie Heerlen binnenkomt, ziet hem al van ver: de bakstenen toren met de kantelen, de stalen schachtbok erbovenop en daar weer bovenop de letters ON. Het schachtgebouw van de mijn Oranje-Nassau I werd tussen 1896 en 1898 gebouwd in de stijl van een kasteel. Tot de sluiting in 1974 verdienden generaties koempels in deze mijn hun brood. Rond 1980 is het gebouw steen voor steen herbouwd, en nu zit het Nederlands Mijnmuseum erin.",
 			"Dit model heb ik helemaal zelf ontworpen, op de echte maten van het gebouw. Ik heb het naast tientallen oude en nieuwe foto's gelegd tot elk detail klopte: de letters ON op de vakwerkbok, de schuine schoor naar de grond, de vier hoektorentjes met kantelen, de rondboogpoort en de vensters in de gevels. In de sokkel staat ORANJE-NASSAU I gegraveerd.",
-			"Ik print hem in mat zwart, als eerbetoon aan de steenkool die hier driekwart eeuw lang naar boven kwam. Liever een andere kleur? Zet je kleurwens bij je bestelling, dan stem ik het met je af voordat ik ga printen. Verkrijgbaar in 15 en 25 cm hoog. De foto's zijn 3D-weergaven van het ontwerp."
+			"Ik print hem in mat zwart, als eerbetoon aan de steenkool die hier driekwart eeuw lang naar boven kwam. Liever een andere kleur? Het model wordt in één kleur geprint, dus kies bijvoorbeeld helemaal groen of helemaal roze. Zet je kleurwens bij je bestelling, dan stem ik het met je af voordat ik ga printen. Verkrijgbaar in 15 en 25 cm hoog. De foto's zijn 3D-weergaven van het ontwerp."
 		],
 		"highlights": [
 			"Getrouw model van het schachtgebouw Oranje-Nassau I, Heerlen",
 			"Met de letters ON, de schachtbok en de schuine schoor",
-			"15 cm of 25 cm hoog, in mat zwart of jouw eigen kleur"
+			"15 cm of 25 cm hoog, in mat zwart of een andere kleur naar keuze"
 		],
 		"specs": [
 			{ "label": "Formaten", "value": "15 cm hoog (sokkel ca. 13 × 8 cm) of 25 cm hoog (sokkel ca. 22 × 14 cm)" },
-			{ "label": "Kleur", "value": "Mat zwart, of je eigen kleurwens" },
+			{ "label": "Kleur", "value": "Eén kleur: mat zwart, of een andere kleur naar keuze" },
 			{ "label": "Ontwerp", "value": "Eigen 3D-model op de echte maten, geprint in Limburg" }
 		],
 		"wish": {
 			"label": "Jouw kleurwens (optioneel)",
-			"placeholder": "Bijv. rood met een groene bok",
-			"hint": "Laat leeg voor mat zwart. Ik stem je kleur met je af voordat ik ga printen."
+			"placeholder": "Bijv. groen of roze",
+			"hint": "Het model wordt in één kleur geprint. Laat leeg voor mat zwart; ik stem je kleur met je af voordat ik ga printen."
 		},
 		"variants": [
 			{ "id": "15cm", "label": "15 cm hoog", "price": 24.95 },
