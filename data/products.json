@@ -246,6 +246,54 @@
 		"related": ["dr-joep", "mijnschacht-nulland", "helio-lamp"]
 	},
 	{
+		"id": "schachtgebouw-oranje-nassau-1",
+		"name": "Schachtgebouw Oranje-Nassau I",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"featured": true,
+		"badge": "Nieuw",
+		"tagline": "De toren met de letters ON, getrouw op schaal nagebouwd. Een eerbetoon aan het Heerlense mijnverleden.",
+		"description": [
+			"Wie Heerlen binnenkomt, ziet hem al van ver: de bakstenen toren met de kantelen, de stalen schachtbok erbovenop en daar weer bovenop de letters ON. Het schachtgebouw van de mijn Oranje-Nassau I werd tussen 1896 en 1898 gebouwd in de stijl van een kasteel. Tot de sluiting in 1974 verdienden generaties koempels in deze mijn hun brood. Rond 1980 is het gebouw steen voor steen herbouwd, en nu zit het Nederlands Mijnmuseum erin.",
+			"Dit model heb ik helemaal zelf ontworpen, op de echte maten van het gebouw. Ik heb het naast tientallen oude en nieuwe foto's gelegd tot elk detail klopte: de letters ON op de vakwerkbok, de schuine schoor naar de grond, de vier hoektorentjes met kantelen, de rondboogpoort en de vensters in de gevels. In de sokkel staat ORANJE-NASSAU I gegraveerd.",
+			"Ik print hem in mat zwart, als eerbetoon aan de steenkool die hier driekwart eeuw lang naar boven kwam. Liever een andere kleur? Zet je kleurwens bij je bestelling, dan stem ik het met je af voordat ik ga printen. Verkrijgbaar in 15 en 25 cm hoog. De foto's zijn 3D-weergaven van het ontwerp."
+		],
+		"highlights": [
+			"Getrouw model van het schachtgebouw Oranje-Nassau I, Heerlen",
+			"Met de letters ON, de schachtbok en de schuine schoor",
+			"15 cm of 25 cm hoog, in mat zwart of jouw eigen kleur"
+		],
+		"specs": [
+			{ "label": "Formaten", "value": "15 cm hoog (sokkel ca. 13 × 8 cm) of 25 cm hoog (sokkel ca. 22 × 14 cm)" },
+			{ "label": "Kleur", "value": "Mat zwart, of je eigen kleurwens" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model op de echte maten, geprint in Limburg" }
+		],
+		"wish": {
+			"label": "Jouw kleurwens (optioneel)",
+			"placeholder": "Bijv. rood met een groene bok",
+			"hint": "Laat leeg voor mat zwart. Ik stem je kleur met je af voordat ik ga printen."
+		},
+		"variants": [
+			{ "id": "15cm", "label": "15 cm hoog", "price": 24.95 },
+			{ "id": "25cm", "label": "25 cm hoog", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "oranje-nassau-1-3d-01-voorkant.jpg", "subject": [6, 12, 90, 91], "alt": "3D-weergave van het model van het schachtgebouw Oranje-Nassau I in mat zwart op een wit blad, met de schachtbok, de letters ON en de schuine schoor" },
+			{ "file": "oranje-nassau-1-3d-02-letters-on.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de letters ON bovenop de kop van de schachtbok, met het vakwerk eronder" },
+			{ "file": "oranje-nassau-1-3d-03-poort.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De hoofdgevel met de rondboogpoort, de vensters in de verdiepte velden en de hoektorentjes met kantelen" },
+			{ "file": "oranje-nassau-1-3d-04-schoor.jpg", "subject": [12, 12, 93, 94], "alt": "De oostkant van het model met de schuine schoor die vanaf de bok naar de sokkel loopt" },
+			{ "file": "oranje-nassau-1-3d-05-westkant.jpg", "subject": [7, 12, 90, 88], "alt": "De westkant van het model met de galerij aan de kop van de bok en de schoor van opzij" },
+			{ "file": "oranje-nassau-1-3d-06-donker.jpg", "subject": [13, 10, 81, 94], "alt": "Het model van Oranje-Nassau I in mat zwart in een donkere studio" }
+		],
+		"seo": {
+			"title": "Schachtgebouw Oranje-Nassau I – 3D-geprint model, Heerlen",
+			"description": "Model van het schachtgebouw Oranje-Nassau I in Heerlen, met de letters ON. 3D-geprint in Limburg, in mat zwart. 15 of 25 cm hoog, vanaf €24,95."
+		},
+		"related": ["mijnschacht-nulland", "mijnwerkerslamp", "dr-joep"]
+	},
+	{
 		"id": "mijnschacht-nulland",
 		"name": "Mijnschacht Nulland",
 		"type": "beeld",
@@ -256,19 +304,20 @@
 		"tagline": "Een stijlvol eerbetoon aan Limburgse geschiedenis, perfect als cadeau of decorstuk.",
 		"description": [
 			"Schacht Nulland in Kerkrade is een van de laatste tastbare herinneringen aan de Domaniale Mijn. Generaties koempels verdienden in deze mijn hun brood. Het gebouw staat er nog, en met dit model staat het ook bij jou: de bogen, de toren en de details, laag voor laag opgebouwd.",
-			"Het is geen souvenir maar een eerbetoon. Voor op de kast van iemand wiens vader of opa ondergronds werkte, of voor iedereen die vindt dat dit verhaal verteld moet blijven worden. In de sokkel staat \"Schacht Nulland\" gegraveerd."
+			"Het is geen souvenir maar een eerbetoon. Voor op de kast van iemand wiens vader of opa ondergronds werkte, of voor iedereen die vindt dat dit verhaal verteld moet blijven worden. In de sokkel staat \"Schacht Nulland\" gegraveerd. Verkrijgbaar in twee formaten: 15 of 25 cm breed."
 		],
 		"highlights": [
 			"Gedetailleerd model van Schacht Nulland, Kerkrade",
-			"Formaat 25 cm, met \"Schacht Nulland\" in de sokkel",
+			"15 of 25 cm breed, met \"Schacht Nulland\" in de sokkel",
 			"Een cadeau met betekenis"
 		],
 		"specs": [
-			{ "label": "Formaat", "value": "25 cm" },
+			{ "label": "Formaten", "value": "15 cm of 25 cm breed" },
 			{ "label": "Ontwerp", "value": "Eigen 3D-model, geprint in Limburg" }
 		],
 		"variants": [
-			{ "id": "25cm", "label": "25 cm", "price": 34.95 }
+			{ "id": "15cm", "label": "15 cm breed", "price": 24.95 },
+			{ "id": "25cm", "label": "25 cm breed", "price": 34.95 }
 		],
 		"images": [
 			{ "file": "Schacht-Nulland1.jpg", "subject": [4, 28, 94, 77], "alt": "3D-geprint model van Mijnschacht Nulland schuin van voren tegen een donkere achtergrond, met de hoge schoorsteen, de ronde uitbouw en de lage machinehal" },
@@ -279,9 +328,9 @@
 		],
 		"seo": {
 			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
-			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het Limburgse mijnverleden, 3D-geprint in Limburg. Formaat 25 cm, €34,95."
+			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het mijnverleden, 3D-geprint in Limburg. 15 of 25 cm breed, vanaf €24,95."
 		},
-		"related": ["mijnwerkerslamp", "dr-joep", "koempel-eend"]
+		"related": ["schachtgebouw-oranje-nassau-1", "mijnwerkerslamp", "dr-joep"]
 	},
 	{
 		"id": "dr-joep",
@@ -317,7 +366,7 @@
 			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld in modern design",
 			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
 		},
-		"related": ["mijnwerkerslamp", "mijnschacht-nulland", "koempel-eend"]
+		"related": ["mijnwerkerslamp", "mijnschacht-nulland", "schachtgebouw-oranje-nassau-1"]
 	},
 	{
 		"id": "koempel-eend",
