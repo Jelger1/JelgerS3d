@@ -364,8 +364,8 @@
 			"hint": "Hij wordt in één kleur geprint. Laat leeg voor mat zwart, zoals op de beelden."
 		},
 		"variants": [
-			{ "id": "10cm", "label": "10 cm", "price": 24.95 },
-			{ "id": "15cm", "label": "15 cm", "price": 34.95 }
+			{ "id": "10cm", "label": "10 cm hoog", "price": 24.95 },
+			{ "id": "15cm", "label": "15 cm hoog", "price": 34.95 }
 		],
 		"images": [
 			{ "file": "raadhuis-kerkrade-3d-01-voorgevel.jpg", "subject": [5, 22, 92, 85], "alt": "3D-weergave van het model van het Raadhuis Kerkrade in mat zwart, schuin van voren: de gevel met banden en blokken in reliëf, de trapgevel, het klokkentorentje en de bordestrap" },
