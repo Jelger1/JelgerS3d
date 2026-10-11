@@ -330,7 +330,56 @@
 			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
 			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het mijnverleden, 3D-geprint in Limburg. 15 of 25 cm breed, vanaf €24,95."
 		},
-		"related": ["schachtgebouw-oranje-nassau-1", "mijnwerkerslamp", "dr-joep"]
+		"related": ["raadhuis-kerkrade", "schachtgebouw-oranje-nassau-1", "mijnwerkerslamp"]
+	},
+	{
+		"id": "raadhuis-kerkrade",
+		"name": "Raadhuis Kerkrade",
+		"type": "beeld",
+		"collection": "limburg",
+		"material": "Bioplastic op plantaardige basis",
+		"sale": "cart",
+		"tagline": "Het raadhuis aan de Markt, nagebouwd op de echte maten. In de kleur die jij kiest.",
+		"description": [
+			"Sinds 1913 staat het raadhuis aan de Markt in Kerkrade, gebouwd naar een ontwerp van gemeente-architect C.J. Duykers. De trap naar het bordes, de trapgevel met de leeuw erbovenop en het achtkantige torentje met zijn drie uien: iedereen die in Kerkrade komt, kent dit gebouw. Sinds 2001 is het een rijksmonument.",
+			"Voor veel Kerkradenaren is het meer dan een mooi gebouw. Hier vergaderde de gemeenteraad en hier zeiden generaties mensen ja tegen elkaar. Zelfs het klokje in het torentje heeft een verhaal: het hing ooit bij de Domaniale Mijn, waar het de mijnwerkers naar hun werk riep.",
+			"Het model is nagebouwd op de echte maten, met de banden en blokken van de gevel in reliëf, de dakkapellen met hun spitse kapjes, de tweezijdige bordestrap met balustrades en de aanbouw uit 1934 aan de achterkant. In de sokkel staat \"Raadhuis Kerkrade\" gegraveerd. Geen souvenir, maar een stuk Kerkrade voor op je kast.",
+			"Je kiest zelf de kleur. Hij wordt in één kleur geprint: mat zwart zoals op de beelden, rood, of iets anders dat je in gedachten hebt. De beelden hierboven zijn 3D-weergaven van het ontwerp; zodra de eerste print van het bed komt, zet ik er echte foto's bij."
+		],
+		"highlights": [
+			"Nagebouwd op de echte maten, met de gevel in reliëf",
+			"Twee formaten: 10 cm of 15 cm hoog",
+			"Zelf je kleur kiezen, in één kleur geprint",
+			"\"Raadhuis Kerkrade\" gegraveerd in de sokkel"
+		],
+		"specs": [
+			{ "label": "Klein formaat", "value": "10 cm hoog, 11 × 14 cm" },
+			{ "label": "Groot formaat", "value": "15 cm hoog, 16 × 21 cm" },
+			{ "label": "Kleur", "value": "Eén kleur naar keuze, standaard mat zwart" },
+			{ "label": "Ontwerp", "value": "Eigen 3D-model van het rijksmonument, geprint in Limburg" }
+		],
+		"wish": {
+			"label": "Jouw kleur (optioneel)",
+			"placeholder": "Bijv. mat zwart of rood",
+			"hint": "Hij wordt in één kleur geprint. Laat leeg voor mat zwart, zoals op de beelden."
+		},
+		"variants": [
+			{ "id": "10cm", "label": "10 cm", "price": 24.95 },
+			{ "id": "15cm", "label": "15 cm", "price": 34.95 }
+		],
+		"images": [
+			{ "file": "raadhuis-kerkrade-3d-01-voorgevel.jpg", "subject": [5, 22, 92, 85], "alt": "3D-weergave van het model van het Raadhuis Kerkrade in mat zwart, schuin van voren: de gevel met banden en blokken in reliëf, de trapgevel, het klokkentorentje en de bordestrap" },
+			{ "file": "raadhuis-kerkrade-3d-02-trapgevel-torentje.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "Close-up van de trapgevel en het achtkantige klokkentorentje met de drie uivormige bekroningen en de spits" },
+			{ "file": "raadhuis-kerkrade-3d-03-bordestrap-gevel.jpg", "subject": [0, 0, 100, 100], "fill": 1, "alt": "De voorgevel van dichtbij: de tweezijdige bordestrap met balustrades, de portiek met fronton, de banden en blokken in reliëf en de naam RAADHUIS KERKRADE op de sokkel" },
+			{ "file": "raadhuis-kerkrade-3d-04-achterkant-aanbouw.jpg", "subject": [11, 23, 97, 77], "alt": "De achterkant van het model met de aanbouw uit 1934 en daarachter het torentje en de trapgevel" },
+			{ "file": "raadhuis-kerkrade-3d-05-vogelvlucht.jpg", "subject": [5, 25, 94, 90], "alt": "Het model van boven gezien, met het schilddak, de dakkapellen met spitse kapjes en de gegraveerde naam op de achthoekige sokkel" },
+			{ "file": "raadhuis-kerkrade-3d-06-donker.jpg", "subject": [4, 22, 92, 86], "alt": "Het model van het Raadhuis Kerkrade in mat zwart in een donkere studio" }
+		],
+		"seo": {
+			"title": "Raadhuis Kerkrade – 3D-geprint model van het stadhuis",
+			"description": "3D-geprint model van het Raadhuis Kerkrade aan de Markt, nagebouwd op de echte maten. In 10 of 15 cm hoog, in de kleur die jij kiest. Vanaf €24,95."
+		},
+		"related": ["mijnschacht-nulland", "schachtgebouw-oranje-nassau-1", "mijnwerkerslamp"]
 	},
 	{
 		"id": "dr-joep",
