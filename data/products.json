@@ -30,7 +30,7 @@
 			{ "file": "Kami-Vase-1kleur1.jpg", "subject": [33, 28, 68, 76], "alt": "Kami Vase in één zandkleurige tint op een wit aanrechtblad" }
 		],
 		"seo": {
-			"title": "Kami Vase – 3D-geprinte designvaas in jouw kleuren",
+			"title": "Kami Vase – 3D-geprinte vaas in jouw kleuren",
 			"description": "De Kami Vase: een gefacetteerde designvaas, geïnspireerd op origami. In één of drie kleuren naar keuze, speciaal voor jou 3D-geprint in Limburg. €34,95."
 		},
 		"related": ["wavase", "bold-vase", "helio-lamp"]
@@ -67,7 +67,7 @@
 			{ "file": "Wavase-Tafel-2.jpg", "subject": [24, 27, 73, 77], "alt": "Wavase van bovenaf gezien, met de gedraaide golfstructuur goed zichtbaar" }
 		],
 		"seo": {
-			"title": "Wavase – waterdichte 3D-geprinte vaas met golvend design",
+			"title": "Wavase – waterdichte 3D-geprinte designvaas",
 			"description": "De Wavase: een organische designvaas met golvende lijnen. Waterdicht, in jouw kleur en speciaal voor jou 3D-geprint in Limburg. €34,95."
 		},
 		"related": ["kami-vase", "bold-vase", "helio-lamp"]
@@ -144,7 +144,7 @@
 			{ "file": "Helio-Lamp-Oranje.jpg", "subject": [45, 23, 80, 52], "alt": "Oranje Helio Lamp op een zwarte piano bij daglicht" }
 		],
 		"seo": {
-			"title": "Helio Lamp – 3D-geprinte design tafellamp in jouw kleur",
+			"title": "Helio Lamp – 3D-geprinte designtafellamp",
 			"description": "De Helio Lamp: een sfeervolle 3D-geprinte tafellamp van eigen ontwerp. 22 cm hoog, in meerdere kleuren, met of zonder LED-lamp (E14). Vanaf €34,95."
 		},
 		"related": ["mijnwerkerslamp", "orbits-lamp", "kami-vase"]
@@ -240,7 +240,7 @@
 			"alt": "Animatie waarin de onderdelen van de mijnwerkerslamp samenkomen: de voet met snoer, de fitting met lamp, de geribbelde kap en de kop met beugel. Daarna gaat de lamp in het donker aan."
 		},
 		"seo": {
-			"title": "Mijnwerkerslamp – 3D-geprinte mijnlamp met wifi-lamp",
+			"title": "Mijnwerkerslamp – 3D-geprint, met wifi-lamp",
 			"description": "3D-geprinte mijnwerkerslamp van eigen ontwerp: 30 cm hoog, wifi-lamp (E14) in elke kleur en een snoer van 4 meter. Kies zelf je kleuren. Nu €49,95."
 		},
 		"related": ["dr-joep", "mijnschacht-nulland", "helio-lamp"]
@@ -288,7 +288,7 @@
 			{ "file": "oranje-nassau-1-3d-06-donker.jpg", "subject": [13, 10, 81, 94], "alt": "Het model van Oranje-Nassau I in mat zwart in een donkere studio" }
 		],
 		"seo": {
-			"title": "Schachtgebouw Oranje-Nassau I – 3D-geprint model, Heerlen",
+			"title": "Schachtgebouw Oranje-Nassau I – 3D-model",
 			"description": "Model van het schachtgebouw Oranje-Nassau I in Heerlen, met de letters ON. 3D-geprint in Limburg, in mat zwart. 15 of 25 cm hoog, vanaf €24,95."
 		},
 		"related": ["mijnschacht-nulland", "mijnwerkerslamp", "dr-joep"]
@@ -327,7 +327,7 @@
 			{ "file": "schacht-nulland-3d-01-voorkant.jpg", "subject": [5, 28, 94, 74], "alt": "Het complete model van voren: de machinehal met ronde uitbouw en schoorsteen, en links de lage hal met koepel" }
 		],
 		"seo": {
-			"title": "Mijnschacht Nulland – 3D-geprint model van het mijnmonument",
+			"title": "Mijnschacht Nulland – 3D-geprint model",
 			"description": "Model van Schacht Nulland (Domaniale Mijn, Kerkrade). Een eerbetoon aan het mijnverleden, 3D-geprint in Limburg. 15 of 25 cm breed, vanaf €24,95."
 		},
 		"related": ["raadhuis-kerkrade", "schachtgebouw-oranje-nassau-1", "mijnwerkerslamp"]
@@ -376,7 +376,7 @@
 			{ "file": "raadhuis-kerkrade-3d-06-donker.jpg", "subject": [4, 22, 92, 86], "alt": "Het model van het Raadhuis Kerkrade in mat zwart in een donkere studio" }
 		],
 		"seo": {
-			"title": "Raadhuis Kerkrade – 3D-geprint model van het stadhuis",
+			"title": "Raadhuis Kerkrade – 3D-geprint model",
 			"description": "3D-geprint model van het Raadhuis Kerkrade aan de Markt, nagebouwd op de echte maten. In 10 of 15 cm hoog, in de kleur die jij kiest. Vanaf €24,95."
 		},
 		"related": ["mijnschacht-nulland", "schachtgebouw-oranje-nassau-1", "mijnwerkerslamp"]
@@ -412,7 +412,7 @@
 			{ "file": "dr-joep-grey.jpg", "subject": [28, 22, 70, 91], "alt": "Grijs gefacetteerd beeld van D'r Joep op sokkel, met mijnlamp in de hand" }
 		],
 		"seo": {
-			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld in modern design",
+			"title": "D'r Joep – 3D-geprint mijnwerkersbeeld",
 			"description": "D'r Joep: het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp. 3D-geprint in Limburg, in 15 cm en 25 cm. Vanaf €12,95."
 		},
 		"related": ["mijnwerkerslamp", "mijnschacht-nulland", "schachtgebouw-oranje-nassau-1"]
@@ -445,7 +445,7 @@
 			{ "file": "Koempel-Eend.jpg", "subject": [8, 50, 62, 88], "alt": "Gele Koempel-eend met zwarte mijnwerkershelm en lamp, met Mijnschacht Nulland op de achtergrond" }
 		],
 		"seo": {
-			"title": "Koempel-eend – Limburgse mijnwerkerseend, 3D-geprint",
+			"title": "Koempel-eend – Limburgse mijnwerkerseend",
 			"description": "De Koempel-eend: een badeend met mijnwerkershelm en lamp. Een Limburgs cadeau met een knipoog, 3D-geprint in Limburg. €6,95."
 		},
 		"related": ["mijnwerkerslamp", "dr-joep", "mijnschacht-nulland"]
@@ -475,7 +475,7 @@
 			{ "file": "Vlaai-sleutelhanger.jpeg", "subject": [20, 22, 80, 92], "background": "auto", "alt": "Sleutelhanger in de vorm van een punt pruimenvlaai met deegraster" }
 		],
 		"seo": {
-			"title": "Vlaai Sleutelhanger – Limburgse pruimenvlaai aan je sleutels",
+			"title": "Vlaai sleutelhanger – Limburgse pruimenvlaai",
 			"description": "Sleutelhanger in de vorm van een punt Limburgse pruimenvlaai. Een klein cadeau met een glimlach, 3D-geprint in Limburg. €3,95."
 		},
 		"related": ["poefel-sleutelhanger", "kirchroa-sleutelhanger", "koempel-eend"]
@@ -505,7 +505,7 @@
 			{ "file": "Poefel-Sleutelhanger.jpeg", "subject": [27, 28, 85, 78], "background": "auto", "alt": "Sleutelhanger in de vorm van een poefel met poedersuiker en jamvulling" }
 		],
 		"seo": {
-			"title": "Poefel Sleutelhanger – Limburgse poefel aan je sleutels",
+			"title": "Poefel sleutelhanger – Limburgse poefel",
 			"description": "Sleutelhanger in de vorm van een echte Limburgse poefel, compleet met poedersuiker en jam. 3D-geprint in Limburg. €4,95."
 		},
 		"related": ["vlaai-sleutelhanger", "kirchroa-sleutelhanger", "koempel-eend"]
@@ -537,7 +537,7 @@
 			{ "file": "Kirchroa-Sleutelhanger.jpeg", "subject": [20, 15, 82, 82], "background": "auto", "alt": "Blauwe sleutelhanger in de vorm van een plaatsnaambord met de tekst Kirchroa" }
 		],
 		"seo": {
-			"title": "Kirchroa Sleutelhanger – plaatsnaambord met jouw eigen naam",
+			"title": "Kirchroa sleutelhanger met eigen plaatsnaam",
 			"description": "Sleutelhanger als plaatsnaambord van Kirchroa (Kerkrade). Ook met je eigen plaats of naam. 3D-geprint in Limburg. €3,95."
 		},
 		"related": ["vlaai-sleutelhanger", "poefel-sleutelhanger", "dr-joep"]
@@ -574,7 +574,7 @@
 			{ "file": "Straatnaam-Sleutelhanger-Ontwerp.png", "subject": [16, 37, 85, 62], "fill": 0.86, "background": "auto", "alt": "3D-ontwerpvoorbeeld van de straatnaam sleutelhanger: blauw bord met opliggende witte rand, de tekst Jouw Straat en een sleutelring" }
 		],
 		"seo": {
-			"title": "Straatnaam sleutelhanger – ontwerp je eigen straatnaambord",
+			"title": "Straatnaam sleutelhanger met eigen tekst",
 			"description": "Maak je eigen sleutelhanger als Nederlands straatnaambord. Typ je straatnaam, zie direct het resultaat en laat hem 3D-printen in Limburg. €3,95."
 		},
 		"related": ["kirchroa-sleutelhanger", "vlaai-sleutelhanger", "poefel-sleutelhanger"]
@@ -606,7 +606,7 @@
 			{ "file": "Blonde-Non-3d.jpeg", "subject": [17, 30, 80, 92], "alt": "Roze 3D-geprinte buste van de Blonde Non met bloemenkrans" }
 		],
 		"seo": {
-			"title": "Blonde Non – 3D-geprint beeld voor Brouwerij Rolduc",
+			"title": "Blonde Non – 3D-geprint beeld voor Rolduc",
 			"description": "De Blonde Non: een 3D-geprinte buste, speciaal ontworpen voor Brouwerij Rolduc en exclusief daar verkrijgbaar. Ontwerp door JelgerS3D."
 		},
 		"related": ["custom-lightbox", "dr-joep", "koempel-eend"]
@@ -640,7 +640,7 @@
 			{ "file": "JS3D-LightBox.jpeg", "subject": [22, 18, 82, 88], "background": "auto", "alt": "Verlichte lightbox in de vorm van het JelgerS3D-logo" }
 		],
 		"seo": {
-			"title": "Custom Lightbox – jouw logo als 3D-geprinte lichtbak",
+			"title": "Custom Lightbox – jouw logo als lichtbak",
 			"description": "Laat je logo, naam of ontwerp maken als verlichte 3D-geprinte lightbox. Tot 25 cm en 4 kleuren, vanaf €24,95. Korting bij grotere oplage."
 		},
 		"related": ["blonde-non", "kirchroa-sleutelhanger", "helio-lamp"]

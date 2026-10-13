@@ -203,9 +203,66 @@
 				"type": "vaas"
 			},
 			"heading": "3D-geprinte *designvazen*",
-			"intro": "Sculpturale vazen van eigen ontwerp, laag voor laag geprint in Limburg. Je kiest zelf de kleur, zodat hij precies bij je interieur past. Staat er bij een vaas dat hij waterdicht is, dan is hij gemaakt voor verse bloemen en niet alleen voor de sier.",
-			"seoTitle": "3D-geprinte vazen – designvazen in jouw kleur",
-			"seoDescription": "Unieke 3D-geprinte designvazen van eigen ontwerp: Kami Vase, Wavase en Bold Vase. In jouw kleur, speciaal voor jou geprint in Limburg. Verzenden of ophalen in Kerkrade."
+			"intro": "Een 3D-geprinte vaas van JelgerS3D is een vaas van eigen ontwerp die pas na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen van elk €34,95: de Kami Vase, de Wavase en de Bold Vase.",
+			"seoTitle": "3D-geprinte designvazen in jouw kleur",
+			"seoDescription": "Drie 3D-geprinte designvazen van eigen ontwerp: Kami Vase, Wavase en Bold Vase. In jouw kleur geprint in Limburg, elk €34,95.",
+			"compare": false,
+			"sections": [
+				{
+					"heading": "Welke vaas past bij jou?",
+					"text": [
+						"De drie vazen verschillen in vorm en in wat je ermee kunt doen."
+					],
+					"list": [
+						"**Kami Vase** – gevouwen vlakken, alsof de vaas uit papier is gevouwen. Je kiest één kleur of drie kleurvlakken.",
+						"**Wavase** – organische golven die het licht vangen. Waterdicht, dus geschikt voor verse bloemen.",
+						"**Bold Vase** – stoere, brede vorm met ribbels. Ook waterdicht."
+					]
+				},
+				{
+					"heading": "Verse bloemen of droogbloemen?",
+					"text": [
+						"Bij de Wavase en de Bold Vase staat \"waterdicht\" in de specificaties: daar kun je water en verse bloemen in doen. Bij de Kami Vase staat dat niet vermeld; gebruik daar een glas of reageerbuis in als je verse bloemen wilt, of zet er droogbloemen in."
+					]
+				},
+				{
+					"heading": "Zelf je kleur kiezen",
+					"text": [
+						"Elke vaas wordt pas geprint nadat je hebt besteld. Daarom kun je zelf de kleur bepalen: zet je wens bij je bestelling in het opmerkingenveld, dan stem ik het met je af voordat ik begin. Bij de Kami Vase kies je tussen één kleur en drie kleurvlakken."
+					]
+				},
+				{
+					"heading": "Zo bestel je een vaas",
+					"steps": [
+						"Kies je model en leg het in je winkelwagen.",
+						"Verstuur je aanvraag. Je betaalt op dat moment nog niets.",
+						"Ik neem persoonlijk contact op over kleur, levering en de verzendkosten.",
+						"Na jouw akkoord print ik het voor je, meestal binnen een week klaar.",
+						"Je laat het bezorgen of haalt het op in Kerkrade."
+					],
+					"after": [
+						"Twijfel je tussen twee modellen of over een kleur? Stuur een bericht via de contactpagina, dan denk ik met je mee."
+					]
+				}
+			],
+			"faq": [
+				{
+					"q": "Waar zijn de vazen van gemaakt?",
+					"a": "Van bioplastic op plantaardige basis, laag voor laag geprint in Limburg."
+				},
+				{
+					"q": "Kan ik er verse bloemen in zetten?",
+					"a": "In de Wavase en de Bold Vase wel, die zijn waterdicht. Bij de Kami Vase kun je een glas of reageerbuis in de vaas zetten."
+				},
+				{
+					"q": "Hoe lang duurt het voordat ik mijn vaas heb?",
+					"a": "Elke vaas wordt na je bestelling geprint. Ik streef ernaar dat hij binnen ongeveer een week klaar is om te verzenden of op te halen in Kerkrade."
+				},
+				{
+					"q": "Kan ik een eigen kleur doorgeven?",
+					"a": "Ja. Zet je kleurwens bij je bestelling; ik laat je weten wat mogelijk is voordat ik ga printen."
+				}
+			]
 		},
 		{
 			"slug": "lampen",
@@ -214,9 +271,63 @@
 				"type": "lamp"
 			},
 			"heading": "3D-geprinte *designlampen*",
-			"intro": "Tafellampen die het licht breken tot sfeer. Van de Mijnwerkerslamp, een eerbetoon aan het mijnverleden, tot de Helio en de Orbits. Elk ontwerp is van eigen hand en wordt speciaal voor jou geprint, in de kleur die jij kiest.",
-			"seoTitle": "3D-geprinte lampen – design tafellampen uit Limburg",
-			"seoDescription": "Sfeervolle 3D-geprinte tafellampen van eigen ontwerp: de Mijnwerkerslamp met wifi-lamp, de Helio Lamp en de dimbare Orbits Lamp. In jouw kleur, geprint in Limburg."
+			"intro": "Een 3D-geprinte lamp van JelgerS3D is een tafellamp van eigen ontwerp die na je bestelling wordt geprint, in de kleur die jij kiest. Je kiest uit drie modellen vanaf €24,95: de dimbare Orbits Lamp, de Helio Lamp en de Mijnwerkerslamp met wifi-lamp.",
+			"seoTitle": "3D-geprinte designlampen uit Limburg",
+			"seoDescription": "Drie 3D-geprinte tafellampen van eigen ontwerp: de Mijnwerkerslamp met wifi-lamp, de Helio Lamp en de dimbare Orbits Lamp. Vanaf €24,95.",
+			"compare": true,
+			"sections": [
+				{
+					"heading": "Welke lamp past bij jou?",
+					"list": [
+						"**Orbits Lamp** – 22 cm hoog, gestapelde schijven. Dimbaar en schakelbaar tussen warm en wit licht.",
+						"**Helio Lamp** – 22 cm hoog en 19 cm breed, met gedraaide ribbels die het licht breken. Fitting E14; je bestelt hem met of zonder LED-lamp.",
+						"**Mijnwerkerslamp** – 30 cm hoog, in de vorm van een mijnlamp. Met wifi-lamp (E14) die je met je telefoon in elke kleur zet, en een snoer van 4 meter."
+					]
+				},
+				{
+					"heading": "Welke lamp zit erbij?",
+					"text": [
+						"Bij de Mijnwerkerslamp is de wifi-lamp inbegrepen. Bij de Helio Lamp kies je zelf of je er een LED-lamp (E14) bij bestelt. De Orbits Lamp is dimbaar en wisselt tussen warm en wit licht."
+					]
+				},
+				{
+					"heading": "Zelf je kleur kiezen",
+					"text": [
+						"Alle drie de lampen worden pas na je bestelling geprint, dus je kunt je eigen kleur doorgeven. Zet je wens bij je bestelling, dan stem ik het met je af voordat ik begin."
+					]
+				},
+				{
+					"heading": "Zo bestel je een lamp",
+					"steps": [
+						"Kies je model en leg het in je winkelwagen.",
+						"Verstuur je aanvraag. Je betaalt op dat moment nog niets.",
+						"Ik neem persoonlijk contact op over kleur, levering en de verzendkosten.",
+						"Na jouw akkoord print ik het voor je, meestal binnen een week klaar.",
+						"Je laat het bezorgen of haalt het op in Kerkrade."
+					],
+					"after": [
+						"Niet zeker welke lamp bij je interieur past? Stuur een bericht via de contactpagina, dan denk ik met je mee."
+					]
+				}
+			],
+			"faq": [
+				{
+					"q": "Zit er een lamp bij?",
+					"a": "Bij de Mijnwerkerslamp zit een wifi-lamp inbegrepen. Bij de Helio Lamp kies je bij het bestellen of je er een LED-lamp (E14) bij wilt."
+				},
+				{
+					"q": "Welke fitting hebben de lampen?",
+					"a": "De Helio Lamp en de Mijnwerkerslamp werken met een E14-fitting."
+				},
+				{
+					"q": "Zijn de lampen dimbaar?",
+					"a": "De Orbits Lamp is dimbaar en schakelt tussen warm en wit licht. De wifi-lamp van de Mijnwerkerslamp stel je met je telefoon in."
+				},
+				{
+					"q": "Kan ik zelf de kleur kiezen?",
+					"a": "Ja. Elke lamp wordt na je bestelling geprint; geef je kleurwens door, dan stem ik het met je af."
+				}
+			]
 		},
 		{
 			"slug": "beelden-en-modellen",
@@ -225,9 +336,65 @@
 				"type": "beeld"
 			},
 			"heading": "Beelden & modellen met een *Limburgs hart*",
-			"intro": "Het Limburgse mijnverleden in een modern jasje. Van Schacht Nulland en het schachtgebouw Oranje-Nassau I tot D'r Joep en de Koempel-eend met helm en lamp: objecten die een verhaal vertellen en gewoon goed staan op je kast.",
-			"seoTitle": "3D-geprinte beelden & modellen – Limburgs erfgoed",
-			"seoDescription": "3D-geprinte beelden en modellen met een Limburgs verhaal: Schacht Nulland, Oranje-Nassau I, D'r Joep en de Koempel-eend. Eigen ontwerp, geprint in Limburg."
+			"intro": "In deze categorie staan 3D-geprinte modellen van Limburgs erfgoed: twee mijngebouwen, het raadhuis van Kerkrade en figuren uit de mijnstreek, vanaf €6,95. De gebouwen zijn nagebouwd aan de hand van foto's en openbare kaartgegevens; de figuren zijn eigen ontwerpen.",
+			"seoTitle": "3D-geprinte beelden en modellen uit Limburg",
+			"seoDescription": "3D-geprinte modellen van Limburgs erfgoed: Schacht Nulland, Oranje-Nassau I, het Raadhuis Kerkrade, D'r Joep en de Koempel-eend. Vanaf €6,95.",
+			"compare": true,
+			"sections": [
+				{
+					"heading": "De gebouwen",
+					"list": [
+						"**Mijnschacht Nulland** – het schachtgebouw van de Domaniale Mijn in Kerkrade, 15 of 25 cm breed.",
+						"**Schachtgebouw Oranje-Nassau I** – het schachtgebouw in Heerlen met de letters ON, 15 of 25 cm hoog.",
+						"**Raadhuis Kerkrade** – het raadhuis aan de Markt, gebouwd in 1912-1913 en sinds 2001 rijksmonument. 10 of 15 cm hoog."
+					]
+				},
+				{
+					"heading": "De figuren",
+					"list": [
+						"**D'r Joep** – het Limburgse mijnwerkersicoon in een strak, gefacetteerd ontwerp, 15 of 25 cm.",
+						"**Koempel-eend** – een badeend met mijnwerkershelm en lamp, het goedkoopste model in deze categorie.",
+						"**Blonde Non** – ontworpen in opdracht van Brouwerij Rolduc en alleen bij de brouwerij te koop."
+					]
+				},
+				{
+					"heading": "Formaten en kleuren",
+					"text": [
+						"Bij de gebouwen kies je tussen twee formaten; in de tabel hierboven staat welke. Elk model wordt pas na je bestelling geprint, dus je kunt een kleur doorgeven. De gebouwen print ik standaard in mat zwart, in één kleur per model."
+					]
+				},
+				{
+					"heading": "Zo bestel je een model",
+					"steps": [
+						"Kies je model en leg het in je winkelwagen.",
+						"Verstuur je aanvraag. Je betaalt op dat moment nog niets.",
+						"Ik neem persoonlijk contact op over kleur, levering en de verzendkosten.",
+						"Na jouw akkoord print ik het voor je, meestal binnen een week klaar.",
+						"Je laat het bezorgen of haalt het op in Kerkrade."
+					],
+					"after": [
+						"Heb je een ander gebouw uit de buurt in gedachten? Stuur een bericht via de contactpagina met je idee, dan kijk ik wat mogelijk is."
+					]
+				}
+			],
+			"faq": [
+				{
+					"q": "Welke maten zijn er?",
+					"a": "Dat verschilt per model: de gebouwen zijn er in twee formaten, van 10 tot 25 cm. In de tabel op deze pagina staat welke maat bij welk model hoort."
+				},
+				{
+					"q": "Zijn de gebouwen op schaal nagebouwd?",
+					"a": "Ja. Ik bouw ze na aan de hand van foto's en openbare kaartgegevens, zodat de verhoudingen en de details kloppen."
+				},
+				{
+					"q": "Kan ik een ander gebouw laten maken?",
+					"a": "Stuur een bericht met je idee via de contactpagina, dan kijk ik met je mee wat mogelijk is."
+				},
+				{
+					"q": "Waar zijn de modellen van gemaakt?",
+					"a": "Van bioplastic op plantaardige basis, laag voor laag geprint in Limburg."
+				}
+			]
 		},
 		{
 			"slug": "sleutelhangers",
@@ -236,9 +403,68 @@
 				"type": "sleutelhanger"
 			},
 			"heading": "Limburgse *sleutelhangers*",
-			"intro": "Een punt vlaai, een poefel of het plaatsnaambord van Kirchroa aan je sleutelbos. Kleine cadeaus met een glimlach, ook leuk als extraatje bij een groter cadeau. Een eigen plaatsnaam kan ook.",
-			"seoTitle": "Limburgse sleutelhangers – vlaai, poefel & Kirchroa",
-			"seoDescription": "Limburgse sleutelhangers, 3D-geprint in Limburg: pruimenvlaai, poefel en het plaatsnaambord van Kirchroa (ook met je eigen plaatsnaam). Vanaf €3,95."
+			"intro": "Deze sleutelhangers zijn 3D-geprint in Limburg en kosten €3,95 tot €4,95. Je kiest uit een punt pruimenvlaai, een poefel, het plaatsnaambord van Kirchroa of een bord met je eigen straatnaam.",
+			"seoTitle": "Limburgse sleutelhangers, 3D-geprint",
+			"seoDescription": "Limburgse sleutelhangers uit de 3D-printer: pruimenvlaai, poefel en het plaatsnaambord van Kirchroa. Ook met je eigen straatnaam. Vanaf €3,95.",
+			"compare": false,
+			"sections": [
+				{
+					"heading": "Vier Limburgse sleutelhangers",
+					"list": [
+						"**Vlaai** – een punt pruimenvlaai met deegraster.",
+						"**Poefel** – met poedersuiker en jamvulling, tot in detail nagemaakt.",
+						"**Kirchroa** – in de stijl van een plaatsnaambord. Een andere plaatsnaam kan ook.",
+						"**Straatnaam** – een blauw straatnaambord met jouw eigen tekst, tot 32 tekens."
+					]
+				},
+				{
+					"heading": "Vlaai, poefel en Kirchroa: waar komen ze vandaan?",
+					"text": [
+						"Vlaai is het Limburgse gebak bij uitstek. De sleutelhanger is een punt pruimenvlaai met het raster van deeg erop, zoals je hem bij de bakker ziet liggen.",
+						"Een poefel hoort bij carnaval: goudbruin gebakken, wit van de poedersuiker en met een hart van jam. En Kirchroa is hoe Kerkradenaren hun eigen stad noemen, daarom staat die naam op het blauwe bordje met witte letters."
+					]
+				},
+				{
+					"heading": "Zelf je straatnaambord ontwerpen",
+					"text": [
+						"Bij de Straatnaam Sleutelhanger typ je je eigen tekst en zie je het ontwerp meteen in 3D draaien op je scherm. De tekst wordt automatisch passend gemaakt, tot 32 tekens. Omdat zo'n bord speciaal voor jou wordt gemaakt, kun je hem niet retourneren; controleer de spelling dus goed voordat je bestelt."
+					]
+				},
+				{
+					"heading": "Klein cadeau of extraatje",
+					"text": [
+						"Een sleutelhanger past door de brievenbus, dus verzenden is goedkoop. Ze zijn ook leuk als extraatje bij een groter cadeau, bijvoorbeeld bij een model uit de categorie Beelden & modellen."
+					]
+				},
+				{
+					"heading": "Zo bestel je",
+					"steps": [
+						"Kies je model en leg het in je winkelwagen.",
+						"Verstuur je aanvraag. Je betaalt op dat moment nog niets.",
+						"Ik neem persoonlijk contact op over kleur, levering en de verzendkosten.",
+						"Na jouw akkoord print ik het voor je, meestal binnen een week klaar.",
+						"Je laat het bezorgen of haalt het op in Kerkrade."
+					]
+				}
+			],
+			"faq": [
+				{
+					"q": "Kan ik mijn eigen plaatsnaam of straatnaam erop zetten?",
+					"a": "Ja. Bij de Straatnaam Sleutelhanger typ je je eigen tekst en zie je direct het ontwerp. Bij de Kirchroa Sleutelhanger geef je de gewenste plaatsnaam door bij je bestelling."
+				},
+				{
+					"q": "Kan ik een gepersonaliseerde sleutelhanger retourneren?",
+					"a": "Nee. Een sleutelhanger met je eigen tekst wordt speciaal voor jou gemaakt en valt daarom buiten het herroepingsrecht. De andere sleutelhangers kun je wel binnen 14 dagen retourneren."
+				},
+				{
+					"q": "Wat kost verzenden?",
+					"a": "Dat hoor je van mij voordat je betaalt. Een sleutelhanger past door de brievenbus, dus duur is het niet. Ophalen in Kerkrade kan ook."
+				},
+				{
+					"q": "Waar zijn ze van gemaakt?",
+					"a": "Van bioplastic op plantaardige basis, geprint in Limburg."
+				}
+			]
 		},
 		{
 			"slug": "limburgse-cadeaus",
@@ -247,9 +473,66 @@
 				"collection": "limburg"
 			},
 			"heading": "Cadeaus met een *Limburgs hart*",
-			"intro": "Op zoek naar een Limburgs cadeau met betekenis? Voor iemand die Limburg verliet, voor opa die het mijnverleden nog kent, of gewoon voor jezelf. Elk stuk is eigen ontwerp en wordt speciaal voor jou geprint.",
-			"seoTitle": "Limburgse cadeaus – origineel en lokaal gemaakt",
-			"seoDescription": "Limburgse cadeaus, 3D-geprint in Limburg: Mijnwerkerslamp, Oranje-Nassau I, Schacht Nulland, D'r Joep, Koempel-eend en sleutelhangers. Ook ophalen in Kerkrade."
+			"intro": "Een Limburgs cadeau van JelgerS3D is een eigen ontwerp dat pas na je bestelling wordt geprint in Kerkrade. In deze categorie staan cadeaus vanaf €3,95: van sleutelhangers met vlaai of poefel tot modellen van mijngebouwen en het raadhuis.",
+			"seoTitle": "Limburgse cadeaus, 3D-geprint in Kerkrade",
+			"seoDescription": "Limburgse cadeaus van eigen ontwerp, 3D-geprint in Kerkrade: mijnmodellen, sleutelhangers, de Koempel-eend en de Mijnwerkerslamp. Vanaf €3,95.",
+			"compare": false,
+			"sections": [
+				{
+					"heading": "Een cadeau per prijsklasse",
+					"list": [
+						"**Tot €10** – de sleutelhangers (vlaai, poefel, Kirchroa of je eigen straatnaam) en de Koempel-eend.",
+						"**€10 tot €25** – D'r Joep, de Blonde Non en de kleinste maat van de modellen van Schacht Nulland, Oranje-Nassau I en het Raadhuis Kerkrade.",
+						"**Vanaf €25** – de grootste maat van die modellen en de Mijnwerkerslamp met wifi-lamp."
+					]
+				},
+				{
+					"heading": "Waarom deze cadeaus Limburgs zijn",
+					"text": [
+						"Bijna alles in deze categorie verwijst naar de mijnstreek of naar Kerkrade zelf: de schachtgebouwen van de Domaniale Mijn en Oranje-Nassau I, het raadhuis aan de Markt, de koempel met zijn helm en lamp, en natuurlijk vlaai en poefel. De ontwerpen zijn van eigen hand en worden hier geprint, niet ingekocht."
+					]
+				},
+				{
+					"heading": "Voor wie is het een goed cadeau?",
+					"list": [
+						"Voor wie in Kerkrade of de mijnstreek opgroeide en ergens anders woont.",
+						"Als cadeau bij een trouwdag of jubileum, bijvoorbeeld het raadhuis waar je trouwde.",
+						"Als afscheidscadeau voor een collega die hier jarenlang werkte.",
+						"Voor iemand wiens vader of opa ondergronds werkte."
+					]
+				},
+				{
+					"heading": "Zo bestel je",
+					"steps": [
+						"Kies je model en leg het in je winkelwagen.",
+						"Verstuur je aanvraag. Je betaalt op dat moment nog niets.",
+						"Ik neem persoonlijk contact op over kleur, levering en de verzendkosten.",
+						"Na jouw akkoord print ik het voor je, meestal binnen een week klaar.",
+						"Je laat het bezorgen of haalt het op in Kerkrade."
+					],
+					"after": [
+						"Moet het cadeau op een bepaalde datum klaar zijn? Zet het bij je bestelling in het opmerkingenveld, dan laat ik je weten of het lukt."
+					]
+				}
+			],
+			"faq": [
+				{
+					"q": "Wat is een typisch Limburgs cadeau?",
+					"a": "In deze webshop zijn dat cadeaus die naar de mijnstreek verwijzen: modellen van schachtgebouwen, de Koempel-eend met helm en lamp, en sleutelhangers met vlaai of poefel."
+				},
+				{
+					"q": "Hoe snel heb ik het in huis?",
+					"a": "Alles wordt na je bestelling geprint. Ik streef ernaar dat het binnen ongeveer een week klaar is om te verzenden of op te halen in Kerkrade."
+				},
+				{
+					"q": "Kan ik het laten verzenden?",
+					"a": "Ja. De verzendkosten hangen af van het product en hoor je van mij voordat je betaalt. Zelf ophalen in Kerkrade kan ook."
+				},
+				{
+					"q": "Kan ik zelf een kleur of tekst kiezen?",
+					"a": "Bij de meeste producten wel. Zet je wens bij je bestelling, dan stem ik het met je af voordat ik ga printen."
+				}
+			]
 		}
 	],
 	"analytics": {

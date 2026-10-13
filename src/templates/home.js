@@ -91,7 +91,7 @@ function homePage(ctx, template) {
 		path: 'index.html',
 		root: '',
 		name: 'home',
-		title: site.name + ' – 3D-geprint design uit Limburg | Vazen, lampen & cadeaus',
+		title: site.name + ' – 3D-geprint design uit Limburg',
 		description: site.owner + ' ontwerpt en print unieke vazen, lampen en Limburgse cadeaus. Eigen ontwerp, speciaal voor jou gemaakt in Limburg. Ook maatwerk en custom lightboxen.',
 		ogImage: ctx.images[site.defaultOgImage].og,
 		preload: {

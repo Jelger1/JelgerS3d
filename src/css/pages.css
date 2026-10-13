@@ -93,3 +93,18 @@
 .switch:checked::after{transform:translateX(20px);background:var(--dark)}
 .switch:disabled{opacity:0.6;cursor:not-allowed}
 .switch:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+/* Uitleg onder de producten op een categoriepagina */
+.category-text{max-width:820px;margin:3rem auto 0 auto}
+.category-text h2{font-size:1.4rem;margin:0 0 1rem 0}
+.category-text p{color:var(--fg-muted);line-height:1.75;margin:0 0 1rem 0}
+.category-text strong{color:var(--soft)}
+.category-text .table-scroll{margin-top:0.5rem}
+.category-text a{color:var(--brand);text-decoration:none}
+.category-text a:hover,.category-text a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+.category-list,.category-steps{margin:0 0 1rem 0;padding-left:1.25rem;color:var(--fg-muted);line-height:1.75}
+.category-list li,.category-steps li{margin-bottom:0.6rem}
+.category-list{list-style:disc}
+.category-steps{list-style:decimal}
+.category-steps li::marker{color:var(--brand);font-weight:700}
+.category-faq .faq{margin:0}

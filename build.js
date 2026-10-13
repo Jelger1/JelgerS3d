@@ -79,7 +79,8 @@ function validate(products, reviews, site) {
 		});
 		if (!p.seo || !p.seo.title || !p.seo.description) errors.push(where + ': seo.title en seo.description zijn verplicht');
 		else {
-			if (p.seo.title.length > 65) warnings.push(where + ': seo.title is ' + p.seo.title.length + ' tekens (richtlijn: max 65)');
+			const volledigeTitel = p.seo.title.length + site.name.length + 3; // Google toont "<titel> | <sitenaam>"
+			if (volledigeTitel > 60) warnings.push(where + ': de titel wordt met " | ' + site.name + '" ' + volledigeTitel + ' tekens; Google kapt af rond 60');
 			if (p.seo.description.length > 160) warnings.push(where + ': seo.description is ' + p.seo.description.length + ' tekens (richtlijn: max 160)');
 		}
 		if (!p.material) todos.push(p.name + ': materiaal');
@@ -93,6 +94,8 @@ function validate(products, reviews, site) {
 	(site.categoryPages || []).forEach(function (cat) {
 		if (!/^[a-z0-9-]+$/.test(cat.slug || '')) errors.push('site.json > categoryPages: slug "' + cat.slug + '" mag alleen a-z, 0-9 en - bevatten');
 		if (!productsFor(cat, products).length) errors.push('site.json > categoryPages > "' + cat.slug + '": geen enkel product past bij dit filter');
+		if ((cat.seoTitle || '').length + site.name.length + 3 > 60) warnings.push('site.json > categoryPages > "' + cat.slug + '": de titel wordt met " | ' + site.name + '" te lang; Google kapt af rond 60 tekens');
+		if ((cat.seoDescription || '').length > 160) warnings.push('site.json > categoryPages > "' + cat.slug + '": seoDescription is ' + cat.seoDescription.length + ' tekens (richtlijn: max 160)');
 	});
 	reviews.forEach(function (r) {
 		(r.products || []).forEach(function (id) {
