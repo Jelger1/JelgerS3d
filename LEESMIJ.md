@@ -152,6 +152,10 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
   een zakelijk adres, dan pas je het alleen daar aan. Wil je het adres ooit níet op de site tonen, laat dan `street` leeg
   en zet `"onRequest": true`: de site toont dan alleen de plaats en zegt dat het volledige adres in de orderbevestiging staat
   (je voldoet dan formeel niet aan de vermeldingsplicht op de website).
+- **E-mailadres (ook wettelijk verplicht):** staat in `data/site.json` onder `email`. Op de site staat het nergens
+  leesbaar in de HTML, zodat robots die het web afstruinen naar adressen het niet vinden. Gebruik in teksten
+  `{{emailLink}}` (niet `{{email}}`): de build zet het adres er gecodeerd in en de browser maakt er een gewone, klikbare
+  link van (`src/js/mail.js`). Zonder JavaScript staat er "mijn e-mailadres", met een link naar het contactformulier.
 - **Privacyverklaring en algemene voorwaarden:** de teksten staan in `src/pages/privacy.html` en
   `src/pages/voorwaarden.html`. Bedrijfsnaam, adres, KvK, btw en e-mail worden ingevuld uit `site.json`.
   Pas je de tekst aan, zet dan ook `legal.updated` in `site.json` op de datum van vandaag.
@@ -212,7 +216,13 @@ Alle formulieren (bestellen, contact, maatwerk, printservice en "laat het me wet
 3. **Opslaan** in de tabel `bestellingen` of `berichten`. In het Supabase-dashboard (Table Editor) zie je alles en zet
    je de `status` (bijvoorbeeld van `nieuw` naar `bevestigd`, `betaald` of `geleverd`).
 4. **Mailen** via Resend: een ontvangstbevestiging naar de klant en een overzicht naar jou. Antwoord je op dat overzicht,
-   dan gaat je antwoord naar de klant. In de tabel zie je met `mail_klant` en `mail_eigenaar` of het gelukt is.
+   dan gaat je antwoord naar de klant; met de knoppen bovenin mail of bel je de klant meteen. In de tabel zie je met
+   `mail_klant` en `mail_eigenaar` of het gelukt is.
+
+De mails hebben de huisstijl van de site: donker kader met het logo, koppen in Syne, tekst in Space Grotesk (Gmail en
+Outlook tonen Arial) en bij een bestelling een foto per product. De teksten en de opmaak staan in
+`supabase/functions/formulier/logica.js`. Het logo als PNG en de productfoto's als kleine JPG maakt de build in
+`dist/assets/mail/`, want veel mailprogramma's tonen geen SVG of WebP.
 
 Bewaartermijnen uit de privacyverklaring worden automatisch nagekomen: elke nacht verwijdert de database berichten na
 een jaar en bestellingen na twee jaar (facturen bewaar je in je administratie, niet hier).

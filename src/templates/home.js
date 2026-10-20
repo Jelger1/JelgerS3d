@@ -106,7 +106,7 @@ function homePage(ctx, template) {
 			url: site.url,
 			logo: site.url + '/assets/js-3D-LOGO-BIG.svg',
 			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
-			email: site.email,
+			// Bewust geen e-mailadres: dit is leesbaar voor robots die adressen verzamelen
 			founder: { '@type': 'Person', name: site.owner, jobTitle: '3D Designer & Maker' },
 			address: Object.assign({ '@type': 'PostalAddress', addressLocality: (site.address && site.address.city) || site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
 				site.address && site.address.street ? { streetAddress: site.address.street } : {},

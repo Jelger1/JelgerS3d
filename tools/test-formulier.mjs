@@ -4,17 +4,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, MIN_DUUR_MS } from '../supabase/functions/formulier/logica.js';
+import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail, MIN_DUUR_MS } from '../supabase/functions/formulier/logica.js';
+import helpers from '../src/templates/helpers.js';
 
 const CATALOGUS = {
-	vaas: { name: 'Kami Vase', sale: 'cart', variants: [{ id: 'm', label: 'Medium', price: 24.95 }, { id: 'l', label: 'Large', price: 34.95 }], personalize: false, wish: true },
+	vaas: { name: 'Kami Vase', sale: 'cart', variants: [{ id: 'm', label: 'Medium', price: 24.95 }, { id: 'l', label: 'Large', price: 34.95 }], personalize: false, wish: true, mailImage: 'assets/mail/kami-vase-c-400.jpg' },
 	hanger: { name: 'Straatnaam Sleutelhanger', sale: 'cart', variants: [{ id: 'standaard', label: '', price: 3.95 }], personalize: true, wish: false },
 	lamp: { name: 'Helio Lamp', sale: 'cart', variants: [{ id: 'standaard', price: 0.1 }], personalize: false, wish: false },
 	lightbox: { name: 'Custom Lightbox', sale: 'request', variants: [], personalize: false, wish: false },
 	non: { name: 'Blonde Non', sale: 'external', variants: [], personalize: false, wish: false }
 };
 const WINKEL = {
-	naam: 'JelgerS3D', eigenaar: 'Jelger Sieler', email: 'info@example.nl', url: 'https://jelgers3d.nl',
+	naam: 'JelgerS3D', eigenaar: 'Jelger Sieler', mail: helpers.mailCode('info@example.nl'), url: 'https://jelgers3d.nl',
+	instagram: 'https://www.instagram.com/jelgers3d/', slogan: '3D-design met karakter',
 	adres: 'Abtenlaan 42, Kerkrade', kvk: '12345678', btw: 'NL000000000B00', ophaalplaats: 'Kerkrade',
 	levertijd: 'Ik streef ernaar dat het binnen een week klaar is.'
 };
@@ -122,7 +124,9 @@ test('prijzen: narekenen met de catalogus', function () {
 	assert.equal(r.regels[2].regelTotaal, 0.3, 'geen 0.30000000000000004');
 	assert.equal(r.regels[2].tekst, '', 'tekst alleen bij producten met een wens of personalisatie');
 	assert.equal(r.totaal, 109.1);
-	assert.deepEqual(Object.keys(r.regels[0]).sort(), ['aantal', 'id', 'naam', 'prijs', 'regelTotaal', 'tekst', 'tekstLabel', 'variant']);
+	assert.deepEqual(Object.keys(r.regels[0]).sort(), ['aantal', 'afbeelding', 'id', 'naam', 'prijs', 'regelTotaal', 'tekst', 'tekstLabel', 'variant']);
+	assert.equal(r.regels[0].afbeelding, 'assets/mail/kami-vase-c-400.jpg');
+	assert.equal(r.regels[1].afbeelding, '', 'zonder foto in de catalogus: leeg');
 
 	assert.match(prijzen([{ id: 'bestaat-niet', variant: 'm', aantal: 1 }], CATALOGUS).fout, /niet meer te bestellen/);
 	assert.match(prijzen([{ id: 'lightbox', variant: 'm', aantal: 1 }], CATALOGUS).fout, /niet meer te bestellen/);
@@ -155,6 +159,15 @@ test('mails bij een bestelling', function () {
 	assert.ok(jelger.html.includes('Straat 1, 6461 AA Kerkrade, Nederland'));
 	assert.ok(jelger.html.includes('Alles terugzien in Supabase'));
 	assert.ok(jelger.tekst.includes('2× Kami Vase (Medium) — €49,90'));
+	assert.ok(jelger.html.includes('href="mailto:anne@example.nl?subject=Je%20bestelling%20JS3D-TEST01%20bij%20JelgerS3D"'), 'knop om de klant te mailen');
+	assert.ok(jelger.html.includes('>Bel 06 12345678</a>') && jelger.html.includes('>Open in Supabase</a>'), 'knoppen om te bellen en Supabase te openen');
+	assert.ok(jelger.html.includes('Anne-Marie &lt;b&gt;de Vries&lt;/b&gt; · €49,90 · verzenden naar Kerkrade'), 'voorbeeldregel in de inbox');
+
+	// Huisstijl: logo als PNG van de site, Syne en Space Grotesk, cyaan-mint balk, productfoto
+	assert.ok(jelger.html.includes('src="https://jelgers3d.nl/assets/mail/logo.png"'));
+	assert.ok(jelger.html.includes("font-family:\"Syne\"") && jelger.html.includes("'Space Grotesk'"));
+	assert.ok(jelger.html.includes('linear-gradient(90deg,#03bcca,#5de8d0)'));
+	assert.ok(jelger.html.includes('<img src="https://jelgers3d.nl/assets/mail/kami-vase-c-400.jpg" width="48" height="60" alt=""'));
 
 	const klant = mailKlant(data, extra, WINKEL);
 	assert.equal(klant.onderwerp, 'Je bestelling bij JelgerS3D is binnen (JS3D-TEST01)');
@@ -165,6 +178,8 @@ test('mails bij een bestelling', function () {
 	assert.ok(klant.html.includes('Wens: “Rood”'));
 	assert.ok(!klant.html.includes('in het rood'), 'opmerkingen alleen voor Jelger');
 	assert.ok(klant.html.includes('KvK 12345678'));
+	assert.ok(klant.html.includes('Bestelnummer JS3D-TEST01. Je betaalt nog niets'), 'voorbeeldregel in de inbox');
+	assert.ok(klant.html.includes('>Instagram</a>') && klant.html.includes('3D-design met karakter · Handgemaakt in Limburg'));
 	assert.ok(klant.tekst.startsWith('Hoi Anne-Marie,'));
 
 	const ophalen = ok(bestelling({ bestelling: { levering: 'Ophalen', regels: [{ id: 'vaas', variant: 'm', aantal: 1 }] } }));
@@ -216,9 +231,24 @@ test('mails bij aanvragen en berichten', function () {
 	assert.equal(mailKlant(contact, extra, WINKEL).onderwerp, 'Je bericht aan JelgerS3D is binnen');
 });
 
+test('het e-mailadres van de winkel: gecodeerd en weer leesbaar', function () {
+	for (const adres of ['info@example.nl', 'sieler.jelger+shop@gmail.com']) {
+		const code = helpers.mailCode(adres);
+		assert.ok(!code.includes('@') && !code.includes(adres.split('@')[0]), 'niet herkenbaar in de code');
+		assert.equal(ontcijferMail(code), adres);
+	}
+	assert.equal(ontcijferMail('geen base64!'), '');
+	assert.equal(ontcijferMail(undefined), '');
+});
+
 test('alle bestelbare producten van de site zijn na te rekenen', { skip: !existsSync(new URL('../dist/js/winkel.json', import.meta.url)) && 'bouw eerst de site' }, function () {
 	const { winkel, catalogus } = JSON.parse(readFileSync(new URL('../dist/js/winkel.json', import.meta.url), 'utf8'));
-	for (const sleutel of ['naam', 'eigenaar', 'email', 'url', 'adres', 'kvk', 'btw', 'ophaalplaats', 'levertijd']) assert.ok(winkel[sleutel], 'winkel.' + sleutel);
+	for (const sleutel of ['naam', 'eigenaar', 'mail', 'url', 'adres', 'kvk', 'btw', 'ophaalplaats', 'levertijd']) assert.ok(winkel[sleutel], 'winkel.' + sleutel);
+	const site = JSON.parse(readFileSync(new URL('../data/site.json', import.meta.url), 'utf8'));
+	assert.equal(ontcijferMail(winkel.mail), site.email, 'het adres komt goed terug');
+	assert.ok(!JSON.stringify(winkel).includes(site.email), 'en staat er niet leesbaar in');
+	assert.ok(existsSync(new URL('../dist/assets/mail/logo.png', import.meta.url)), 'logo voor de mails');
+	for (const id of Object.keys(catalogus)) assert.ok(existsSync(new URL('../dist/' + catalogus[id].mailImage, import.meta.url)), 'mailfoto van ' + id);
 	const bestelbaar = Object.keys(catalogus).filter(function (id) { return catalogus[id].sale === 'cart'; });
 	assert.ok(bestelbaar.length > 0);
 	for (const id of bestelbaar) {

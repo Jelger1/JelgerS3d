@@ -116,6 +116,17 @@ function jsonLd(data) {
 }
 
 // Vervangt {{sleutel}} in een HTML-partial
+// Je e-mailadres staat niet leesbaar in de HTML: robots die het web afstruinen naar adressen vinden zo geen adres
+// en geen mailto-link. In de browser maakt src/js/mail.js er weer een gewone, klikbare link van; zonder JavaScript
+// gaat de link naar het contactformulier. Code: het adres achterstevoren, in base64.
+function mailCode(email) {
+	return Buffer.from(String(email).split('').reverse().join(''), 'utf8').toString('base64');
+}
+
+function mailLink(email, home) {
+	return '<a href="' + home + '#contact" data-mail="' + mailCode(email) + '">mijn e-mailadres</a>';
+}
+
 function fill(template, values) {
 	return template.replace(/\{\{\s*([\w:.-]+)\s*\}\}/g, function (match, key) {
 		if (!(key in values)) throw new Error('Onbekende placeholder {{' + key + '}}');
@@ -126,5 +137,5 @@ function fill(template, values) {
 module.exports = {
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl,
 	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
-	addressLine: addressLine, privacyCheckbox: privacyCheckbox
+	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink
 };

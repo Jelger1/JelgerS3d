@@ -4,6 +4,7 @@
 import { drawSign, signToBlob, cleanText, MAX_LENGTH } from './keychain-sign.js';
 import { addAndShow } from './cart-ui.js';
 import { track } from './util.js';
+import { decodeMail } from './mail.js';
 
 function slug(text) {
 	return text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'ontwerp';
@@ -106,7 +107,7 @@ function initOne(root) {
 				+ 'Tekst op het bord: ' + value + '\nAantal: 1\n\n'
 				+ 'Mijn gegevens:\nNaam:\nTelefoon:\nVerzenden of ophalen in Kerkrade:\nAdres (bij verzenden):\n\n'
 				+ 'Tip: voeg de preview die je hebt gedownload toe als bijlage.\n\nGroet,';
-			mailLink.href = 'mailto:' + mailLink.dataset.keychainMail + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+			mailLink.href = 'mailto:' + decodeMail(mailLink.dataset.keychainMail) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 		}
 	}
 

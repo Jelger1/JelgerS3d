@@ -11,11 +11,13 @@ import { initRequest } from './request.js';
 import { initShop } from './shop.js';
 import { initCheckout, initThanks } from './checkout.js';
 import { initKeychain } from './keychain.js';
+import { initMail } from './mail.js';
 
 const page = document.body.dataset.page;
 
 initConsent(); // als eerste: de toestemmingsstatus moet vaststaan voordat er iets gemeten wordt
 initUi();
+initMail(); // e-mailadressen leesbaar maken (staan gecodeerd in de HTML, tegen spamrobots)
 initCartUi();
 initLightbox();
 

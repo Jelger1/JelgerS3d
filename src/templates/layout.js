@@ -27,7 +27,7 @@ function layout(page, ctx) {
 		home: home,
 		year: String(ctx.year),
 		name: h.esc(site.name),
-		email: h.esc(site.email),
+		emailLink: h.mailLink(site.email, home),
 		addressLine: h.addressLine(site),
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),

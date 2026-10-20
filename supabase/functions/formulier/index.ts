@@ -13,7 +13,7 @@
 // honeypot, minimale invultijd, linkfilter, maximaal 5 inzendingen per IP per 10 minuten en per
 // e-mailadres per dag. Robots krijgen een nep-"verstuurd" zodat ze niet leren om de filters heen te werken.
 import { createClient } from 'npm:@supabase/supabase-js@2';
-import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant } from './logica.js';
+import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail } from './logica.js';
 
 const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgers3d.nl').replace(/\/$/, '');
 const MAIL_VAN = Deno.env.get('MAIL_VAN') ?? 'JelgerS3D <bestellingen@jelgers3d.nl>';
@@ -39,13 +39,16 @@ const db = createClient(SUPABASE_URL, SERVICE_KEY, { auth: { persistSession: fal
 const dashboard = SUPABASE_URL.replace(/^https:\/\/([^.]+)\.supabase\.co.*/, 'https://supabase.com/dashboard/project/$1/editor');
 
 // Bedrijfsgegevens en prijzen komen van de website zelf (gemaakt door build.js uit data/*.json),
-// zodat er maar één plek is waar ze staan. Vijf minuten bewaren is genoeg.
+// zodat er maar één plek is waar ze staan. Vijf minuten bewaren is genoeg. Het e-mailadres staat er
+// gecodeerd in, tegen robots die adressen verzamelen.
 let winkelCache: { tijd: number; data: any } | null = null;
 async function winkel() {
 	if (winkelCache && Date.now() - winkelCache.tijd < 5 * 60 * 1000) return winkelCache.data;
 	const res = await fetch(SITE_URL + '/js/winkel.json?n=' + Date.now());
 	if (!res.ok) throw new Error('winkel.json niet bereikbaar: ' + res.status);
-	winkelCache = { tijd: Date.now(), data: await res.json() };
+	const data = await res.json();
+	data.winkel.email = ontcijferMail(data.winkel.mail);
+	winkelCache = { tijd: Date.now(), data };
 	return winkelCache.data;
 }
 

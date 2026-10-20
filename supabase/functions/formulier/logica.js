@@ -18,6 +18,12 @@ export function euro(bedrag) {
 	return '€' + Number(bedrag).toFixed(2).replace('.', ',');
 }
 
+// Het e-mailadres van de winkel staat gecodeerd in winkel.json (achterstevoren, in base64), net als op de site;
+// zie mailCode in src/templates/helpers.js.
+export function ontcijferMail(code) {
+	try { return atob(code || '').split('').reverse().join(''); } catch (e) { return ''; }
+}
+
 function rond(bedrag) { return Math.round(bedrag * 100) / 100; }
 function heeft(object, sleutel) { return Boolean(object) && Object.prototype.hasOwnProperty.call(object, sleutel); }
 
@@ -134,7 +140,8 @@ export function prijzen(regels, catalogus) {
 			prijs: v.price,
 			regelTotaal: rond(v.price * r.aantal),
 			tekst: p.personalize || p.wish ? r.tekst : '',
-			tekstLabel: p.personalize ? 'Tekst op het product' : 'Wens'
+			tekstLabel: p.personalize ? 'Tekst op het product' : 'Wens',
+			afbeelding: p.mailImage || '' // productfoto voor de mail, relatief aan de site (assets/mail/...)
 		});
 	}
 	return { ok: true, regels: uit, totaal: rond(uit.reduce(function (som, r) { return som + r.regelTotaal; }, 0)) };
@@ -148,8 +155,18 @@ export function ordernummer(nu, willekeur) {
 }
 
 // ---------------------------------------------------------------------------------------------- mails
+//
+// In de stijl van de site: een donker kader met het logo, een witte kaart met de cyaan-mint balk, koppen in Syne
+// en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles met tabellen en
+// inline stijlen, want veel mailprogramma's negeren de rest. De plaatjes staan op de site zelf (assets/mail/,
+// gemaakt door build.js). Wit in het midden houdt de mail goed leesbaar, ook als iemand hem uitprint.
 
-const KLEUR = '#03bcca';
+const KLEUR = {
+	donker: '#12151c', merk: '#03bcca', mint: '#5de8d0', zacht: '#e0ebe9', grijs: '#959daa', licht: '#f0efee',
+	tekst: '#12151c', gedempt: '#5b6472', link: '#027a8c', lijn: '#e3e8ec' // gedempt en link: genoeg contrast op wit
+};
+const KOP = "'Syne','Trebuchet MS',Arial,sans-serif";
+const LETTER = "'Space Grotesk','Segoe UI',Arial,Helvetica,sans-serif";
 const TITELS = {
 	contact: 'bericht',
 	offerte: 'aanvraag',
@@ -171,40 +188,82 @@ function datum(moment) {
 	return new Date(moment).toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-function omhulsel(titel, inhoud, voet) {
-	return '<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>' + esc(titel) + '</title></head>'
-		+ '<body style="margin:0;padding:0;background:#eef1f4;font-family:Arial,Helvetica,sans-serif;color:#1d2330;line-height:1.55">'
-		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f4;padding:24px 12px"><tr><td align="center">'
-		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden">'
-		+ '<tr><td style="background:#12151c;padding:18px 28px;font-size:20px;font-weight:bold;color:#ffffff">JelgerS3D<span style="color:' + KLEUR + '">.</span></td></tr>'
-		+ '<tr><td style="padding:28px 28px 8px 28px;font-size:15px">' + inhoud + '</td></tr>'
-		+ '<tr><td style="padding:16px 28px 22px 28px;font-size:12px;color:#6b7280;border-top:1px solid #e5e7eb">' + voet + '</td></tr>'
+// preheader: de regel die mailprogramma's in de inbox naast het onderwerp tonen
+function omhulsel(titel, preheader, inhoud, voet, winkel) {
+	const url = winkel.url;
+	return '<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+		+ '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(titel) + '</title>'
+		+ '<style>@font-face{font-family:"Syne";font-weight:400 800;src:url(' + url + '/assets/fonts/syne-latin.woff2) format("woff2")}'
+		+ '@font-face{font-family:"Space Grotesk";font-weight:300 700;src:url(' + url + '/assets/fonts/space-grotesk-latin.woff2) format("woff2")}'
+		+ '@media (max-width:480px){.kaart{padding:26px 20px 10px 20px!important}}</style></head>'
+		+ '<body style="margin:0;padding:0;background:' + KLEUR.donker + '">'
+		+ '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:' + KLEUR.donker + '">' + esc(preheader) + '&#847;&zwnj;&nbsp;'.repeat(30) + '</div>'
+		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="' + KLEUR.donker + '" style="background:' + KLEUR.donker + '"><tr><td align="center" style="padding:28px 12px 36px 12px">'
+		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">'
+		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '"><img src="' + esc(url) + '/assets/mail/logo.png" width="139" height="52" alt="JelgerS3D" style="display:block;border:0;outline:none;color:' + KLEUR.licht + ';font:700 20px ' + KOP + '"></a></td></tr>'
+		+ '<tr><td bgcolor="#ffffff" style="background:#ffffff;border-radius:16px;overflow:hidden">'
+		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
+		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.merk + ',' + KLEUR.mint + ')">&nbsp;</td></tr>'
+		+ '<tr><td class="kaart" style="padding:32px 32px 14px 32px;font:15px/1.6 ' + LETTER + ';color:' + KLEUR.tekst + '">' + inhoud + '</td></tr>'
+		+ '</table></td></tr>'
+		+ '<tr><td style="padding:22px 4px 0 4px;font:12px/1.7 ' + LETTER + ';color:' + KLEUR.grijs + '">' + voet + '</td></tr>'
 		+ '</table></td></tr></table></body></html>';
 }
 
-function kop(t) { return '<h2 style="margin:24px 0 10px 0;font-size:16px;color:#12151c">' + esc(t) + '</h2>'; }
-function alinea(html) { return '<p style="margin:0 0 14px 0">' + html + '</p>'; }
+function bovenkop(t) { return '<p style="margin:0 0 6px 0;font:700 12px/1.4 ' + LETTER + ';letter-spacing:0.08em;text-transform:uppercase;color:' + KLEUR.link + '">' + esc(t) + '</p>'; }
+// letter: andere letter dan Syne, voor een bestelnummer (de cijfers van Syne zijn sierlijk, niet goed voor te lezen)
+function titel(html, letter) { return '<h1 style="margin:0 0 14px 0;font:800 26px/1.2 ' + (letter || KOP) + ';color:' + KLEUR.tekst + '">' + html + '</h1>'; }
+function kop(t) { return '<h2 style="margin:28px 0 10px 0;font:700 17px/1.3 ' + KOP + ';color:' + KLEUR.tekst + '">' + esc(t) + '</h2>'; }
+function alinea(html, stijl) { return '<p style="margin:0 0 14px 0' + (stijl ? ';' + stijl : '') + '">' + html + '</p>'; }
+function gedempt(html) { return '<span style="color:' + KLEUR.gedempt + '">' + html + '</span>'; }
+function link(href, html) { return '<a href="' + esc(href) + '" style="color:' + KLEUR.link + '">' + html + '</a>'; }
+function label(html) { return '<span style="display:inline-block;background:' + KLEUR.zacht + ';border-radius:999px;padding:6px 14px;font-weight:700;white-space:nowrap">' + html + '</span>'; }
+function notitie(html) { return '<div style="background:' + KLEUR.zacht + ';border-radius:12px;padding:14px 16px;margin:6px 0 16px 0;font-size:14px">' + html + '</div>'; }
+function citaat(t) { return '<div style="background:' + KLEUR.zacht + ';border-radius:12px;padding:14px 16px;margin:0 0 14px 0;white-space:pre-wrap">' + esc(t) + '</div>'; }
+
+// Knoppen voor Jelger: in één tik de klant mailen of bellen
+function knoppen(lijst) {
+	return '<p style="margin:4px 0 6px 0">' + lijst.filter(Boolean).map(function (k, i) {
+		const kleur = i === 0 ? KLEUR.merk : KLEUR.zacht;
+		return '<a href="' + esc(k[0]) + '" style="display:inline-block;margin:0 8px 10px 0;padding:10px 18px;border-radius:999px;background:' + kleur + ';color:' + KLEUR.donker + ';font:700 14px/1.2 ' + LETTER + ';text-decoration:none">' + esc(k[1]) + '</a>';
+	}).join('') + '</p>';
+}
 
 // Tabel met label/waarde-rijen; waarden zijn al geëscaped HTML
 function gegevens(rijen) {
-	return '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:14px;margin:0 0 8px 0">'
+	return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;margin:0 0 8px 0">'
 		+ rijen.filter(function (r) { return r[1]; }).map(function (r) {
-			return '<tr><td style="padding:7px 12px 7px 0;color:#6b7280;vertical-align:top;white-space:nowrap;width:130px">' + esc(r[0]) + '</td>'
-				+ '<td style="padding:7px 0;vertical-align:top">' + r[1] + '</td></tr>';
+			const cel = 'padding:9px 0;vertical-align:top;border-bottom:1px solid ' + KLEUR.lijn;
+			return '<tr><td style="' + cel + ';padding-right:14px;color:' + KLEUR.gedempt + ';white-space:nowrap;width:120px">' + esc(r[0]) + '</td>'
+				+ '<td style="' + cel + '">' + r[1] + '</td></tr>';
 		}).join('') + '</table>';
 }
 
-function regelsHtml(regels, totaal, voetnoot) {
-	return '<table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;font-size:14px">'
+function stappen(lijst) {
+	return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px 0">' + lijst.map(function (s, i) {
+		return '<tr><td width="38" style="vertical-align:top;padding:0 0 12px 0"><div style="width:26px;height:26px;border-radius:13px;background:' + KLEUR.merk + ';color:' + KLEUR.donker + ';font:700 13px/26px ' + LETTER + ';text-align:center">' + (i + 1) + '</div></td>'
+			+ '<td style="vertical-align:top;padding:3px 0 12px 0">' + s + '</td></tr>';
+	}).join('') + '</table>';
+}
+
+// De bestelde producten met foto. url: het adres van de site, waar de foto's staan.
+function regelsHtml(regels, totaal, voetnoot, url) {
+	const cel = 'padding:12px 0;vertical-align:top;border-bottom:1px solid ' + KLEUR.lijn;
+	return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px">'
 		+ regels.map(function (r) {
 			const details = [r.variant, r.tekst ? r.tekstLabel + ': “' + esc(r.tekst) + '”' : ''].filter(Boolean).join(' · ');
-			return '<tr><td style="padding:10px 0;border-bottom:1px solid #e5e7eb;vertical-align:top"><strong>' + r.aantal + '× ' + esc(r.naam) + '</strong>'
-				+ (details ? '<br><span style="color:#6b7280">' + details + '</span>' : '')
-				+ (r.aantal > 1 ? '<br><span style="color:#6b7280">' + euro(r.prijs) + ' per stuk</span>' : '') + '</td>'
-				+ '<td style="padding:10px 0;border-bottom:1px solid #e5e7eb;text-align:right;vertical-align:top;white-space:nowrap">' + euro(r.regelTotaal) + '</td></tr>';
+			const foto = r.afbeelding
+				? '<img src="' + esc(url + '/' + r.afbeelding) + '" width="48" height="60" alt="" style="display:block;border:0;border-radius:8px;background:' + KLEUR.zacht + '">'
+				: '<div style="width:48px;height:60px;border-radius:8px;background:' + KLEUR.zacht + '"></div>';
+			return '<tr><td width="62" style="' + cel + ';padding-right:14px">' + foto + '</td>'
+				+ '<td style="' + cel + '"><strong>' + r.aantal + '× ' + esc(r.naam) + '</strong>'
+				+ (details ? '<br>' + gedempt(details) : '')
+				+ (r.aantal > 1 ? '<br>' + gedempt(euro(r.prijs) + ' per stuk') : '') + '</td>'
+				+ '<td style="' + cel + ';padding-left:12px;text-align:right;white-space:nowrap">' + euro(r.regelTotaal) + '</td></tr>';
 		}).join('')
-		+ '<tr><td style="padding:12px 0 2px 0"><strong>Totaal</strong></td><td style="padding:12px 0 2px 0;text-align:right"><strong>' + euro(totaal) + '</strong></td></tr>'
-		+ (voetnoot ? '<tr><td colspan="2" style="padding:0 0 4px 0;color:#6b7280;font-size:13px">' + esc(voetnoot) + '</td></tr>' : '')
+		+ '<tr><td></td><td style="padding:14px 0 2px 0;font:700 16px/1.3 ' + KOP + '">Totaal</td>'
+		+ '<td style="padding:14px 0 2px 0;text-align:right;white-space:nowrap;font:700 16px/1.3 ' + KOP + '">' + euro(totaal) + '</td></tr>'
+		+ (voetnoot ? '<tr><td></td><td colspan="2" style="padding:2px 0 4px 0;color:' + KLEUR.gedempt + ';font-size:13px">' + esc(voetnoot) + '</td></tr>' : '')
 		+ '</table>';
 }
 
@@ -219,28 +278,37 @@ function adresRegel(d) {
 	return d.levering === 'Ophalen' ? 'Zelf ophalen' : [d.adres, [d.postcode, d.plaats].filter(Boolean).join(' '), d.land].filter(Boolean).join(', ');
 }
 
+function voetLink(href, t) { return '<a href="' + esc(href) + '" style="color:' + KLEUR.merk + ';text-decoration:none">' + esc(t) + '</a>'; }
+
 function winkelVoet(w) {
-	return esc(w.naam) + ' · ' + esc(w.adres) + '<br>KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + ' · <a href="mailto:' + esc(w.email) + '" style="color:#6b7280">' + esc(w.email) + '</a>'
-		+ '<br><a href="' + esc(w.url) + '/voorwaarden.html" style="color:#6b7280">Algemene voorwaarden</a> · <a href="' + esc(w.url) + '/privacy.html" style="color:#6b7280">Privacyverklaring</a>';
+	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + ' · Handgemaakt in Limburg<br>'
+		+ esc(w.adres) + ' · KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + '<br>'
+		+ [voetLink(w.url, w.url.replace(/^https?:\/\//, '')), w.instagram ? voetLink(w.instagram, 'Instagram') : '',
+			voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring')].filter(Boolean).join(' · ');
 }
 
-// Mail naar Jelger: alles overzichtelijk bij elkaar. Antwoorden gaat naar de klant (reply-to).
-// extra: { id, regels, totaal, moment, dashboard }
+// Mail naar Jelger: alles overzichtelijk bij elkaar, met knoppen om de klant meteen te mailen of te bellen.
+// Antwoorden op de mail zelf gaat ook naar de klant (reply-to). extra: { id, regels, totaal, moment, dashboard }
 export function mailEigenaar(data, extra, winkel) {
 	const moment = datum(extra.moment);
 	const klant = [
 		['Naam', esc(data.naam)],
-		['E-mail', '<a href="mailto:' + esc(data.email) + '" style="color:' + KLEUR + '">' + esc(data.email) + '</a>'],
-		['Telefoon', data.telefoon ? '<a href="tel:' + esc(data.telefoon.replace(/[^\d+]/g, '')) + '" style="color:' + KLEUR + '">' + esc(data.telefoon) + '</a>' : '']
+		['E-mail', link('mailto:' + data.email, esc(data.email))],
+		['Telefoon', data.telefoon ? link('tel:' + data.telefoon.replace(/[^\d+]/g, ''), esc(data.telefoon)) : '']
 	];
-	let onderwerp, inhoud, tekstversie;
+	const supabase = extra.dashboard ? [extra.dashboard, 'Open in Supabase'] : null;
+	let onderwerp, preheader, inhoud, tekstversie;
 
 	if (data.soort === 'bestelling') {
 		const aantal = extra.regels.reduce(function (s, r) { return s + r.aantal; }, 0);
 		onderwerp = 'Nieuwe bestelling ' + extra.id + ': ' + aantal + ' item' + (aantal === 1 ? '' : 's') + ', ' + euro(extra.totaal) + ' (' + data.levering.toLowerCase() + ')';
-		inhoud = '<h1 style="margin:0 0 4px 0;font-size:22px">Nieuwe bestelling ' + esc(extra.id) + '</h1>'
-			+ '<p style="margin:0 0 18px 0;color:#6b7280">' + esc(moment) + '</p>'
-			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.')
+		preheader = data.naam + ' · ' + euro(extra.totaal) + ' · ' + (data.levering === 'Ophalen' ? 'ophalen in ' + winkel.ophaalplaats : 'verzenden naar ' + (data.plaats || ''));
+		inhoud = bovenkop('Nieuwe bestelling') + titel(esc(extra.id), LETTER)
+			+ alinea(gedempt(esc(moment) + ' · ' + esc(data.naam) + ' · ' + (data.levering === 'Ophalen' ? 'ophalen' : 'verzenden')))
+			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Je bestelling ' + extra.id + ' bij ' + winkel.naam), 'Mail ' + (voornaam(data.naam) || 'klant')],
+				['tel:' + data.telefoon.replace(/[^\d+]/g, ''), 'Bel ' + data.telefoon], supabase])
+			+ kop('Besteld')
+			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.', winkel.url)
 			+ kop('Klant')
 			+ gegevens(klant.concat([
 				['Levering', data.levering === 'Ophalen' ? 'Zelf ophalen in ' + esc(winkel.ophaalplaats) : 'Verzenden'],
@@ -257,14 +325,17 @@ export function mailEigenaar(data, extra, winkel) {
 		onderwerp = data.soort === 'contact' ? 'Nieuw bericht van ' + data.naam
 			: data.soort === 'beschikbaarheid' ? data.email + ' wil een seintje over de ' + data.product
 			: 'Nieuwe ' + soortNaam + (data.soort === 'offerte' && data.product ? ' ' + data.product : '') + ' van ' + data.naam;
+		preheader = data.bericht ? data.bericht.slice(0, 120) : Object.keys(data.velden || {}).map(function (l) { return data.velden[l]; }).join(' · ').slice(0, 120) || onderwerp;
 		const velden = Object.keys(data.velden || {}).map(function (label) { return [label, esc(data.velden[label]).replace(/\n/g, '<br>')]; });
-		inhoud = '<h1 style="margin:0 0 4px 0;font-size:22px">' + esc(onderwerp) + '</h1>'
-			+ '<p style="margin:0 0 18px 0;color:#6b7280">' + esc(moment) + (data.product && data.soort !== 'beschikbaarheid' ? ' · ' + esc(data.product) : '') + '</p>'
-			+ (data.bericht ? '<div style="background:#f3f5f7;border-radius:8px;padding:14px 16px;margin:0 0 8px 0;white-space:pre-wrap">' + esc(data.bericht) + '</div>' : '')
+		inhoud = bovenkop({ contact: 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd' }[data.soort])
+			+ titel(esc(data.naam || data.email))
+			+ alinea(gedempt(esc(moment) + (data.product ? ' · ' + esc(data.product) : '')))
+			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], supabase])
+			+ (data.bericht ? citaat(data.bericht) : '')
 			+ (velden.length ? gegevens(velden) : '')
+			+ (data.soort === 'printservice' ? notitie('<strong>Let op:</strong> het bestand komt apart per mail. De klant heeft gelezen dat het als antwoord op jouw bericht kan worden nagestuurd.') : '')
 			+ kop('Afzender')
-			+ gegevens(klant.concat([['Akkoord', data.akkoord ? 'Privacyverklaring, op ' + esc(moment) : '']]))
-			+ (data.soort === 'printservice' ? alinea('<strong>Let op:</strong> het bestand komt apart per mail. De klant heeft gelezen dat het bestand als antwoord op jouw bericht kan worden nagestuurd.') : '');
+			+ gegevens(klant.concat([['Akkoord', data.akkoord ? 'Privacyverklaring, op ' + esc(moment) : '']]));
 		tekstversie = onderwerp.toUpperCase() + '\n' + moment + '\n\n'
 			+ (data.bericht ? data.bericht + '\n\n' : '')
 			+ Object.keys(data.velden || {}).map(function (l) { return l + ': ' + data.velden[l]; }).join('\n')
@@ -272,10 +343,10 @@ export function mailEigenaar(data, extra, winkel) {
 	}
 
 	const voet = 'Antwoord je op deze mail, dan gaat je antwoord naar ' + esc(data.email) + '.'
-		+ (extra.dashboard ? '<br><a href="' + esc(extra.dashboard) + '" style="color:#6b7280">Alles terugzien in Supabase</a>' : '');
+		+ (extra.dashboard ? '<br>' + voetLink(extra.dashboard, 'Alles terugzien in Supabase') : '');
 	return {
 		onderwerp: onderwerp,
-		html: omhulsel(onderwerp, inhoud, voet),
+		html: omhulsel(onderwerp, preheader, inhoud, voet, winkel),
 		tekst: tekstversie + '\n\nAntwoorden op deze mail gaat naar ' + data.email + '.'
 	};
 }
@@ -285,27 +356,30 @@ export function mailKlant(data, extra, winkel) {
 	const naam = voornaam(data.naam);
 	const hoi = naam ? 'Hoi ' + esc(naam) + ',' : 'Hoi,';
 	const velden = Object.keys(data.velden || {}).map(function (label) { return [zonderLinks(label), zonderLinks(data.velden[label])]; });
-	const afsluiting = alinea('Vragen, of wil je iets veranderen? Beantwoord gewoon deze mail.') + alinea('Groet,<br>' + esc(winkel.eigenaar.split(' ')[0]) + ', ' + esc(winkel.naam));
-	let onderwerp, inhoud, tekstversie;
+	const afsluiting = alinea('Vragen, of wil je iets veranderen? Beantwoord gewoon deze mail.')
+		+ alinea('Groet,<br><strong>' + esc(winkel.eigenaar.split(' ')[0]) + '</strong><br>' + gedempt(esc(winkel.naam)));
+	let onderwerp, preheader, inhoud, tekstversie;
 
 	if (data.soort === 'bestelling') {
 		// Let op de woorden: dit is een ONTVANGSTbevestiging. "De bevestiging" uit de algemene voorwaarden
 		// (met totaalprijs en levertijd, waarmee de overeenkomst ontstaat) stuurt Jelger zelf na het contact.
 		onderwerp = 'Je bestelling bij ' + winkel.naam + ' is binnen (' + extra.id + ')';
+		preheader = 'Bestelnummer ' + extra.id + '. Je betaalt nog niets: ik neem eerst persoonlijk contact met je op.';
 		const regels = extra.regels.map(function (r) { return Object.assign({}, r, { tekst: zonderLinks(r.tekst) }); });
 		const adres = zonderLinks(adresRegel(data));
-		const stappen = [
-			'Ik neem persoonlijk contact met je op om kleur, details en ' + (data.levering === 'Ophalen' ? 'een moment om op te halen in ' + esc(winkel.ophaalplaats) : 'de verzendkosten') + ' af te spreken.',
-			'Pas als alles klopt, betaal je en ga ik voor je printen.',
-			esc(winkel.levertijd)
-		];
-		inhoud = alinea(hoi) + alinea('Bedankt voor je bestelling! Ik heb hem goed ontvangen. Je bestelnummer is <strong>' + esc(extra.id) + '</strong>.')
+		inhoud = bovenkop('Bestelling ontvangen') + titel('Bedankt voor je bestelling!')
+			+ alinea(hoi + ' ik heb je bestelling goed ontvangen. Hieronder zie je wat je hebt besteld en hoe het verder gaat.')
+			+ alinea(label('Bestelnummer ' + esc(extra.id)))
 			+ kop('Dit heb je besteld')
-			+ regelsHtml(regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten. Die hoor je van mij voordat je betaalt.' : 'Je haalt het op in ' + winkel.ophaalplaats + ', dus zonder verzendkosten.')
-			+ (data.levering === 'Verzenden' ? alinea('<span style="color:#6b7280">Bezorgadres: ' + esc(adres) + '</span>') : '')
+			+ regelsHtml(regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten. Die hoor je van mij voordat je betaalt.' : 'Je haalt het op in ' + winkel.ophaalplaats + ', dus zonder verzendkosten.', winkel.url)
+			+ (data.levering === 'Verzenden' ? alinea(gedempt('Bezorgadres: ' + esc(adres)), 'margin-top:10px;font-size:14px') : '')
 			+ kop('Hoe gaat het nu verder?')
-			+ '<ol style="margin:0 0 14px 0;padding-left:20px">' + stappen.map(function (s) { return '<li style="margin:0 0 6px 0">' + s + '</li>'; }).join('') + '</ol>'
-			+ alinea('Dit is een ontvangstbevestiging: je hoeft nu nog niets te betalen. Na ons contact krijg je van mij de definitieve bevestiging met de totaalprijs, inclusief eventuele verzendkosten, en de levertijd. Pas als jij die goedkeurt, is de bestelling definitief.')
+			+ stappen([
+				'Ik neem persoonlijk contact met je op om kleur, details en ' + (data.levering === 'Ophalen' ? 'een moment om op te halen in ' + esc(winkel.ophaalplaats) : 'de verzendkosten') + ' af te spreken.',
+				'Pas als alles klopt, betaal je en ga ik voor je printen.',
+				esc(winkel.levertijd)
+			])
+			+ notitie('<strong>Dit is een ontvangstbevestiging:</strong> je hoeft nu nog niets te betalen. Na ons contact krijg je van mij de definitieve bevestiging met de totaalprijs, inclusief eventuele verzendkosten, en de levertijd. Pas als jij die goedkeurt, is de bestelling definitief.')
 			+ afsluiting;
 		tekstversie = (naam ? 'Hoi ' + naam + ',' : 'Hoi,') + '\n\nBedankt voor je bestelling! Je bestelnummer is ' + extra.id + '.\n\n' + regelsTekst(regels, extra.totaal)
 			+ (data.levering === 'Verzenden' ? '\n(exclusief verzendkosten)\nBezorgadres: ' + adres : '\nJe haalt het op in ' + winkel.ophaalplaats + '.')
@@ -313,22 +387,28 @@ export function mailKlant(data, extra, winkel) {
 			+ '\n\nDit is een ontvangstbevestiging: je hoeft nu nog niets te betalen. Na ons contact krijg je de definitieve bevestiging met de totaalprijs en de levertijd.';
 	} else if (data.soort === 'beschikbaarheid') {
 		onderwerp = 'Je hoort het zodra de ' + data.product + ' er weer is';
-		inhoud = alinea('Hoi,') + alinea('Je staat genoteerd: zodra de <strong>' + esc(data.product) + '</strong> weer te bestellen is, krijg je één mail van mij. Verder niets.') + afsluiting;
+		preheader = 'Eén mail zodra hij weer te bestellen is. Verder niets.';
+		inhoud = bovenkop('Je staat genoteerd') + titel('Je hoort het als eerste')
+			+ alinea('Hoi, zodra de <strong>' + esc(data.product) + '</strong> weer te bestellen is, krijg je één mail van mij. Verder niets.') + afsluiting;
 		tekstversie = 'Je staat genoteerd: zodra de ' + data.product + ' weer te bestellen is, krijg je één mail van mij.';
 	} else {
 		const wat = TITELS[data.soort];
 		onderwerp = data.soort === 'contact' ? 'Je bericht aan ' + winkel.naam + ' is binnen' : 'Je ' + wat + ' bij ' + winkel.naam + ' is binnen';
+		preheader = data.soort === 'contact' ? 'Ik reageer zo snel mogelijk, meestal binnen een paar dagen.' : 'Je hoort zo snel mogelijk wat het kost en hoe lang het duurt.';
 		const bericht = zonderLinks(data.bericht);
-		inhoud = alinea(hoi)
-			+ alinea(data.soort === 'contact' ? 'Bedankt voor je bericht. Ik reageer zo snel mogelijk, meestal binnen een paar dagen.'
-				: 'Bedankt voor je ' + wat + (data.soort === 'offerte' && data.product ? ' voor de <strong>' + esc(data.product) + '</strong>' : '') + '. Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.')
-			+ (data.soort === 'printservice' ? alinea('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
+		inhoud = bovenkop(wat.charAt(0).toUpperCase() + wat.slice(1) + ' ontvangen') + titel('Bedankt voor je ' + wat + '!')
+			+ alinea(hoi + ' ' + (data.soort === 'contact' ? 'ik reageer zo snel mogelijk, meestal binnen een paar dagen.'
+				: 'je ' + wat + (data.soort === 'offerte' && data.product ? ' voor de <strong>' + esc(data.product) + '</strong>' : '') + ' is binnen. Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.'))
+			+ (data.soort === 'printservice' ? notitie('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
 			+ kop('Wat je hebt gestuurd')
-			+ (bericht ? '<div style="background:#f3f5f7;border-radius:8px;padding:14px 16px;margin:0 0 14px 0;white-space:pre-wrap">' + esc(bericht) + '</div>'
-				: gegevens(velden.map(function (r) { return [r[0], esc(r[1]).replace(/\n/g, '<br>')]; })))
+			+ (bericht ? citaat(bericht) : gegevens(velden.map(function (r) { return [r[0], esc(r[1]).replace(/\n/g, '<br>')]; })))
 			+ alinea('Je zit nergens aan vast: eerst hoor je van mij, daarna beslis je.')
 			+ afsluiting;
 		tekstversie = 'Bedankt voor je ' + wat + '. Ik reageer zo snel mogelijk.\n\n' + (bericht || velden.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n'));
 	}
-	return { onderwerp: onderwerp, html: omhulsel(onderwerp, inhoud, winkelVoet(winkel)), tekst: tekstversie + '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.email };
+	return {
+		onderwerp: onderwerp,
+		html: omhulsel(onderwerp, preheader, inhoud, winkelVoet(winkel), winkel),
+		tekst: tekstversie + '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.url
+	};
 }

@@ -5,7 +5,7 @@ function legalValues(site) {
 	const updated = new Date((site.legal && site.legal.updated || '2026-01-01') + 'T12:00:00').toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 	return {
 		name: h.esc(site.name), owner: h.esc(site.owner), city: h.esc((site.address && site.address.city) || site.pickupLocation),
-		email: h.esc(site.email), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
+		emailLink: h.mailLink(site.email, './'), kvk: h.esc(site.kvk), btw: h.esc(site.btw),
 		// Zonder straat op de site: eerlijk zeggen waar de klant het volledige adres wél krijgt
 		addressHtml: h.addressLine(site, '<br>') + (site.address && site.address.onRequest && !site.address.street
 			? ', ' + h.esc(site.address.country || 'Nederland') + '<br><span class="text-page-note">Ik werk vanuit huis. Het volledige adres staat in je orderbevestiging en op je factuur, en krijg je op verzoek per e-mail.</span>'
@@ -119,7 +119,7 @@ function printServicePage(ctx, template) {
 		+ '\t<button type="submit" class="btn btn-primary btn-block">Verstuur je aanvraag</button>\n'
 		+ '\t<p class="pdp-note">Vrijblijvend. Je hoort eerst de prijs en de levertijd; je betaalt pas na jouw akkoord.</p>\n'
 		+ '</form>\n'
-		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt. Mail je bestand gerust alvast naar ' + h.esc(site.email) + '.</p></div>';
+		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt. Mail je bestand gerust alvast naar ' + h.mailLink(site.email, './') + '.</p></div>';
 
 	const body = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
 		prijsPerGram: h.euro(ps.pricePerGram),
@@ -131,7 +131,7 @@ function printServicePage(ctx, template) {
 		maxSize: h.esc(ps.maxSize),
 		plaats: h.esc(site.pickupLocation),
 		levertijd: h.esc(site.delivery.leadTime + '.'),
-		email: h.esc(site.email),
+		emailLink: h.mailLink(site.email, './'),
 		prijstabel: prijstabel,
 		faq: faq,
 		formulier: formulier

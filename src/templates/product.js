@@ -51,7 +51,8 @@ function keychainBuyBox(product, ctx, root) {
 		+ '\t\t\t<div class="keychain-actions">\n'
 		+ '\t\t\t\t<button type="submit" class="btn btn-primary pdp-add" data-keychain-needs-text>In winkelwagen</button>\n'
 		+ '\t\t\t\t<button type="button" class="btn outline" data-keychain-download data-keychain-needs-text>Download preview (.png)</button>\n'
-		+ '\t\t\t\t<a class="btn outline" href="mailto:' + h.esc(ctx.site.email) + '" data-keychain-mail="' + h.esc(ctx.site.email) + '" data-keychain-needs-text>Bestel per mail</a>\n'
+		// Het adres staat gecodeerd in de HTML (tegen spamrobots); keychain.js maakt de mailto-link
+		+ '\t\t\t\t<a class="btn outline" href="' + root + '#contact" data-keychain-mail="' + h.mailCode(ctx.site.email) + '" data-keychain-needs-text>Bestel per mail</a>\n'
 		+ '\t\t\t</div>\n'
 		+ '\t\t</form>\n'
 		+ '\t\t<p class="keychain-note">Het voorbeeld laat zien hoe je tekst op het bord komt. De echte sleutelhanger wordt laag voor laag geprint; kleur en letters kunnen daardoor licht afwijken.</p>\n'
