@@ -1,18 +1,19 @@
-// Aanvraagformulier op de productpagina: offerte voor maatwerk (Custom Lightbox)
-// of een seintje zodra een product weer beschikbaar is (Kami Lamp).
-import { sendForm, track } from './util.js';
+// Aanvraagformulieren: maatwerk op een productpagina (Custom Lightbox), de 3D-printservice, of een seintje
+// zodra een product weer beschikbaar is. Welke het is staat in data-request: offerte, printservice of
+// beschikbaarheid. Alles gaat naar de Supabase-functie "formulier" (zie verstuur() in util.js).
+import { verstuur, track } from './util.js';
 import { validateForm, watchForm } from './validate.js';
 
-// De aanvraagmail volgt de labels van het formulier zelf. Zo klopt hij ook als een pagina andere
-// velden heeft (de printservice vraagt bijvoorbeeld een kleur in plaats van een afmeting).
-function quoteLines(form, values) {
-	return Array.from(form.querySelectorAll('input, textarea, select')).filter(function (field) {
-		return field.name && field.name !== 'botcheck' && field.name !== 'privacy' && values[field.name];
-	}).map(function (field) {
+// De ingevulde velden met hun label als naam ("Gewenste kleur": "Rood"). Zo staan ze in de database en
+// in de mails zoals de bezoeker ze zag, ook als een pagina andere velden heeft dan een andere.
+function velden(form, values) {
+	const uit = {};
+	Array.from(form.querySelectorAll('input, textarea, select')).forEach(function (field) {
+		if (!field.name || ['name', 'email', 'botcheck', 'privacy'].indexOf(field.name) !== -1 || !values[field.name]) return;
 		const label = field.id && form.querySelector('label[for="' + field.id + '"]');
-		const naam = label ? label.textContent.replace(/\s*\*\s*$/, '').trim() : field.name;
-		return naam + ': ' + values[field.name];
-	}).join('\n');
+		uit[label ? label.textContent.replace(/\s*\*\s*$/, '').trim() : field.name] = values[field.name];
+	});
+	return uit;
 }
 
 export function initRequest() {
@@ -22,8 +23,6 @@ export function initRequest() {
 	const success = document.querySelector('[data-request-success]');
 	const submitBtn = form.querySelector('button[type="submit"]');
 	const SUBMIT_LABEL = submitBtn.textContent;
-	const product = form.dataset.productName;
-	const isQuote = form.dataset.request === 'offerte';
 
 	watchForm(form);
 
@@ -34,36 +33,32 @@ export function initRequest() {
 		const values = {};
 		new FormData(form).forEach(function (value, key) { values[key] = String(value).trim(); });
 
-		const text = isQuote
-			? 'AANVRAAG ' + product.toUpperCase() + '\n\n' + quoteLines(form, values) + '\n'
-			: values.email + ' wil een bericht zodra de ' + product + ' weer beschikbaar is.';
-		const consent = values.privacy ? '\n\nAkkoord met privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL') : '';
-
-		const data = new FormData();
-		data.append('access_key', form.dataset.accessKey);
-		data.append('subject', (isQuote ? 'Aanvraag ' : 'Beschikbaarheid ') + product + ' via JelgerS3D.nl');
-		data.append('from_name', 'JelgerS3D Website');
-		if (values.name) data.append('name', values.name);
-		data.append('email', values.email);
-		data.append('message', text + consent);
-		if (form.elements.botcheck.checked) data.append('botcheck', 'true');
-
 		submitBtn.disabled = true;
 		submitBtn.textContent = 'Verzenden...';
 		message.textContent = '';
 
-		sendForm(data).then(function (ok) {
-			if (!ok) throw new Error('afgewezen');
+		verstuur({
+			soort: form.dataset.request,
+			naam: values.name || '',
+			email: values.email,
+			product: form.dataset.product, // de functie zoekt de naam zelf op in de catalogus
+			velden: velden(form, values),
+			akkoord: Boolean(values.privacy),
+			botcheck: form.elements.botcheck.checked
+		}).then(function (antwoord) {
 			track('generate_lead', { lead_type: form.dataset.request, item_id: form.dataset.product });
+			if (antwoord.mail) {
+				const p = document.createElement('p');
+				p.textContent = 'Je krijgt ook een bevestiging per mail.';
+				success.appendChild(p);
+			}
 			form.hidden = true;
 			success.hidden = false;
 			success.focus();
 		}).catch(function (error) {
 			submitBtn.disabled = false;
 			submitBtn.textContent = SUBMIT_LABEL;
-			message.textContent = error.message === 'afgewezen'
-				? 'Er ging iets mis bij het versturen. Probeer het opnieuw.'
-				: 'Geen verbinding. Controleer je internet en probeer het opnieuw.';
+			message.textContent = error.message;
 			message.className = 'checkout-msg checkout-msg-error';
 		});
 	});

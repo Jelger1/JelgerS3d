@@ -1,7 +1,8 @@
-// afrekenen.html: overzicht van de winkelwagen, validatie en het versturen van de aanvraag (Web3Forms).
+// afrekenen.html: overzicht van de winkelwagen, validatie en het versturen van de aanvraag naar de
+// Supabase-functie "formulier", die de prijzen narekent, de bestelling opslaat en beide mails verstuurt.
 // Na succes gaat de bezoeker naar bedankt.html; de bestelling reist mee via sessionStorage.
 import * as cart from './cart.js';
-import { esc, euro, sendForm, track, trackItems } from './util.js';
+import { esc, euro, verstuur, track, trackItems } from './util.js';
 import { validateForm, watchForm } from './validate.js';
 
 export const LAST_ORDER_KEY = 'js3d-last-order';
@@ -19,26 +20,6 @@ export function linesHtml(lines, total) {
 			+ '</li>';
 	}).join('') + '</ul>'
 		+ '<div class="checkout-item checkout-item-total"><strong>Totaal</strong><strong>' + euro(total) + '</strong></div>';
-}
-
-function orderText(values, lines, total) {
-	return 'BESTELLING VIA JELGERS3D.NL\n\n'
-		+ 'Producten:\n' + lines.map(function (line) {
-			return line.qty + '× ' + line.fullName + ' — ' + euro(line.lineTotal) + (line.qty > 1 ? ' (' + euro(line.price) + ' per stuk)' : '')
-				+ (line.text ? '\n   ' + line.textLabel.toUpperCase() + ': ' + line.text : '');
-		}).join('\n')
-		+ '\n\nTotaal: ' + euro(total) + '\n\n'
-		+ 'Klantgegevens:\n'
-		+ 'Naam: ' + values.name + '\n'
-		+ 'Email: ' + values.email + '\n'
-		+ 'Telefoon: ' + values.phone + '\n'
-		+ 'Levering: ' + (values.delivery === 'Ophalen' ? 'Zelf ophalen in Kerkrade' : values.delivery) + '\n'
-		+ (values.delivery === 'Ophalen' ? '' : 'Adres: ' + values.address + '\n'
-			+ 'Postcode: ' + values.postcode + '\n'
-			+ 'Plaats: ' + values.city + '\n'
-			+ 'Land: ' + values.country + '\n')
-		+ (values.notes ? '\nOpmerkingen: ' + values.notes + '\n' : '')
-		+ (values.privacy ? '\nAkkoord met algemene voorwaarden en privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL') + '\n' : '');
 }
 
 export function initCheckout() {
@@ -92,25 +73,32 @@ export function initCheckout() {
 		const lines = cart.getLines();
 		const total = cart.total();
 
-		const data = new FormData();
-		data.append('access_key', form.dataset.accessKey);
-		data.append('subject', 'Nieuwe bestelling JelgerS3D — ' + cart.count() + ' item(s), ' + euro(total));
-		data.append('from_name', 'JelgerS3D Webshop');
-		data.append('name', values.name);
-		data.append('email', values.email);
-		data.append('message', orderText(values, lines, total));
-		if (form.elements.botcheck.checked) data.append('botcheck', 'true');
-
 		sending = true;
 		submitBtn.disabled = true;
 		submitBtn.textContent = 'Verzenden...';
 		message.textContent = '';
 		message.className = 'checkout-msg';
 
-		sendForm(data).then(function (ok) {
-			if (!ok) throw new Error('afgewezen');
+		// Alleen wat nodig is: de functie zoekt naam en prijs zelf op in de catalogus van de site
+		verstuur({
+			soort: 'bestelling',
+			naam: values.name,
+			email: values.email,
+			telefoon: values.phone,
+			akkoord: Boolean(values.privacy),
+			botcheck: form.elements.botcheck.checked,
+			bestelling: {
+				levering: values.delivery,
+				adres: values.address,
+				postcode: values.postcode,
+				plaats: values.city,
+				land: values.country,
+				opmerkingen: values.notes,
+				regels: lines.map(function (line) { return { id: line.id, variant: line.variant, aantal: line.qty, tekst: line.text || '' }; })
+			}
+		}).then(function (antwoord) {
 			try {
-				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: 'JS3D-' + Date.now().toString(36).toUpperCase(), lines: lines, total: total, tracked: false }));
+				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: antwoord.id, mail: antwoord.mail === true, lines: lines, total: antwoord.totaal != null ? antwoord.totaal : total, tracked: false }));
 			} catch (e) { /* zonder sessionStorage toont de bedanktpagina alleen de algemene tekst */ }
 			cart.clear();
 			location.href = form.dataset.thanks;
@@ -118,9 +106,7 @@ export function initCheckout() {
 			sending = false;
 			submitBtn.disabled = false;
 			submitBtn.textContent = SUBMIT_LABEL;
-			message.textContent = error.message === 'afgewezen'
-				? 'Er ging iets mis bij het versturen. Probeer het opnieuw.'
-				: 'Geen verbinding. Controleer je internet en probeer het opnieuw. Je gegevens blijven staan.';
+			message.textContent = error.message + ' Je gegevens blijven staan.';
 			message.className = 'checkout-msg checkout-msg-error';
 		});
 	});
@@ -136,6 +122,12 @@ export function initThanks() {
 
 	document.getElementById('thanks-lines').innerHTML = linesHtml(order.lines, order.total);
 	box.hidden = false;
+	// Bestelnummer, en alleen als de ontvangstbevestiging echt is verstuurd ook dat het in je mail staat
+	const number = document.getElementById('thanks-number');
+	if (number && order.id) {
+		number.innerHTML = 'Je bestelnummer is <strong>' + esc(order.id) + '</strong>.' + (order.mail ? ' Je krijgt ook een ontvangstbevestiging per mail.' : '');
+		number.hidden = false;
+	}
 
 	if (!order.tracked) {
 		track('generate_lead', { ecommerce: { transaction_id: order.id, currency: 'EUR', value: order.total, items: trackItems(order.lines) } });

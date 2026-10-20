@@ -26,9 +26,8 @@
 			"alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D"
 		}
 	},
-	"web3forms": {
-		"orderKey": "a36505b1-9726-4de3-927c-d7984947f0bb",
-		"contactKey": "76745e70-8371-4e48-be49-d5c52540cf06"
+	"backend": {
+		"url": "https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier"
 	},
 	"shipping": {
 		"note": "Exclusief verzendkosten, ophalen in Kerkrade kan ook"
@@ -555,7 +554,7 @@
 		"country": "Nederland"
 	},
 	"legal": {
-		"updated": "2026-09-22"
+		"updated": "2026-10-20"
 	},
 	"forms": {
 		"privacyCheckbox": true

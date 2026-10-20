@@ -1,0 +1,7 @@
+# Supabase-instellingen voor jelgers3d.nl. Zie LEESMIJ.md > "Bestellingen en berichten (Supabase)".
+project_id = "kgxhefdzufhmigbmchhk"
+
+[functions.formulier]
+# De website roept deze functie aan zonder inlog. De functie beschermt zichzelf (honeypot, invultijd,
+# linkfilter en limieten per IP en per e-mailadres); zie supabase/functions/formulier/index.ts.
+verify_jwt = false

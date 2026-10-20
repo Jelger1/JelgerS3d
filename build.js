@@ -109,6 +109,7 @@ function validate(products, reviews, site) {
 	Object.keys(idFormats).forEach(function (key) {
 		if (analytics[key] && !idFormats[key][1].test(analytics[key])) warnings.push('site.json > analytics.' + key + ': "' + analytics[key] + '" is geen geldig ID (dat begint met ' + idFormats[key][0] + ')');
 	});
+	if (!(site.backend && site.backend.url)) warnings.push('site.json > backend.url ontbreekt: bestellingen en formulieren kunnen dan nergens heen');
 	if (analytics.gtm && !analytics.ga4 && !analytics.googleAds) warnings.push('site.json > analytics: zonder ga4 of googleAds vraagt de cookiemelding nergens toestemming voor, dus tags in Tag Manager die toestemming nodig hebben starten nooit');
 	if (!analytics.gtm && (analytics.ga4 || analytics.googleAds)) warnings.push('site.json > analytics: Google Analytics en Google Ads worden alleen via Tag Manager geladen; zonder gtm meet de site niets');
 	if ('adsConversionLabel' in analytics) warnings.push('site.json > analytics.adsConversionLabel wordt niet meer gebruikt: stel de Google Ads-conversie in Tag Manager in (gebeurtenis generate_lead)');
@@ -141,7 +142,7 @@ function versionImports(source, version) {
 	});
 }
 
-function buildCatalog(products, images) {
+function catalogData(products, images) {
 	const catalog = {};
 	products.forEach(function (p) {
 		catalog[p.id] = {
@@ -155,7 +156,25 @@ function buildCatalog(products, images) {
 			wish: Boolean(p.wish)
 		};
 	});
-	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';
+	return catalog;
+}
+
+function buildCatalog(products, images) {
+	return 'export default ' + JSON.stringify(catalogData(products, images), null, '\t') + ';\n';
+}
+
+// Voor de Supabase-functie "formulier" (supabase/functions/formulier): bedrijfsgegevens en de actuele prijzen,
+// zodat de bevestigingsmail precies dezelfde prijzen noemt als de site. Eén bron: data/*.json.
+function buildWinkel(products, images, site) {
+	const a = site.address || {};
+	return JSON.stringify({
+		winkel: {
+			naam: site.name, eigenaar: site.owner, email: site.email, url: site.url,
+			adres: [a.street, [a.postcode, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong
+		},
+		catalogus: catalogData(products, images)
+	});
 }
 
 // Productfeed voor Google Merchant Center (dist/feed.xml): één regel per bestelbare variant.
@@ -246,6 +265,7 @@ async function build() {
 
 	write('css/styles.css', css);
 	write('js/catalog.js', catalog);
+	write('js/winkel.json', buildWinkel(products, images, site));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
 	if (bundles.length) {
 		require('esbuild').buildSync({

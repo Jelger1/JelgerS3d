@@ -92,12 +92,11 @@ function buyBox(product, ctx, root) {
 		return '<a class="btn btn-primary btn-block" href="' + h.esc(product.externalUrl) + '" target="_blank" rel="noopener">' + h.esc(product.externalLabel) + '</a>\n'
 			+ '\t\t<p class="pdp-note">Dit ontwerp is exclusief verkrijgbaar via de webshop van de opdrachtgever.</p>';
 	}
-	const key = h.esc(ctx.site.web3forms.contactKey);
 	const name = h.esc(product.name);
 
 	if (product.sale === 'request') {
 		// Maatwerk: aanvraag direct op de productpagina, zonder omweg via het contactformulier
-		return '<form class="request-form" data-request="offerte" data-product="' + h.esc(product.id) + '" data-product-name="' + name + '" data-access-key="' + key + '" novalidate>\n'
+		return '<form class="request-form" data-request="offerte" data-product="' + h.esc(product.id) + '" novalidate>\n'
 			+ '\t\t\t<h2 class="request-title">Vraag jouw prijs en ontwerp aan</h2>\n'
 			+ '\t\t\t<div class="form-row">\n'
 			+ '\t\t\t\t<div class="form-group"><label for="rq-name">Naam <span aria-hidden="true">*</span></label><input type="text" id="rq-name" name="name" required autocomplete="name"></div>\n'
@@ -116,7 +115,7 @@ function buyBox(product, ctx, root) {
 			+ '\t\t</form>\n'
 			+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik neem zo snel mogelijk contact met je op met een voorstel.</p></div>';
 	}
-	return '<form class="request-form" data-request="beschikbaarheid" data-product="' + h.esc(product.id) + '" data-product-name="' + name + '" data-access-key="' + key + '" novalidate>\n'
+	return '<form class="request-form" data-request="beschikbaarheid" data-product="' + h.esc(product.id) + '" novalidate>\n'
 		+ '\t\t\t<h2 class="request-title">Houd mij op de hoogte</h2>\n'
 		+ '\t\t\t<div class="form-group"><label for="rq-email">E-mailadres <span aria-hidden="true">*</span></label><input type="email" id="rq-email" name="email" required autocomplete="email" placeholder="je@email.nl"></div>\n'
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'

@@ -1,5 +1,5 @@
 // Contactformulier op de homepage.
-import { sendForm, track } from './util.js';
+import { verstuur, track } from './util.js';
 import { validateField } from './validate.js';
 
 export function initForms() {
@@ -25,24 +25,22 @@ export function initForms() {
 		if (!form.elements.email.checkValidity()) { say('Controleer je e-mailadres.', false); return; }
 		if (form.elements.privacy && !validateField(form.elements.privacy)) { form.elements.privacy.focus(); return; }
 
-		const data = new FormData(form);
-		if (form.elements.privacy) {
-			data.delete('privacy');
-			data.set('message', text + '\n\nAkkoord met privacyverklaring: ja, op ' + new Date().toLocaleString('nl-NL'));
-		}
-		data.append('subject', 'Contactaanvraag van ' + name + ' via JelgerS3D.nl');
-		data.append('from_name', 'JelgerS3D Website');
-
 		submitBtn.disabled = true;
 		submitBtn.textContent = 'Verzenden...';
 
-		sendForm(data).then(function (ok) {
-			if (!ok) throw new Error('afgewezen');
+		verstuur({
+			soort: 'contact',
+			naam: name,
+			email: email,
+			bericht: text,
+			akkoord: Boolean(form.elements.privacy && form.elements.privacy.checked),
+			botcheck: Boolean(form.elements.botcheck && form.elements.botcheck.checked)
+		}).then(function (antwoord) {
 			track('generate_lead', { lead_type: 'contact' });
-			say('Bedankt! Je bericht is verstuurd. Ik neem snel contact met je op.', true);
+			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail.' : '') + ' Ik neem snel contact met je op.', true);
 			form.reset();
 		}).catch(function (error) {
-			say(error.message === 'afgewezen' ? 'Er ging iets mis. Probeer het opnieuw.' : 'Verbindingsfout. Controleer je internet en probeer opnieuw.', false);
+			say(error.message, false);
 		}).finally(function () {
 			submitBtn.disabled = false;
 			submitBtn.textContent = SUBMIT_LABEL;

@@ -167,8 +167,8 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
 
 ### Bestellen en meten
 
-- `afrekenen.html` verstuurt de bestelling als aanvraag naar je mail (Web3Forms); daarna komt de klant op `bedankt.html`.
-  Die aparte bedanktpagina kun je in Google Ads of Analytics instellen als conversie.
+- `afrekenen.html` verstuurt de bestelling als aanvraag naar Supabase (zie hieronder); daarna komt de klant op
+  `bedankt.html`, met het bestelnummer. Die aparte bedanktpagina kun je in Google Ads of Analytics instellen als conversie.
 - De site zet meetmomenten klaar in de dataLayer (`view_item`, `add_to_cart`, `begin_checkout`, `generate_lead`, in
   het ecommerce-formaat van GA4). De site verstuurt zelf niets; wat ermee gebeurt, stel je in Tag Manager in.
 - **Alles loopt via Google Tag Manager** (`"gtm": "GTM-MQLPSW9X"` in `data/site.json` > `analytics`). De code van
@@ -194,6 +194,37 @@ en `privacy.html` (tekst in `src/pages/privacy.html`).
 Prijs aanpassen? Wijzig alleen de prijs in `products.json` en bouw opnieuw. Winkelwagens van
 bezoekers rekenen altijd met de actuele prijs.
 
+### Bestellingen en berichten (Supabase)
+
+Alle formulieren (bestellen, contact, maatwerk, printservice en "laat het me weten") gaan naar één Supabase-functie,
+`formulier` (code in `supabase/functions/formulier/`). Die doet per inzending:
+
+1. **Controleren:** verplichte velden, een geldig e-mailadres, en bij een bestelling of de producten en uitvoeringen
+   echt bestaan. De prijzen rekent de functie zelf na met `/js/winkel.json` (die maakt de build uit `data/*.json`),
+   zodat niemand met een aangepaste aanvraag een lagere prijs in zijn bevestiging krijgt.
+2. **Bots tegenhouden**, onzichtbaar voor echte bezoekers:
+   - een verborgen veld (honeypot) dat alleen robots invullen;
+   - een minimale invultijd van 2 seconden;
+   - berichten met meer dan twee links worden als spam opgeslagen, zonder mail;
+   - maximaal 5 inzendingen per IP-adres per 10 minuten, en per e-mailadres per dag (zodat niemand via de
+     bevestigingsmail een ander kan bestoken).
+   Robots krijgen een nep-"verstuurd", zodat ze niet leren om de filters heen te werken.
+3. **Opslaan** in de tabel `bestellingen` of `berichten`. In het Supabase-dashboard (Table Editor) zie je alles en zet
+   je de `status` (bijvoorbeeld van `nieuw` naar `bevestigd`, `betaald` of `geleverd`).
+4. **Mailen** via Resend: een ontvangstbevestiging naar de klant en een overzicht naar jou. Antwoord je op dat overzicht,
+   dan gaat je antwoord naar de klant. In de tabel zie je met `mail_klant` en `mail_eigenaar` of het gelukt is.
+
+Bewaartermijnen uit de privacyverklaring worden automatisch nagekomen: elke nacht verwijdert de database berichten na
+een jaar en bestellingen na twee jaar (facturen bewaar je in je administratie, niet hier).
+
+**Instellen** (eenmalig): voer `supabase/migrations/*.sql` uit, zet de functie `formulier` online zonder JWT-controle
+(`verify_jwt = false`, de website is openbaar) en zet bij Edge Functions > Secrets: `RESEND_API_KEY`, `MAIL_VAN`
+(bijvoorbeeld `JelgerS3D <bestellingen@jelgers3d.nl>`, het domein moet bij Resend geverifieerd zijn) en
+`MAIL_EIGENAAR` (waar jij de overzichten wilt ontvangen). Het adres van de functie staat in `data/site.json` >
+`backend.url`.
+
+**Testen:** onderschep in browsertests de aanvragen naar `backend.url`, anders krijg je echte bestellingen en mails.
+
 ## Waar staat wat?
 
 ```
@@ -208,6 +239,7 @@ src/js/        losse modules: cart.js (opslag), cart-ui.js, shop.js (filters), c
 src/3d/        keychain-3d.js: het 3D-model van de sleutelhanger (wordt met Three.js gebundeld)
 tools/         images.js (foto's verkleinen), dev.js (lokale server), check.js (linkcontrole),
                make-3d-font.js (lettertype voor de 3D-letters)
+supabase/      de functie "formulier" (bestellingen en berichten opslaan en mailen) en de database-opzet
 build.js       bouwt alles naar dist/
 dist/          het eindresultaat. Wordt gegenereerd: pas hier niets handmatig aan.
 ```

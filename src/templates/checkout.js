@@ -45,7 +45,7 @@ function checkoutPage(ctx) {
 		+ '\t\t<p><a class="btn btn-primary" href="webshop.html">Bekijk de webshop</a></p>\n'
 		+ '\t</div>\n'
 		+ '\t<div class="checkout-layout" id="checkout-layout">\n'
-		+ '\t\t<form id="checkout-form" class="checkout-form" novalidate data-access-key="' + h.esc(site.web3forms.orderKey) + '" data-thanks="bedankt.html">\n'
+		+ '\t\t<form id="checkout-form" class="checkout-form" novalidate data-thanks="bedankt.html">\n'
 		+ '\t\t\t<fieldset>\n'
 		+ '\t\t\t\t<legend>Jouw gegevens</legend>\n'
 		+ '\t\t\t\t' + field({ name: 'name', label: 'Naam', autocomplete: 'name', placeholder: 'Je volledige naam' }) + '\n'
@@ -79,7 +79,7 @@ function checkoutPage(ctx) {
 		+ '\t\t\t\t<legend>Wensen</legend>\n'
 		+ '\t\t\t\t' + field({ name: 'notes', label: 'Opmerkingen', type: 'textarea', required: false, placeholder: 'Gewenste kleur, eigen naam, bijzonderheden...' }) + '\n'
 		+ '\t\t\t</fieldset>\n'
-		// Onzichtbaar veld tegen spamrobots (Web3Forms negeert inzendingen waarbij dit is aangevinkt)
+		// Onzichtbaar veld tegen spamrobots: is het aangevinkt, dan gooit de Supabase-functie de inzending stil weg
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
 		+ '\t\t\t' + h.privacyCheckbox(site, '', 'co-privacy', true) + '\n'
 		+ '\t\t\t<p id="checkout-msg" class="checkout-msg" role="alert"></p>\n'
@@ -116,6 +116,7 @@ function thanksPage(ctx) {
 		+ '\t<div class="success-icon" aria-hidden="true">✓</div>\n'
 		+ '\t<h1>Bedankt voor je aanvraag!</h1>\n'
 		+ '\t<p class="thanks-intro">Je bestelling is bij mij binnengekomen. Ik neem zo snel mogelijk <strong>persoonlijk contact</strong> met je op om kleur, details en verzending door te spreken.</p>\n'
+		+ '\t<p class="thanks-intro" id="thanks-number" hidden></p>\n'
 		+ '\t' + steps(1) + '\n'
 		+ '\t<section class="checkout-aside thanks-order" id="thanks-order" aria-labelledby="thanks-heading" hidden>\n'
 		+ '\t\t<h2 id="thanks-heading">Dit heb je aangevraagd</h2>\n'

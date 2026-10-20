@@ -73,7 +73,8 @@ function layout(page, ctx) {
 			+ '<!-- End Google Tag Manager (noscript) -->\n'
 		: '';
 	// Welke toestemmingscategorieën er zijn, leest consent.js hieruit (ga4 = Statistieken, googleAds = Marketing)
-	const analyticsAttrs = (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
+	const analyticsAttrs = (site.backend && site.backend.url ? ' data-backend="' + h.esc(site.backend.url) + '"' : '') // waar formulieren heen gaan (src/js/util.js)
+		+ (analytics.ga4 ? ' data-ga4="' + h.esc(analytics.ga4) + '"' : '')
 		+ (analytics.googleAds ? ' data-ads="' + h.esc(analytics.googleAds) + '"' : '');
 
 	const preload = page.preload

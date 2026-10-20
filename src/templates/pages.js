@@ -103,7 +103,7 @@ function printServicePage(ctx, template) {
 		}).join('\n') + '\n</div>';
 
 	// Zelfde formulier als de maatwerkaanvraag op een productpagina (src/js/request.js)
-	const formulier = '<form class="request-form" data-request="offerte" data-product="3d-printservice" data-product-name="3D-printservice" data-access-key="' + h.esc(site.web3forms.contactKey) + '" novalidate>\n'
+	const formulier = '<form class="request-form" data-request="printservice" data-product="3d-printservice" novalidate>\n'
 		+ '\t<div class="form-row">\n'
 		+ '\t\t<div class="form-group"><label for="rq-name">Naam <span aria-hidden="true">*</span></label><input type="text" id="rq-name" name="name" required autocomplete="name"></div>\n'
 		+ '\t\t<div class="form-group"><label for="rq-email">E-mailadres <span aria-hidden="true">*</span></label><input type="email" id="rq-email" name="email" required autocomplete="email"></div>\n'
