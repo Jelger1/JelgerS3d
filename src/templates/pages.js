@@ -71,6 +71,110 @@ function privacyPage(ctx, template) {
 	};
 }
 
+// 3D-printservice: iemand stuurt een bestand en ik print het. De prijzen komen uit
+// data/site.json > printService, zodat de tabel en de teksten niet uit elkaar kunnen lopen.
+function printServicePage(ctx, template) {
+	const site = ctx.site;
+	const ps = site.printService || {};
+	const prijs = function (gram) { return Math.max(ps.minimumOrder, gram * ps.pricePerGram); };
+
+	// Voorbeeldgewichten: laat zien waar het minimumbedrag ophoudt en de prijs per gram begint
+	const rijen = [100, 150, 250, 500, 1000].map(function (gram) {
+		const bedrag = prijs(gram);
+		const minimum = bedrag === ps.minimumOrder;
+		return '\t\t<tr><th scope="row">' + (gram === 1000 ? '1 kilo' : gram + ' gram') + '</th>'
+			+ '<td>' + h.euro(bedrag) + (minimum ? ' <span class="text-page-note">(minimumbedrag)</span>' : '') + '</td></tr>';
+	}).join('\n');
+	const prijstabel = '<div class="table-scroll">\n<table class="text-table">\n'
+		+ '\t<thead><tr><th scope="col">Gewicht van de print</th><th scope="col">Prijs</th></tr></thead>\n'
+		+ '\t<tbody>\n' + rijen + '\n\t</tbody>\n</table>\n</div>';
+
+	const vragen = [
+		{ q: 'Wat kost 3D-printen per gram?', a: 'Standaard PLA in één kleur kost ' + h.euro(ps.pricePerGram) + ' per gram, met een minimum van ' + h.euro(ps.minimumOrder) + ' per opdracht. Een print van 250 gram kost dus ' + h.euro(prijs(250)) + '.' },
+		{ q: 'Welke bestanden kan ik aanleveren?', a: ps.formats + '. Heb je nog geen bestand maar wel een idee of een schets? Dan maak ik het ontwerp; dat spreken we apart af.' },
+		{ q: 'Hoe lang duurt het?', a: site.delivery.leadTimeLong },
+		{ q: 'Hoe groot kan mijn model zijn?', a: 'Ik print op ' + ps.printers + ': ' + ps.maxSize + '. Stuur je bestand gerust, dan laat ik weten of het past.' },
+		{ q: 'Kan ik mijn print ophalen?', a: 'Ja, ophalen in ' + site.pickupLocation + ' kan. Laten bezorgen kan ook; de verzendkosten hoor je voordat je betaalt.' },
+		{ q: 'Print je ook in meerdere kleuren?', a: 'Het tarief geldt voor één kleur per print. Meerdere kleuren of een ander materiaal kunnen vaak wel, dat stemmen we vooraf af.' }
+	];
+	const faq = '<h2 id="veelgestelde-vragen">Veelgestelde vragen over 3D-printen</h2>\n<div class="faq">\n'
+		+ vragen.map(function (item) {
+			return '\t<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
+		}).join('\n') + '\n</div>';
+
+	// Zelfde formulier als de maatwerkaanvraag op een productpagina (src/js/request.js)
+	const formulier = '<form class="request-form" data-request="offerte" data-product="3d-printservice" data-product-name="3D-printservice" data-access-key="' + h.esc(site.web3forms.contactKey) + '" novalidate>\n'
+		+ '\t<div class="form-row">\n'
+		+ '\t\t<div class="form-group"><label for="rq-name">Naam <span aria-hidden="true">*</span></label><input type="text" id="rq-name" name="name" required autocomplete="name"></div>\n'
+		+ '\t\t<div class="form-group"><label for="rq-email">E-mailadres <span aria-hidden="true">*</span></label><input type="email" id="rq-email" name="email" required autocomplete="email"></div>\n'
+		+ '\t</div>\n'
+		+ '\t<div class="form-row">\n'
+		+ '\t\t<div class="form-group"><label for="rq-size">Gewenste kleur</label><input type="text" id="rq-size" name="size" placeholder="Bijv. mat zwart"></div>\n'
+		+ '\t\t<div class="form-group form-group-narrow"><label for="rq-qty">Aantal</label><input type="number" id="rq-qty" name="quantity" min="1" value="1" inputmode="numeric"></div>\n'
+		+ '\t</div>\n'
+		+ '\t<div class="form-group"><label for="rq-text">Wat wil je laten printen? <span aria-hidden="true">*</span></label><textarea id="rq-text" name="text" rows="3" required placeholder="Naam van je bestand, waar het voor is en wanneer je het nodig hebt"></textarea></div>\n'
+		+ '\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+		+ '\t' + h.privacyCheckbox(site, '', 'rq-privacy', false) + '\n'
+		+ '\t<p class="checkout-msg" data-request-msg role="alert"></p>\n'
+		+ '\t<button type="submit" class="btn btn-primary btn-block">Verstuur je aanvraag</button>\n'
+		+ '\t<p class="pdp-note">Vrijblijvend. Je hoort eerst de prijs en de levertijd; je betaalt pas na jouw akkoord.</p>\n'
+		+ '</form>\n'
+		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt. Mail je bestand gerust alvast naar ' + h.esc(site.email) + '.</p></div>';
+
+	const body = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
+		prijsPerGram: h.euro(ps.pricePerGram),
+		minimum: h.euro(ps.minimumOrder),
+		formats: h.esc(ps.formats),
+		formatsOf: h.esc(ps.formats.replace(' en ', ' of ')),
+		materiaal: h.esc(ps.material),
+		printers: h.esc(ps.printers),
+		maxSize: h.esc(ps.maxSize),
+		plaats: h.esc(site.pickupLocation),
+		levertijd: h.esc(site.delivery.leadTime + '.'),
+		email: h.esc(site.email),
+		prijstabel: prijstabel,
+		faq: faq,
+		formulier: formulier
+	});
+
+	return {
+		path: '3d-printservice.html',
+		root: '',
+		name: 'text',
+		title: '3D-printservice vanaf ' + h.euro(ps.pricePerGram) + ' per gram | ' + site.name,
+		ogTitle: '3D-printservice in Limburg',
+		description: 'Stuur je 3D-bestand (' + ps.formats.replace(' en ', ' of ') + ') en ik print het in ' + site.pickupLocation + '. Standaard PLA ' + h.euro(ps.pricePerGram) + ' per gram, minimaal ' + h.euro(ps.minimumOrder) + ' per opdracht.',
+		ogImage: ctx.images[site.homeImages.hero.file].og,
+		jsonLd: [{
+			'@context': 'https://schema.org',
+			'@type': 'Service',
+			name: '3D-printservice',
+			serviceType: '3D-printen',
+			provider: { '@type': 'Organization', name: site.name, url: site.url },
+			areaServed: { '@type': 'AdministrativeArea', name: 'Limburg' },
+			description: 'Je stuurt een 3D-bestand (' + ps.formats.replace(' en ', ' of ') + ') en het wordt geprint in ' + site.pickupLocation + '.',
+			offers: {
+				'@type': 'Offer',
+				priceCurrency: 'EUR',
+				priceSpecification: {
+					'@type': 'UnitPriceSpecification',
+					price: ps.pricePerGram.toFixed(2),
+					priceCurrency: 'EUR',
+					unitText: 'gram',
+					minPrice: ps.minimumOrder.toFixed(2)
+				}
+			}
+		}, {
+			'@context': 'https://schema.org',
+			'@type': 'FAQPage',
+			mainEntity: vragen.map(function (item) {
+				return { '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } };
+			})
+		}],
+		main: '<div class="container text-page">\n' + body + '\n</div>'
+	};
+}
+
 function termsPage(ctx, template) {
 	const site = ctx.site;
 	return {
@@ -110,4 +214,4 @@ function notFoundPage(ctx) {
 	};
 }
 
-module.exports = { privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage };
+module.exports = { privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage };

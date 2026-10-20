@@ -11,7 +11,7 @@ const shopPage = require('./src/templates/shop');
 const productPage = require('./src/templates/product');
 const { checkoutPage, thanksPage } = require('./src/templates/checkout');
 const { categoryPage, productsFor } = require('./src/templates/category');
-const { privacyPage, termsPage, notFoundPage } = require('./src/templates/pages');
+const { privacyPage, termsPage, notFoundPage, printServicePage } = require('./src/templates/pages');
 const h = require('./src/templates/helpers');
 
 const ROOT = __dirname;
@@ -290,7 +290,7 @@ async function build() {
 
 	const pages = [homePage(ctx, read('src/pages/index.html')), shopPage(ctx)]
 		.concat((site.categoryPages || []).map(function (cat) { return categoryPage(cat, ctx); }))
-		.concat([checkoutPage(ctx), thanksPage(ctx), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx)])
+		.concat([checkoutPage(ctx), thanksPage(ctx), printServicePage(ctx, read('src/pages/3d-printservice.html')), privacyPage(ctx, read('src/pages/privacy.html')), termsPage(ctx, read('src/pages/voorwaarden.html')), notFoundPage(ctx)])
 		.concat(products.map(function (p) { return productPage(p, ctx); }));
 	pages.forEach(function (page) { write(page.path, layout(page, ctx)); });
 

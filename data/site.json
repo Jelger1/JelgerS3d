@@ -535,6 +535,14 @@
 			]
 		}
 	],
+	"printService": {
+		"pricePerGram": 0.10,
+		"minimumOrder": 15,
+		"formats": "STL en 3MF",
+		"material": "PLA (bioplastic op plantaardige basis), één kleur per print",
+		"printers": "een Bambu Lab P1S en een H2C",
+		"maxSize": "tot ongeveer 25 × 25 × 25 cm op de P1S; grotere stukken in overleg"
+	},
 	"analytics": {
 		"gtm": "GTM-MQLPSW9X",
 		"ga4": "G-0SLM0NK7CF",

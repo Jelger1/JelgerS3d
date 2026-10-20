@@ -24,10 +24,8 @@ if (page === 'home') {
 	initForms();
 }
 if (page === 'shop') initShop();
-if (page === 'product') {
-	initProduct();
-	initRequest();
-}
+if (page === 'product') initProduct();
+initRequest(); // aanvraagformulier: op productpagina's met maatwerk en op de printservicepagina
 initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina en homepage)
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
