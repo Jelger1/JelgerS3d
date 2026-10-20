@@ -240,8 +240,8 @@
 			"alt": "Animatie waarin de onderdelen van de mijnwerkerslamp samenkomen: de voet met snoer, de fitting met lamp, de geribbelde kap en de kop met beugel. Daarna gaat de lamp in het donker aan."
 		},
 		"seo": {
-			"title": "Mijnwerkerslamp – 3D-geprint, met wifi-lamp",
-			"description": "3D-geprinte mijnwerkerslamp van eigen ontwerp: 30 cm hoog, wifi-lamp (E14) in elke kleur en een snoer van 4 meter. Kies zelf je kleuren. Nu €49,95."
+			"title": "Mijnwerkerslamp – 3D-geprinte mijnlamp",
+			"description": "De mijnlamp van vroeger als tafellamp van nu: 3D-geprint, 30 cm hoog, met wifi-lamp (E14) in elke kleur en een snoer van 4 meter. Nu €49,95."
 		},
 		"related": ["dr-joep", "mijnschacht-nulland", "helio-lamp"]
 	},
@@ -555,9 +555,10 @@
 		"tagline": "Ontwerp je eigen straatnaambord: typ je straat en zie hem direct.",
 		"description": [
 			"Het blauwe bord met de witte rand hangt op elke straathoek, en toch is er maar één dat van jou is. Typ je straatnaam en je ziet direct hoe je sleutelhanger eruit komt te zien: gecentreerd, in strakke witte letters, net als het echte bord.",
-			"Je eerste eigen huis, de straat waar je opgroeide, of een cadeau voor iemand die gaat verhuizen. Het hoeft ook geen straat te zijn: een naam, een bijnaam of de naam van de vereniging kan net zo goed. Ik print hem speciaal voor jou, hier in Limburg."
+			"Je eerste eigen huis, de straat waar je opgroeide, of een cadeau voor iemand die gaat verhuizen. Het hoeft ook geen straat te zijn: een naam, een bijnaam of de naam van de vereniging kan net zo goed. Zo krijg je een gepersonaliseerde sleutelhanger die verder niemand heeft, speciaal voor jou geprint hier in Limburg."
 		],
 		"highlights": [
+			"Gepersonaliseerde sleutelhanger: jij bepaalt de tekst",
 			"Ontwerp hem zelf en zie direct het resultaat",
 			"Elke straatnaam, naam of tekst tot 32 tekens",
 			"Speciaal voor jou geprint na bestelling"
@@ -574,7 +575,7 @@
 			{ "file": "Straatnaam-Sleutelhanger-Ontwerp.png", "subject": [16, 37, 85, 62], "fill": 0.86, "background": "auto", "alt": "3D-ontwerpvoorbeeld van de straatnaam sleutelhanger: blauw bord met opliggende witte rand, de tekst Jouw Straat en een sleutelring" }
 		],
 		"seo": {
-			"title": "Straatnaam sleutelhanger met eigen tekst",
+			"title": "Gepersonaliseerde sleutelhanger – straatnaam",
 			"description": "Maak je eigen sleutelhanger als Nederlands straatnaambord. Typ je straatnaam, zie direct het resultaat en laat hem 3D-printen in Limburg. €3,95."
 		},
 		"related": ["kirchroa-sleutelhanger", "vlaai-sleutelhanger", "poefel-sleutelhanger"]
