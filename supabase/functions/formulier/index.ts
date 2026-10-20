@@ -12,7 +12,7 @@
 // De functie draait zonder inlog ("verify_jwt = false"): de website is openbaar. Bescherming zit hierin:
 // honeypot, minimale invultijd, linkfilter, maximaal 5 inzendingen per IP per 10 minuten en per
 // e-mailadres per dag. Robots krijgen een nep-"verstuurd" zodat ze niet leren om de filters heen te werken.
-import { createClient } from 'npm:@supabase/supabase-js@2';
+import { createClient } from 'npm:@supabase/supabase-js@2.118.0';
 import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail } from './logica.js';
 
 const SITE_URL = (Deno.env.get('SITE_URL') ?? 'https://jelgers3d.nl').replace(/\/$/, '');

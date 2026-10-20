@@ -59,23 +59,9 @@ alter table public.bestellingen enable row level security;
 alter table public.berichten enable row level security;
 alter table public.inzendingen_log enable row level security;
 
--- Rechten: alleen wat de functie gebruikt (lezen, toevoegen, bijwerken; nooit verwijderen). Bezoekers
--- (anon/authenticated) krijgen niets, ook niet als RLS ooit uit zou gaan. Expliciet, omdat nieuwe projecten
--- nieuwe tabellen niet altijd vanzelf rechten geven via de Data API.
-revoke all on public.bestellingen, public.berichten, public.inzendingen_log from anon, authenticated, service_role;
+-- Rechten: alleen wat de functie gebruikt (lezen, toevoegen, bijwerken; nooit verwijderen).
 grant select, insert, update on public.bestellingen, public.berichten to service_role;
 grant select, insert on public.inzendingen_log to service_role;
 
--- De bewaartermijnen uit de privacyverklaring automatisch nakomen: berichten en aanvragen hooguit een
--- jaar, bestellingen hooguit twee jaar (facturen bewaar je in je administratie, niet hier).
+-- Voor het automatisch opruimen volgens de privacyverklaring (de taak zelf staat in de volgende migratie)
 create extension if not exists pg_cron;
-
-select cron.schedule(
-	'jelgers3d-opruimen',
-	'15 3 * * *',
-	$$
-	delete from public.berichten where aangemaakt < now() - interval '1 year';
-	delete from public.bestellingen where aangemaakt < now() - interval '2 years';
-	delete from public.inzendingen_log where aangemaakt < now() - interval '1 day';
-	$$
-);

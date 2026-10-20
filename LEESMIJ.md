@@ -227,11 +227,12 @@ Outlook tonen Arial) en bij een bestelling een foto per product. De teksten en d
 Bewaartermijnen uit de privacyverklaring worden automatisch nagekomen: elke nacht verwijdert de database berichten na
 een jaar en bestellingen na twee jaar (facturen bewaar je in je administratie, niet hier).
 
-**Instellen** (eenmalig): voer `supabase/migrations/*.sql` uit, zet de functie `formulier` online zonder JWT-controle
-(`verify_jwt = false`, de website is openbaar) en zet bij Edge Functions > Secrets: `RESEND_API_KEY`, `MAIL_VAN`
-(bijvoorbeeld `JelgerS3D <bestellingen@jelgers3d.nl>`, het domein moet bij Resend geverifieerd zijn) en
-`MAIL_EIGENAAR` (waar jij de overzichten wilt ontvangen). Het adres van de functie staat in `data/site.json` >
-`backend.url`.
+**Instellen** (op 20 oktober 2026 gedaan): de migraties in `supabase/migrations/` staan in de database, de functie
+`formulier` staat online zonder JWT-controle (`verify_jwt = false`, de website is openbaar) en bij Edge Functions >
+Secrets staat `RESEND_API_KEY`. Het domein jelgers3d.nl is bij Resend geverifieerd. Optioneel: `MAIL_VAN` (standaard
+`JelgerS3D <bestellingen@jelgers3d.nl>`) en `MAIL_EIGENAAR` (standaard het e-mailadres uit `data/site.json`). Het
+adres van de functie staat in `data/site.json` > `backend.url`. Wijzig je `logica.js` of `index.ts`, zet de functie
+dan opnieuw online; de website zelf merkt daar niets van.
 
 **Testen:** onderschep in browsertests de aanvragen naar `backend.url`, anders krijg je echte bestellingen en mails.
 
