@@ -47,8 +47,9 @@ create index berichten_aangemaakt on public.berichten (aangemaakt desc);
 
 -- Tegen misbruik: wie verstuurde er recent iets? Alleen gehashte waarden, na een dag weg.
 create table public.inzendingen_log (
+	id uuid primary key default gen_random_uuid(),
 	aangemaakt timestamptz not null default now(),
-	ip_hash text not null,
+	ip_hash text not null,                       -- leeg als het IP-adres onbekend is
 	email_hash text not null
 );
 create index inzendingen_log_ip on public.inzendingen_log (ip_hash, aangemaakt);
@@ -57,6 +58,13 @@ create index inzendingen_log_email on public.inzendingen_log (email_hash, aangem
 alter table public.bestellingen enable row level security;
 alter table public.berichten enable row level security;
 alter table public.inzendingen_log enable row level security;
+
+-- Rechten: alleen wat de functie gebruikt (lezen, toevoegen, bijwerken; nooit verwijderen). Bezoekers
+-- (anon/authenticated) krijgen niets, ook niet als RLS ooit uit zou gaan. Expliciet, omdat nieuwe projecten
+-- nieuwe tabellen niet altijd vanzelf rechten geven via de Data API.
+revoke all on public.bestellingen, public.berichten, public.inzendingen_log from anon, authenticated, service_role;
+grant select, insert, update on public.bestellingen, public.berichten to service_role;
+grant select, insert on public.inzendingen_log to service_role;
 
 -- De bewaartermijnen uit de privacyverklaring automatisch nakomen: berichten en aanvragen hooguit een
 -- jaar, bestellingen hooguit twee jaar (facturen bewaar je in je administratie, niet hier).
