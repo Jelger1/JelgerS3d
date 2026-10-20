@@ -109,6 +109,7 @@ function validate(products, reviews, site) {
 	Object.keys(idFormats).forEach(function (key) {
 		if (analytics[key] && !idFormats[key][1].test(analytics[key])) warnings.push('site.json > analytics.' + key + ': "' + analytics[key] + '" is geen geldig ID (dat begint met ' + idFormats[key][0] + ')');
 	});
+	if (!(site.backend && site.backend.url)) warnings.push('site.json > backend.url ontbreekt: bestellingen en formulieren kunnen dan nergens heen');
 	if (analytics.gtm && !analytics.ga4 && !analytics.googleAds) warnings.push('site.json > analytics: zonder ga4 of googleAds vraagt de cookiemelding nergens toestemming voor, dus tags in Tag Manager die toestemming nodig hebben starten nooit');
 	if (!analytics.gtm && (analytics.ga4 || analytics.googleAds)) warnings.push('site.json > analytics: Google Analytics en Google Ads worden alleen via Tag Manager geladen; zonder gtm meet de site niets');
 	if ('adsConversionLabel' in analytics) warnings.push('site.json > analytics.adsConversionLabel wordt niet meer gebruikt: stel de Google Ads-conversie in Tag Manager in (gebeurtenis generate_lead)');
@@ -141,7 +142,7 @@ function versionImports(source, version) {
 	});
 }
 
-function buildCatalog(products, images) {
+function catalogData(products, images) {
 	const catalog = {};
 	products.forEach(function (p) {
 		catalog[p.id] = {
@@ -155,7 +156,56 @@ function buildCatalog(products, images) {
 			wish: Boolean(p.wish)
 		};
 	});
-	return 'export default ' + JSON.stringify(catalog, null, '\t') + ';\n';
+	return catalog;
+}
+
+function buildCatalog(products, images) {
+	return 'export default ' + JSON.stringify(catalogData(products, images), null, '\t') + ';\n';
+}
+
+// Voor de Supabase-functie "formulier" (supabase/functions/formulier): bedrijfsgegevens, de actuele prijzen en de
+// productfoto's voor de mails, zodat de bevestiging precies dezelfde prijzen noemt als de site. Eén bron: data/*.json.
+// Het e-mailadres staat er net als op de pagina's gecodeerd in (zie mailCode in src/templates/helpers.js).
+function buildWinkel(products, images, site) {
+	const a = site.address || {};
+	const catalogus = catalogData(products, images);
+	products.forEach(function (p) { catalogus[p.id].mailImage = 'assets/mail/' + mailImageName(p, images); });
+	return JSON.stringify({
+		winkel: {
+			naam: site.name, eigenaar: site.owner, mail: h.mailCode(site.email), url: site.url, instagram: site.instagram, slogan: site.slogan,
+			adres: [a.street, [a.postcode, a.city].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+			kvk: site.kvk, btw: site.btw, ophaalplaats: site.pickupLocation, levertijd: site.delivery.leadTimeLong
+		},
+		catalogus: catalogus
+	});
+}
+
+// Plaatjes voor die mails: het logo als PNG (Gmail toont geen SVG) en per product een kleine JPG van de uitsnede
+// (klassiek Outlook toont geen WebP). Een plaatje wordt alleen opnieuw gemaakt als de bron nieuwer is.
+function mailImageName(product, images) {
+	return path.basename(h.imgPath(images, product.images[0].file, 400, '', true)).replace(/\.\w+$/, '.jpg');
+}
+
+async function buildMailImages(products, images) {
+	const sharp = require('sharp');
+	const dir = path.join(DIST, 'assets/mail');
+	fs.mkdirSync(dir, { recursive: true });
+	const jobs = [{
+		src: path.join(ROOT, 'assets/js-3D-LOGO-BIG.svg'), out: 'logo.png',
+		make: function () { return sharp(this.src, { density: 6 }).resize({ width: 278 }).png({ compressionLevel: 9 }); } // 2x van 139x52
+	}].concat(products.map(function (p) {
+		return {
+			src: path.join(DIST, h.imgPath(images, p.images[0].file, 400, '', true)), out: mailImageName(p, images),
+			make: function () { return sharp(this.src).resize(120, 150, { fit: 'cover' }).flatten({ background: '#ffffff' }).jpeg({ quality: 82, mozjpeg: true }); }
+		};
+	}));
+	for (const job of jobs) {
+		const out = path.join(dir, job.out);
+		if (fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(job.src).mtimeMs) continue;
+		await job.make().toFile(out);
+	}
+	const keep = new Set(jobs.map(function (job) { return job.out; }));
+	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
 }
 
 // Productfeed voor Google Merchant Center (dist/feed.xml): één regel per bestelbare variant.
@@ -246,6 +296,7 @@ async function build() {
 
 	write('css/styles.css', css);
 	write('js/catalog.js', catalog);
+	write('js/winkel.json', buildWinkel(products, images, site));
 	jsFiles.forEach(function (f) { write('js/' + f, versionImports(read('src/js/' + f), version)); });
 	if (bundles.length) {
 		require('esbuild').buildSync({
@@ -274,6 +325,8 @@ async function build() {
 	fs.readdirSync(path.join(ROOT, 'assets/fonts')).filter(function (f) { return /\.(woff2|json)$/i.test(f); }).forEach(function (f) { // .json = lettertype voor de 3D-letters
 		fs.copyFileSync(path.join(ROOT, 'assets/fonts', f), path.join(DIST, 'assets/fonts', f));
 	});
+
+	await buildMailImages(products, images);
 
 	// 5. Pagina's
 	const byId = {};
