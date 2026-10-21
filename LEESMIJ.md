@@ -234,6 +234,12 @@ Secrets staat `RESEND_API_KEY`. Het domein jelgers3d.nl is bij Resend geverifiee
 `JelgerS3D <bestellingen@jelgers3d.nl>`) en `MAIL_EIGENAAR` (standaard het e-mailadres uit `data/site.json`). Het
 adres van de functie staat in `data/site.json` > `backend.url`.
 
+**Het portfolio (jelgersieler.nl, JSdesign)** gebruikt dezelfde functie voor zijn contactformulier (met `"site": "portfolio"`
+in de aanvraag; de functie accepteert daarom ook aanvragen van jelgersieler.nl). Zo'n bericht staat in de tabel `berichten`
+met `site` = `jelgersieler.nl` en krijgt dezelfde spamfilters, limieten, herinneringen en knop "Ik heb gereageerd". De
+mails hebben de naam, het adres en het logo van het portfolio en komen van "JSdesign" (zelfde adres als `MAIL_VAN`, of
+`MAIL_VAN_PORTFOLIO` als je die bij Secrets zet). Het logo en de lettertypen voor die mails staan op jelgersieler.nl zelf.
+
 **Bijwerken gaat vanzelf:** de GitHub-koppeling van Supabase staat aan. Bij elke push naar `main` voert Supabase nieuwe
 bestanden in `supabase/migrations/` uit en zet het de functie uit `supabase/functions/formulier/` online. Wat in de repo
 staat, draait dus ook. Een migratie die al met de hand is uitgevoerd, moet in de repo precies dezelfde versie (het getal

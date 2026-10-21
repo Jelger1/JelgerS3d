@@ -12,9 +12,14 @@
 //               aan Jelger voor wat al dagen op "nieuw" staat
 // Een GET met ?bestand=...&k=... (de downloadlink in Jelgers mail) stuurt door naar het bestand.
 //
+// Het portfolio van Jelger (jelgersieler.nl, JSdesign) gebruikt deze functie ook, alleen voor het contactformulier
+// (veld "site": "portfolio"). Die berichten staan in dezelfde tabel met site = jelgersieler.nl, en de mails erover
+// krijgen de naam, het adres en het logo van het portfolio (het logo en de lettertypen staan daar ook op de site).
+//
 // Instellingen (Supabase > Edge Functions > Secrets):
 //   RESEND_API_KEY   verplicht, de sleutel van resend.com (voor de nieuwsbrief met toegang tot contacten)
 //   MAIL_VAN         afzender, bv. "JelgerS3D <bestellingen@jelgers3d.nl>" (domein moet bij Resend geverifieerd zijn)
+//   MAIL_VAN_PORTFOLIO  optioneel: afzender voor het portfolio (standaard hetzelfde adres met de naam JSdesign)
 //   MAIL_EIGENAAR    waar Jelger de overzichten wil ontvangen
 //   RESEND_SEGMENT   optioneel: id van het segment voor de nieuwsbrief (anders zoekt of maakt de functie "Nieuwsbrief")
 //   SITE_URL         standaard https://jelgers3d.nl
@@ -36,7 +41,9 @@ const RESEND_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_KEY = geheimeSleutel();
 const FUNCTIE_URL = SUPABASE_URL + '/functions/v1/formulier';
-const HERKOMST = [SITE_URL, SITE_URL.replace('://', '://www.')];
+const PORTFOLIO = { site: 'jelgersieler.nl', naam: 'JSdesign', url: 'https://jelgersieler.nl', slogan: 'Designer · Developer · Maker' };
+const MAIL_VAN_PORTFOLIO = Deno.env.get('MAIL_VAN_PORTFOLIO') ?? MAIL_VAN.replace(/^[^<]*</, PORTFOLIO.naam + ' <');
+const HERKOMST = [SITE_URL, SITE_URL.replace('://', '://www.'), PORTFOLIO.url, PORTFOLIO.url.replace('://', '://www.')];
 const LIMIET_IP = 5;            // inzendingen per IP per 10 minuten
 const LIMIET_EMAIL = 5;         // inzendingen per e-mailadres per 24 uur
 const BUCKET = 'uploads';
@@ -138,13 +145,13 @@ async function recent(kolom: 'ip_hash' | 'email_hash', waarde: string, minuten: 
 	return count ?? 0;
 }
 
-async function stuurMail(aan: string, antwoordAan: string, mail: { onderwerp: string; html: string; tekst: string }) {
+async function stuurMail(aan: string, antwoordAan: string, mail: { onderwerp: string; html: string; tekst: string }, van = MAIL_VAN) {
 	if (!RESEND_KEY || !aan) return false;
 	try {
 		const res = await fetch('https://api.resend.com/emails', {
 			method: 'POST',
 			headers: { Authorization: 'Bearer ' + RESEND_KEY, 'Content-Type': 'application/json' },
-			body: JSON.stringify({ from: MAIL_VAN, to: [aan], reply_to: antwoordAan || undefined, subject: mail.onderwerp, html: mail.html, text: mail.tekst })
+			body: JSON.stringify({ from: van, to: [aan], reply_to: antwoordAan || undefined, subject: mail.onderwerp, html: mail.html, text: mail.tekst })
 		});
 		if (!res.ok) console.error('Resend weigerde de mail', res.status, await res.text());
 		return res.ok;
@@ -339,7 +346,7 @@ async function herinneren(w: any, nu: Date) {
 	const voor = (dagen: number) => new Date(nu.getTime() - dagen * DAG).toISOString();
 	const bestellingen = (keer: number) => db.from('bestellingen').select('id, naam, email, totaal, levering, aangemaakt, herinneringen')
 		.eq('status', 'nieuw').is('gereageerd_op', null).eq('herinneringen', keer).lt('aangemaakt', voor(HERINNER_NA[keer]));
-	const berichten = (keer: number) => db.from('berichten').select('id, soort, naam, email, product, bericht, velden, aangemaakt, herinneringen')
+	const berichten = (keer: number) => db.from('berichten').select('id, site, soort, naam, email, product, bericht, velden, aangemaakt, herinneringen')
 		.eq('status', 'nieuw').neq('soort', 'beschikbaarheid').is('gereageerd_op', null).eq('herinneringen', keer).lt('aangemaakt', voor(HERINNER_NA[keer]));
 	const lijsten = await Promise.all([bestellingen(0), bestellingen(1), berichten(0), berichten(1)]);
 	lijsten.forEach((l) => { if (l.error) console.error('Herinneringen ophalen mislukt', l.error); });
@@ -350,7 +357,7 @@ async function herinneren(w: any, nu: Date) {
 	}
 	for (const rij of [...(lijsten[2].data ?? []), ...(lijsten[3].data ?? [])]) {
 		const tekst = rij.bericht || Object.values(rij.velden ?? {}).join(' · ');
-		items.push({ tabel: 'm', soort: rij.soort, id: rij.id, naam: rij.naam, email: rij.email, product: rij.product, tekst, aangemaakt: rij.aangemaakt, keer: rij.herinneringen + 1, gereageerdLink: await gereageerdLink('m', rij.id) });
+		items.push({ tabel: 'm', soort: rij.soort, id: rij.id, naam: rij.naam, email: rij.email, product: rij.product, tekst, aangemaakt: rij.aangemaakt, keer: rij.herinneringen + 1, gereageerdLink: await gereageerdLink('m', rij.id), merk: rij.site === PORTFOLIO.site ? PORTFOLIO.naam : undefined });
 	}
 	if (!items.length) return 'niets open';
 	items.sort((a, b) => a.aangemaakt.localeCompare(b.aangemaakt));
@@ -464,8 +471,13 @@ Deno.serve(async (req) => {
 	}
 
 	// Overige formulieren. Lijkt het op SEO-spam (veel links), dan wel opslaan maar niet mailen.
+	// Een bericht via het portfolio krijgt in de mails de naam en het adres van het portfolio.
 	const spam = spamSignaal(invoer, data);
+	const portfolio = data.site === 'portfolio';
+	const merk = portfolio ? { ...w.winkel, ...PORTFOLIO, portfolio: true } : w.winkel;
+	const van = portfolio ? MAIL_VAN_PORTFOLIO : MAIL_VAN;
 	const { data: rij, error } = await db.from('berichten').insert({
+		...(portfolio ? { site: PORTFOLIO.site } : {}),
 		soort: data.soort, naam: data.naam || null, email: data.email, product: data.product || null,
 		velden: data.velden ?? {}, bericht: data.bericht ?? null, akkoord_op: akkoordOp,
 		status: spam ? 'spam' : 'nieuw', spam_reden: spam
@@ -484,8 +496,8 @@ Deno.serve(async (req) => {
 		nieuwsbriefLink: data.nieuwsbrief ? await nieuwsbriefAanvraag(data.email, data.soort) : null
 	};
 	const [eigenaar, klant] = await Promise.all([
-		stuurMail(MAIL_EIGENAAR || w.winkel.email, data.email, mailEigenaar(data, extra, w.winkel)),
-		stuurMail(data.email, MAIL_EIGENAAR || w.winkel.email, mailKlant(data, extra, w.winkel))
+		stuurMail(MAIL_EIGENAAR || w.winkel.email, data.email, mailEigenaar(data, extra, merk), van),
+		stuurMail(data.email, MAIL_EIGENAAR || w.winkel.email, mailKlant(data, extra, merk), van)
 	]);
 	await db.from('berichten').update({ mail_eigenaar: eigenaar, mail_klant: klant }).eq('id', rij.id);
 	return antwoord({ ok: true, id: rij.id, mail: klant, bestanden: extra.bestanden.length }, 200, headers);

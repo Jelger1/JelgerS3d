@@ -66,6 +66,11 @@ export function controleer(invoer, catalogus) {
 	if (data.soort !== 'beschikbaarheid' && !data.naam) return fout('Vul je naam in.');
 	// Het vinkje "houd me op de hoogte": alleen een verzoek, pas na de bevestigingsknop in de mail sta je op de lijst
 	if (data.soort !== 'beschikbaarheid') data.nieuwsbrief = invoer.nieuwsbrief === true;
+	// Het portfolio (jelgersieler.nl, JSdesign) stuurt alleen contactberichten; de nieuwsbrief hoort bij de winkel
+	if (invoer.site === 'portfolio' && data.soort === 'contact') {
+		data.site = 'portfolio';
+		data.nieuwsbrief = false;
+	}
 
 	if (data.soort === 'contact') {
 		data.bericht = tekst(invoer.bericht, 5000);
@@ -368,11 +373,16 @@ function adresRegel(d) {
 
 function voetLink(href, t) { return '<a href="' + esc(href) + '" style="color:' + KLEUR.merk + ';text-decoration:none">' + esc(t) + '</a>'; }
 
+// w.portfolio: een mail over een bericht via het portfolio (JSdesign). Dat is geen winkel: geen voorwaarden of KvK-regel.
 function winkelVoet(w) {
-	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + ' · Handgemaakt in Limburg<br>'
-		+ esc(w.adres) + ' · KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + '<br>'
+	return '<strong style="color:' + KLEUR.licht + '">' + esc(w.naam) + '</strong>' + (w.slogan ? ' · ' + esc(w.slogan) : '') + (w.portfolio ? '' : ' · Handgemaakt in Limburg') + '<br>'
+		+ (w.portfolio ? '' : esc(w.adres) + ' · KvK ' + esc(w.kvk) + ' · Btw ' + esc(w.btw) + '<br>')
 		+ [voetLink(w.url, w.url.replace(/^https?:\/\//, '')), w.instagram ? voetLink(w.instagram, 'Instagram') : '',
-			voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring')].filter(Boolean).join(' · ');
+			w.portfolio ? '' : voetLink(w.url + '/voorwaarden.html', 'Algemene voorwaarden'), voetLink(w.url + '/privacy.html', 'Privacyverklaring')].filter(Boolean).join(' · ');
+}
+
+function voetTekst(w) {
+	return w.portfolio ? w.naam + ' · ' + w.url : w.naam + ' · ' + w.adres + ' · KvK ' + w.kvk + ' · ' + w.url;
 }
 
 // Mail naar Jelger: alles overzichtelijk bij elkaar, met knoppen om de klant meteen te mailen of te bellen.
@@ -413,12 +423,13 @@ export function mailEigenaar(data, extra, winkel) {
 			+ (data.opmerkingen ? '\nOpmerkingen: ' + data.opmerkingen : '');
 	} else {
 		const soortNaam = TITELS[data.soort];
-		onderwerp = data.soort === 'contact' ? 'Nieuw bericht van ' + data.naam
+		const viaPortfolio = data.site === 'portfolio';
+		onderwerp = data.soort === 'contact' ? 'Nieuw bericht van ' + data.naam + (viaPortfolio ? ' via ' + winkel.url.replace(/^https?:\/\//, '') : '')
 			: data.soort === 'beschikbaarheid' ? data.email + ' wil een seintje over de ' + data.product
 			: 'Nieuwe ' + soortNaam + (data.soort === 'offerte' && data.product ? ' ' + data.product : '') + ' van ' + data.naam;
 		preheader = data.bericht ? data.bericht.slice(0, 120) : Object.keys(data.velden || {}).map(function (l) { return data.velden[l]; }).join(' · ').slice(0, 120) || onderwerp;
 		const velden = Object.keys(data.velden || {}).map(function (label) { return [label, esc(data.velden[label]).replace(/\n/g, '<br>')]; });
-		inhoud = bovenkop({ contact: 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd' }[data.soort])
+		inhoud = bovenkop({ contact: viaPortfolio ? 'Nieuw bericht via je portfolio' : 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd' }[data.soort])
 			+ titel(esc(data.naam || data.email))
 			+ alinea(gedempt(esc(moment) + (data.product ? ' · ' + esc(data.product) : '')))
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], gereageerd])
@@ -510,7 +521,7 @@ export function mailKlant(data, extra, winkel) {
 	return {
 		onderwerp: onderwerp,
 		html: omhulsel(onderwerp, preheader, inhoud, winkelVoet(winkel), winkel),
-		tekst: tekstversie + '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.url
+		tekst: tekstversie + '\n\n' + voetTekst(winkel)
 	};
 }
 
@@ -528,7 +539,7 @@ export function mailNieuwsbrief(href, winkel) {
 		html: omhulsel(onderwerp, 'Nog één klik: bevestig dat je mails over nieuwe ontwerpen wilt ontvangen.', inhoud, winkelVoet(winkel), winkel),
 		tekst: 'Leuk dat je als eerste wilt horen over nieuwe ontwerpen van ' + winkel.naam + '! Bevestig je aanmelding met deze link:\n' + href
 			+ '\n\nHeb je je niet aangemeld? Dan hoef je niets te doen: zonder bevestiging sta je niet op de lijst.'
-			+ '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.url
+			+ '\n\n' + voetTekst(winkel)
 	};
 }
 
@@ -546,16 +557,17 @@ export function telling(items) {
 }
 
 // Herinnering aan Jelger: bestellingen en aanvragen die al een paar dagen op "nieuw" staan.
-// items: [{ soort, id, naam, email, product, totaal, levering, tekst, aangemaakt, keer, gereageerdLink }]; nu: tijdstip in ms
+// items: [{ soort, id, naam, email, product, totaal, levering, tekst, aangemaakt, keer, gereageerdLink, merk }]; nu: tijdstip in ms
+// merk: alleen bij een bericht via het portfolio, de naam daarvan (JSdesign)
 export function mailHerinnering(items, winkel, nu, dashboard) {
 	const onderwerp = 'Herinnering: ' + telling(items) + ' ' + (items.length === 1 ? 'wacht' : 'wachten') + ' op je reactie';
 	const regels = items.map(function (it) {
 		const dagen = Math.max(1, Math.floor((nu - new Date(it.aangemaakt).getTime()) / 86400000));
-		const kop = it.soort === 'bestelling' ? 'Bestelling ' + it.id : it.soort === 'contact' ? 'Bericht' : it.soort === 'printservice' ? 'Printaanvraag' : 'Aanvraag' + (it.product ? ' ' + it.product : '');
+		const kop = it.soort === 'bestelling' ? 'Bestelling ' + it.id : it.soort === 'contact' ? 'Bericht' + (it.merk ? ' via je portfolio' : '') : it.soort === 'printservice' ? 'Printaanvraag' : 'Aanvraag' + (it.product ? ' ' + it.product : '');
 		const vol = it.soort === 'bestelling' ? euro(it.totaal) + ' · ' + String(it.levering || '').toLowerCase() : String(it.tekst || '').replace(/\s+/g, ' ').trim();
 		const samenvatting = vol.length > 160 ? vol.slice(0, 157) + '…' : vol;
 		const wie = (it.naam || it.email) + ' · ' + dagen + (dagen === 1 ? ' dag' : ' dagen') + ' geleden' + (it.keer > 1 ? ' · tweede herinnering' : '');
-		const mailOnderwerp = it.soort === 'bestelling' ? 'Je bestelling ' + it.id + ' bij ' + winkel.naam : 'Je ' + TITELS[it.soort] + ' bij ' + winkel.naam;
+		const mailOnderwerp = it.soort === 'bestelling' ? 'Je bestelling ' + it.id + ' bij ' + winkel.naam : 'Je ' + TITELS[it.soort] + ' bij ' + (it.merk || winkel.naam);
 		return { kop: kop, wie: wie, samenvatting: samenvatting, it: it, mailto: 'mailto:' + it.email + '?subject=' + encodeURIComponent(mailOnderwerp) };
 	});
 	const inhoud = bovenkop('Herinnering') + titel('Nog niet gereageerd')

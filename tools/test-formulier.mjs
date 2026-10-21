@@ -242,6 +242,28 @@ test('mails bij aanvragen en berichten', function () {
 	assert.equal(mailKlant(contact, extra, WINKEL).onderwerp, 'Je bericht aan JelgerS3D is binnen');
 });
 
+test('berichten via het portfolio (jelgersieler.nl)', function () {
+	const PORTFOLIO = Object.assign({}, WINKEL, { site: 'jelgersieler.nl', naam: 'JSdesign', url: 'https://jelgersieler.nl', slogan: 'Designer · Developer · Maker', portfolio: true });
+	const d = ok({ site: 'portfolio', soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'Leuk portfolio', nieuwsbrief: true, akkoord: true });
+	assert.equal(d.site, 'portfolio');
+	assert.equal(d.nieuwsbrief, false, 'de nieuwsbrief hoort bij de winkel');
+	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x' }).site, undefined, 'de winkel blijft de standaard');
+	assert.equal(ok({ site: 'portfolio', soort: 'offerte', naam: 'Jan', email: 'jan@voorbeeld.nl', product: 'lightbox', velden: { Wens: 'x' } }).site, undefined, 'alleen het contactformulier');
+
+	const extra = { id: 'abc', moment: MOMENT, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=abc&k=x' };
+	const jelger = mailEigenaar(d, extra, PORTFOLIO);
+	assert.equal(jelger.onderwerp, 'Nieuw bericht van Jan via jelgersieler.nl');
+	assert.ok(jelger.html.includes('Nieuw bericht via je portfolio') && jelger.html.includes('https://jelgersieler.nl/assets/mail/logo.png'));
+	const klant = mailKlant(d, extra, PORTFOLIO);
+	assert.equal(klant.onderwerp, 'Je bericht aan JSdesign is binnen');
+	assert.ok(klant.html.includes('Designer · Developer · Maker') && klant.html.includes('https://jelgersieler.nl/privacy.html'));
+	assert.ok(!/voorwaarden|Handgemaakt in Limburg|KvK|Als eerste horen/.test(klant.html), 'geen winkelvoet en geen nieuwsbrief');
+	assert.ok(klant.tekst.endsWith('JSdesign · https://jelgersieler.nl'));
+
+	const herinnering = mailHerinnering([{ soort: 'contact', id: 'u3', naam: 'Jan', email: 'jan@voorbeeld.nl', tekst: 'Leuk portfolio', aangemaakt: '2026-10-21T06:00:00Z', keer: 1, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=u3&k=d', merk: 'JSdesign' }], WINKEL, new Date('2026-10-23T07:00:00Z').getTime());
+	assert.ok(herinnering.html.includes('Bericht via je portfolio') && herinnering.html.includes(encodeURIComponent('Je bericht bij JSdesign')));
+});
+
 const UPLOADS = { maxMB: 50, keepMonths: 6, printservice: { types: ['stl', '3mf'], max: 2 }, offerte: { types: ['svg', 'png', 'jpg', 'jpeg', 'pdf'], max: 3 } };
 
 test('bestanden: wat mag er geüpload worden', function () {
