@@ -531,6 +531,9 @@
 		"printers": "een Bambu Lab P1S en een H2C",
 		"maxSize": "tot ongeveer 25 × 25 × 25 cm op de P1S; grotere stukken in overleg"
 	},
+	"newsletterPage": {
+		"products": ["schachtgebouw-oranje-nassau-1", "kami-vase", "helio-lamp", "koempel-eend"]
+	},
 	"uploads": {
 		"maxMB": 50,
 		"keepMonths": 6,

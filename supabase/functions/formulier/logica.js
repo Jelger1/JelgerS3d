@@ -5,8 +5,9 @@
 export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief'];
 export const MIN_DUUR_MS = 2000;   // sneller dan dit kan een mens geen formulier invullen
 export const MAX_LINKS = 2;        // meer links in een bericht: vrijwel altijd SEO-spam
-// Waar iemand zich voor de nieuwsbrief aanmeldde: onderaan een pagina, op de bedanktpagina of met het vinkje in een formulier
-export const BRONNEN = ['footer', 'bedankt', 'bestelling', 'contact', 'offerte', 'printservice'];
+// Waar iemand zich voor de nieuwsbrief aanmeldde: onderaan een pagina, op de bedanktpagina, op de aanmeldpagina
+// (jelgers3d.nl/nieuwsbrief, om te delen op social media) of met het vinkje in een formulier
+export const BRONNEN = ['footer', 'bedankt', 'pagina', 'bestelling', 'contact', 'offerte', 'printservice'];
 
 const EMAIL = /^[^\s@<>()",;]+@[^\s@<>()",;]+\.[a-z]{2,}$/i;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

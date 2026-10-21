@@ -136,3 +136,32 @@
 	.newsletter-row{flex-direction:column}
 	.newsletter-row .btn{width:100%}
 }
+
+/* jelgers3d.nl/nieuwsbrief: aanmeldpagina om te delen op social media (newsletterPage in src/templates/pages.js) */
+.newsletter-page{padding-top:clamp(2rem, 5vw, 4rem);padding-bottom:clamp(2.5rem, 6vw, 5rem)}
+.newsletter-hero{display:grid;grid-template-columns:minmax(0, 1.1fr) minmax(0, 0.9fr);gap:clamp(2rem, 5vw, 4rem);align-items:center}
+.newsletter-hero h1{font-size:clamp(2rem, 4.5vw, 3.1rem);line-height:1.1;margin:0 0 1rem 0}
+.newsletter-hero .success-icon{margin:0 0 1rem 0}
+.newsletter-intro{color:var(--fg-muted);font-size:1.1rem;line-height:1.7;max-width:52ch;margin:0 0 1.25rem 0}
+.newsletter-hero .feature-list{margin:0 0 1.75rem 0}
+.newsletter-page-form{max-width:520px}
+.newsletter-page-form .newsletter-row input{padding:0.85rem 1.1rem;font-size:1rem}
+.newsletter-page-form .newsletter-row .btn{padding:0.85rem 1.5rem;font-size:1rem}
+.newsletter-confirm-text{color:var(--fg-muted);font-size:1.1rem;line-height:1.7;max-width:52ch;margin:0 0 1.5rem 0}
+.newsletter-confirm-actions{justify-content:flex-start}
+.newsletter-more{margin:1.5rem 0 0 0;font-size:0.95rem}
+.newsletter-more a{color:var(--brand);text-decoration:none}
+.newsletter-more a:hover{text-decoration:underline}
+.newsletter-tiles{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:0.85rem}
+.newsletter-tile{position:relative;display:block;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);background:var(--dark-card);text-decoration:none}
+.newsletter-tile:nth-child(even){transform:translateY(1.5rem)}
+.newsletter-tile img{display:block;width:100%;height:auto;aspect-ratio:4 / 5;object-fit:cover;transition:transform 0.4s}
+.newsletter-tile:hover img{transform:scale(1.04)}
+.newsletter-tile span{position:absolute;left:0;right:0;bottom:0;padding:1.5rem 0.75rem 0.6rem;background:linear-gradient(transparent, rgba(18,21,28,0.85));color:var(--soft);font-size:0.82rem;font-weight:600}
+.newsletter-tile:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+@media (max-width:760px){
+	.newsletter-hero{grid-template-columns:minmax(0, 1fr)}
+	.newsletter-tiles{grid-template-columns:repeat(4, minmax(0, 1fr));gap:0.5rem}
+	.newsletter-tile:nth-child(even){transform:none}
+	.newsletter-tile span{display:none}
+}

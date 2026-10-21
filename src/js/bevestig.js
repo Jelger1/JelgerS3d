@@ -1,5 +1,7 @@
-// nieuwsbrief.html en gereageerd.html: pagina's die je via een link in een mail bereikt. De code staat achter # in
-// het adres; die gaat naar de Supabase-functie en daarna uit de adresbalk. Zie confirmPage in src/templates/pages.js.
+// Links uit mails: de bevestiging van de nieuwsbrief (nieuwsbrief.html#t=...) en "Ik heb gereageerd"
+// (gereageerd.html#b=...). De code staat achter # in het adres; die gaat naar de Supabase-functie en daarna uit de
+// adresbalk. Zonder code is nieuwsbrief.html gewoon de aanmeldpagina. Zie newsletterPage en confirmPage in
+// src/templates/pages.js.
 import { verstuur } from './util.js';
 
 export function initBevestig() {
@@ -10,7 +12,13 @@ export function initBevestig() {
 	const icoon = pagina.querySelector('[data-bevestig-icoon]');
 	const acties = pagina.querySelector('[data-bevestig-acties]');
 	const code = new URLSearchParams(location.hash.slice(1));
+	if (pagina.dataset.bevestig === 'bevestig' && !code.get('t')) return; // gewoon de aanmeldpagina
 	if (location.hash) history.replaceState(null, '', location.pathname);
+
+	// Bevestigen: het aanmeldgedeelte weg, de status in beeld
+	pagina.querySelectorAll('[data-aanmelden]').forEach(function (el) { el.hidden = true; });
+	if (pagina.dataset.bezig) titel.textContent = pagina.dataset.bezig;
+	tekst.hidden = false;
 
 	function klaar(kop, uitleg, gelukt) {
 		titel.textContent = kop;
@@ -37,5 +45,7 @@ export function initBevestig() {
 		if (dashboard && antwoord.dashboard) dashboard.href = antwoord.dashboard;
 	}).catch(function (error) {
 		klaar('Dat lukte niet', error.message, false);
+		// Verlopen link: dan kan iemand zich hier meteen opnieuw aanmelden
+		if (gegevens.actie === 'bevestig') pagina.querySelectorAll('.newsletter-page-form').forEach(function (el) { el.hidden = false; });
 	});
 }

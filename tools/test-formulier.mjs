@@ -286,6 +286,7 @@ test('nieuwsbrief: aanmelden en bevestigen', function () {
 	assert.equal(d.email, 'jan@voorbeeld.nl');
 	assert.equal(d.bron, 'footer');
 	assert.equal(ok({ soort: 'nieuwsbrief', email: 'jan@voorbeeld.nl', bron: 'iets-geks' }).bron, 'footer');
+	assert.equal(ok({ soort: 'nieuwsbrief', email: 'jan@voorbeeld.nl', bron: 'pagina' }).bron, 'pagina', 'de aanmeldpagina voor social media');
 	assert.equal(fout({ soort: 'nieuwsbrief', email: 'geen' }), 'Vul een geldig e-mailadres in.');
 	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', nieuwsbrief: true }).nieuwsbrief, true);
 	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', nieuwsbrief: 'ja' }).nieuwsbrief, false, 'alleen een echt vinkje telt');

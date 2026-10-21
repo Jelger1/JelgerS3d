@@ -241,12 +241,50 @@ function confirmPage(ctx, opts) {
 	};
 }
 
+// jelgers3d.nl/nieuwsbrief: aanmeldpagina om te delen op social media. Met de code uit de bevestigingsmail
+// (#t=...) is dezelfde pagina de bevestiging; src/js/bevestig.js verbergt dan het aanmeldgedeelte.
+// De foto's komen uit data/site.json > newsletterPage.products.
 function newsletterPage(ctx) {
-	return confirmPage(ctx, {
-		path: 'nieuwsbrief.html', action: 'bevestig', title: 'Aanmelding bevestigen', busy: 'Je aanmelding wordt bevestigd...',
-		description: 'Bevestig je aanmelding voor de nieuwsbrief van ' + ctx.site.name + '.',
-		actions: '<a class="btn btn-primary" href="webshop.html">Bekijk de webshop</a>'
-	});
+	const site = ctx.site;
+	const ids = (site.newsletterPage && site.newsletterPage.products) || [];
+	const tegels = ids.filter(function (id) { return ctx.byId[id]; }).map(function (id) {
+		const p = ctx.byId[id];
+		return '\t\t\t<a class="newsletter-tile" href="' + h.productUrl(p, '') + '">'
+			+ h.img(ctx.images, p.images[0].file, { alt: p.images[0].alt || p.name, sizes: '(max-width: 760px) 45vw, 240px', crop: true })
+			+ '<span>' + h.esc(p.name) + '</span></a>';
+	}).join('\n');
+	const voordelen = [
+		'Als eerste weten wanneer er een nieuw ontwerp is',
+		'Speciale acties en deals in je mailbox',
+		'Geen spam: alleen een mail als er echt iets te melden is',
+		'Afmelden kan altijd, met één klik'
+	];
+	return {
+		path: 'nieuwsbrief.html',
+		root: '',
+		name: 'confirm', // geen tweede aanmeldveld in de footer
+		title: 'Nieuwsbrief | ' + site.name,
+		ogTitle: 'Meld je aan voor de nieuwsbrief van ' + site.name,
+		description: 'Hoor als eerste over nieuwe 3D-geprinte ontwerpen en speciale acties van ' + site.name + '. Afmelden kan altijd, met één klik.',
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: '<div class="container newsletter-page" data-bevestig="bevestig" data-bezig="Je aanmelding wordt bevestigd...">\n'
+			+ '\t<div class="newsletter-hero">\n'
+			+ '\t\t<div class="newsletter-hero-text">\n'
+			+ '\t\t\t<p class="kicker" data-aanmelden>Nieuwsbrief</p>\n'
+			+ '\t\t\t<div class="success-icon" aria-hidden="true" data-bevestig-icoon hidden>✓</div>\n'
+			+ '\t\t\t<h1 data-bevestig-titel>Mis nooit meer een <span class="highlight">nieuw ontwerp</span></h1>\n'
+			+ '\t\t\t<p class="newsletter-confirm-text" data-bevestig-tekst aria-live="polite" hidden></p>\n'
+			+ '\t\t\t<p class="newsletter-intro" data-aanmelden>Meld je aan en hoor als eerste wanneer er iets nieuws uit mijn printers komt, en over speciale acties. Handgemaakt in Limburg, recht in je mailbox.</p>\n'
+			+ '\t\t\t<ul class="feature-list" data-aanmelden>\n' + voordelen.map(function (v) { return '\t\t\t\t<li>' + h.esc(v) + '</li>'; }).join('\n') + '\n\t\t\t</ul>\n'
+			+ '\t\t\t<div class="newsletter-page-form" data-aanmelden>' + h.nieuwsbriefForm('pagina', '') + '</div>\n'
+			+ '\t\t\t<noscript><p>Zet JavaScript aan om je aan te melden.</p></noscript>\n'
+			+ '\t\t\t<p class="thanks-actions newsletter-confirm-actions" data-bevestig-acties hidden><a class="btn btn-primary" href="webshop.html">Bekijk de webshop</a></p>\n'
+			+ '\t\t\t<p class="newsletter-more" data-aanmelden><a href="webshop.html">Liever meteen rondkijken? Bekijk de webshop <span aria-hidden="true">→</span></a></p>\n'
+			+ '\t\t</div>\n'
+			+ '\t\t<div class="newsletter-tiles">\n' + tegels + '\n\t\t</div>\n'
+			+ '\t</div>\n'
+			+ '</div>'
+	};
 }
 
 function repliedPage(ctx) {

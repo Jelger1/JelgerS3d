@@ -208,7 +208,7 @@ async function bevestigNieuwsbrief(token: unknown) {
 	const { data: rij } = await db.from('nieuwsbrief').select('id, email, bevestigd_op, aangevraagd, resend_id')
 		.eq('token_hash', await hash('nieuwsbrief:' + token)).maybeSingle();
 	if (!rij || (!rij.bevestigd_op && Date.now() - new Date(rij.aangevraagd).getTime() > 30 * DAG)) {
-		return { ok: false, fout: 'Deze link is verlopen. Meld je gerust opnieuw aan onderaan de pagina.' };
+		return { ok: false, fout: 'Deze link is verlopen. Meld je gerust opnieuw aan.' };
 	}
 	if (rij.bevestigd_op && rij.resend_id) return { ok: true }; // twee keer geklikt: niets aan de hand
 	const resendId = await naarResend(rij.email);
