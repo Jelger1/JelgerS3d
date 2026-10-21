@@ -6,7 +6,8 @@
 .kicker{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--brand);font-weight:600;margin:0 0 0.75rem 0}
 
 .section{padding-top:var(--section-space);padding-bottom:var(--section-space)}
-.section-tint{background:var(--dark-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:1}
+/* Getinte band met schuine boven- en onderkant, oplopend zoals de lijnen van het JS-teken */
+.section-tint{--slant:clamp(28px, 4.5vw, 76px);background:radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.09), transparent 50%), radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.08), transparent 50%), var(--dark-secondary);clip-path:polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);padding-top:calc(var(--section-space) + var(--slant) * 0.7);padding-bottom:calc(var(--section-space) + var(--slant) * 0.7);position:relative;z-index:1}
 .section-tint > .container{padding-top:0;padding-bottom:0}
 .section-head{margin:0 0 2.25rem 0;max-width:720px}
 .section-head h2{margin:0}
@@ -40,14 +41,19 @@
 .category-tile-text strong{font-family:var(--font-display);font-size:1.35rem;line-height:1.15}
 .category-tile-text strong::after{content:'→';display:inline-block;margin-left:0.5rem;color:var(--brand);opacity:0;transform:translateX(-6px);transition:opacity 0.25s ease, transform 0.25s ease}
 .category-tile-text span{font-size:0.88rem;color:rgba(243,255,253,0.78);line-height:1.4}
-.category-tile:hover,.category-tile:focus-visible{border-color:rgba(3,188,202,0.5);transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,0.35), 0 0 24px var(--brand-glow)}
+.category-tile:hover,.category-tile:focus-visible{border-color:transparent;transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,0.35), 0 0 28px rgba(241,0,103,0.12)}
+.category-tile::before{content:'';position:absolute;inset:0;z-index:2;border-radius:inherit;padding:1px;background:linear-gradient(125deg, var(--raspberry), var(--brand) 55%, rgba(3,188,202,0.25));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity 0.35s ease;pointer-events:none}
+.category-tile:hover::before,.category-tile:focus-visible::before{opacity:1}
 .category-tile:hover img{transform:scale(1.06)}
 .category-tile:hover strong::after,.category-tile:focus-visible strong::after{opacity:1;transform:none}
 
 /* Zo werkt het */
 .how-steps{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:1.5rem}
 .how-steps li{background:var(--dark-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem}
-.how-number{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid rgba(3,188,202,0.6);color:var(--brand);font-family:var(--font-display);font-weight:700;margin-bottom:1.25rem}
+/* Stapnummers in de vorm van het raspberry-blokje uit het teken, in de drie kleuren van het teken */
+.how-number{display:grid;place-items:center;width:64px;height:40px;clip-path:var(--js-blok);background:var(--raspberry);color:var(--dark);font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:1.25rem}
+.how-steps li:nth-child(2) .how-number{background:var(--brand)}
+.how-steps li:nth-child(3) .how-number{background:var(--sage)}
 .how-steps h3{font-size:1.15rem;margin:0 0 0.5rem 0}
 .how-steps p{margin:0;color:var(--fg-muted);line-height:1.65;font-size:0.97rem}
 
@@ -65,7 +71,11 @@
 .value-grid p{margin:0;color:var(--fg-muted);font-size:0.95rem;line-height:1.65}
 
 /* Maatwerk */
-.custom-cta{display:grid;grid-template-columns:minmax(0, 1.25fr) minmax(0, 0.75fr);gap:clamp(2rem, 5vw, 4rem);align-items:center;padding:clamp(1.5rem, 4vw, 3.5rem);border:1px solid var(--border);border-radius:var(--radius-lg);background:linear-gradient(135deg, rgba(3,188,202,0.09), rgba(3,188,202,0) 55%), var(--dark-card)}
+.custom-cta{display:grid;grid-template-columns:minmax(0, 1.25fr) minmax(0, 0.75fr);gap:clamp(2rem, 5vw, 4rem);align-items:center;padding:clamp(1.5rem, 4vw, 3.5rem);border:1px solid transparent;border-radius:var(--radius-lg);position:relative;
+	background:repeating-linear-gradient(30deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px), repeating-linear-gradient(150deg, rgba(243,255,253,0.035) 0 1px, transparent 1px 56px),
+		radial-gradient(ellipse at 100% 0%, rgba(3,188,202,0.16), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(241,0,103,0.13), transparent 55%), var(--dark-card)}
+/* Rand in het merkverloop: raspberry, Deep Teal, aqua, Misty Sage */
+.custom-cta::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(120deg, var(--raspberry), var(--brand-dark) 40%, var(--brand) 70%, var(--sage));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .custom-cta-text > p:not(.kicker):not(.cta-row):not(.custom-cta-more){color:var(--fg-muted);font-size:1.05rem;line-height:1.75;max-width:56ch;margin:0 0 1.25rem 0}
 .custom-cta .cta-row{margin-top:1.75rem;flex-wrap:wrap}
 .custom-cta-art{justify-self:end;width:100%;max-width:340px}

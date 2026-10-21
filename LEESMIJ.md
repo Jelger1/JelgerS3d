@@ -276,11 +276,24 @@ De kleuren staan bovenaan `src/css/styles.css`: Electric Aqua `#03BCCA` (`--bran
 Misty Sage `#F3FFFD` (`--soft`, tekst) en Midnight Slate `#080A0D` (`--dark`, achtergrond). Het merkverloop gaat van
 raspberry naar aqua (`.highlight`, het accent in koppen).
 
-**Stevie Sans** is het lettertype voor de koppen, maar het is een betaald font (Typefolio, via
-[Fontspring](https://www.fontspring.com/fonts/typefolio/stevie-sans/stevie-sans-book)) en voor een website heb je
-een weblicentie nodig. Koop het vet (Bold) met webfontlicentie, zet het WOFF2-bestand als
-`assets/fonts/stevie-sans-bold.woff2` neer en bouw: alle koppen en de naam in de header gaan dan vanzelf over.
-Zolang het bestand er niet is, blijft Syne staan. Gratis downloadsites hebben geen weblicentie.
+**Stevie Sans** is het lettertype voor de koppen en de naam in de header (in kapitalen, zoals "DESIGN" in het
+volledige logo). Het is een betaald font van Typefolio (via
+[Fontspring](https://www.fontspring.com/fonts/typefolio/stevie-sans/stevie-sans-book) of MyFonts) en voor een
+website heb je een weblicentie nodig. De site gebruikt `assets/fonts/stevie-sans-bold.woff2` (koppen) en
+`stevie-sans-medium.woff2` (optioneel); staan die er, dan gaat alles vanzelf over, anders blijft Syne staan. De
+originele TTF-bestanden in `assets/` blijven lokaal (.gitignore). Zo maak je de WOFF2 uit een TTF:
+`python -m fontTools.subset "assets/Stevie Sans Bold.ttf" --flavor=woff2 --output-file=assets/fonts/stevie-sans-bold.woff2 --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122"`.
+
+**Grafische accenten** (`src/css/brand.css` en de componenten): het isometrische raster waarop het teken gebouwd is
+(lijnen onder 30°) achter de hero, de paginakoppen en het maatwerkblok; het raspberry-blokje uit het teken voor elk
+bovenkopje en als stapnummer (in raspberry, aqua en Misty Sage); logo-onderdelen achter de hero-foto; schuine randen
+aan de getinte band; randen in het merkverloop bij aanwijzen; knoppen die bij aanwijzen een raspberry-laag krijgen.
+
+**Paginaovergang**: klik je naar een andere pagina van de site, dan schuiven drie banden (raspberry, aqua, Midnight
+Slate) schuin omhoog en klikt het JS-teken in elkaar; op de nieuwe pagina schuiven ze verder weg. Code:
+`src/js/transition.js`, `src/partials/curtain.html` en het einde van `src/css/brand.css`. Wie in zijn systeem
+"minder beweging" heeft aangezet, ziet geen overgang. Een link uitzonderen: zet er `data-no-transition` op. Pagina's
+worden alvast opgehaald als iemand een link aanwijst (speculation rules in `layout.js`), zodat het snel blijft.
 
 **Naam wijzigen naar JSdesign** (later): pas `name` in `data/site.json` aan en de tekst `JelgerS3D` in
 `src/partials/header.html` (daar kan dan ook het volledige logo "JS DESIGN" uit `assets/Logo/SVG/` komen).

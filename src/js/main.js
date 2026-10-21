@@ -14,6 +14,7 @@ import { initKeychain } from './keychain.js';
 import { initMail } from './mail.js';
 import { initBevestig } from './bevestig.js';
 import { initNieuwsbrief } from './nieuwsbrief.js';
+import { initTransition } from './transition.js';
 
 const page = document.body.dataset.page;
 
@@ -35,3 +36,4 @@ initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagin
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
 if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"
+initTransition(); // als laatste: andere klik-afhandelingen gaan voor

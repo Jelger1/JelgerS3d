@@ -1,0 +1,56 @@
+/* Huisstijl-accenten uit de brand identity: het isometrische raster waarop het JS-teken gebouwd is (lijnen onder
+   30°), het raspberry-blokje uit het teken als markering, en de paginaovergang met de drie merkkleuren.
+   De vorm van het raspberry-blokje (en van de stapnummers) is die van het logo: clip-path --js-blok. */
+
+:root{--js-blok:polygon(100% 43.5%, 50.3% 100%, 0 56.5%, 49.7% 0)}
+
+::selection{background:var(--raspberry);color:var(--sage)}
+
+/* Bovenkopjes beginnen met het raspberry-blokje uit het teken */
+.kicker{display:inline-flex;align-items:center;gap:0.6rem}
+.kicker::before{content:'';flex:none;width:1.65em;height:1.02em;background:var(--raspberry);clip-path:var(--js-blok)}
+
+/* Isometrisch raster: twee lijnenreeksen onder +30° en -30°, zacht uitgevaagd naar de randen */
+.iso-grid{position:absolute;inset:0;z-index:-1;pointer-events:none;
+	background-image:repeating-linear-gradient(30deg, rgba(243,255,253,0.055) 0 1px, transparent 1px 72px),
+		repeating-linear-gradient(150deg, rgba(243,255,253,0.055) 0 1px, transparent 1px 72px);
+	-webkit-mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%);
+	mask-image:radial-gradient(ellipse 60% 75% at 74% 42%, #000 15%, transparent 72%)}
+
+/* ---------------------------------------------------------------------------------------------- paginaovergang
+   Drie banden schuiven schuin omhoog (bovenrand onder 30°, zoals de lijnen van het teken): raspberry, aqua en
+   Midnight Slate. Op het slate-vlak valt het JS-teken in elkaar; op de nieuwe pagina schuiven ze verder weg.
+   transition.js zet .pc-leaving op <html>, het scriptje in de <head> zet .pc-arriving. */
+.page-curtain{position:fixed;inset:0;z-index:10000;pointer-events:none;overflow:hidden;visibility:hidden}
+.pc-leaving .page-curtain,.pc-arriving .page-curtain{visibility:visible}
+.pc-band{position:absolute;left:0;top:0;width:100%;height:calc(100vh + 60vw);height:calc(100lvh + 60vw);transform-origin:0 0;transform:translateY(calc(100lvh + 60vw)) skewY(-30deg)}
+.pc-band-1{background:var(--raspberry)}
+.pc-band-2{background:var(--brand)}
+.pc-band-3{background:var(--dark)}
+.pc-mark{position:absolute;left:50%;top:50%;width:clamp(84px, 9vw, 120px);height:auto;transform:translate(-50%, -50%);opacity:0}
+.pc-piece-dot{--dx:-70px;--dy:-10px}
+.pc-piece-top{--dx:60px;--dy:-40px}
+.pc-piece-j{--dx:30px;--dy:50px}
+
+@keyframes pc-in{from{transform:translateY(calc(100lvh + 60vw)) skewY(-30deg)}to{transform:translateY(0) skewY(-30deg)}}
+@keyframes pc-out{from{transform:translateY(0) skewY(-30deg)}to{transform:translateY(calc(-100lvh - 60vw)) skewY(-30deg)}}
+@keyframes pc-piece-in{from{transform:translate(var(--dx), var(--dy));opacity:0}to{transform:none;opacity:1}}
+@keyframes pc-mark-out{to{transform:translate(-50%, -50%) scale(0.88);opacity:0}}
+
+.pc-leaving .pc-band{animation:pc-in 0.34s cubic-bezier(0.7, 0, 0.25, 1) both}
+.pc-leaving .pc-band-2{animation-delay:0.06s}
+.pc-leaving .pc-band-3{animation-delay:0.12s}
+.pc-leaving .pc-mark{opacity:1}
+.pc-leaving .pc-piece{animation:pc-piece-in 0.26s cubic-bezier(0.2, 0.7, 0.2, 1) both}
+.pc-leaving .pc-piece-dot{animation-delay:0.14s}
+.pc-leaving .pc-piece-top{animation-delay:0.18s}
+.pc-leaving .pc-piece-j{animation-delay:0.2s}
+
+.pc-arriving .pc-band{transform:translateY(0) skewY(-30deg);animation:pc-out 0.42s cubic-bezier(0.7, 0, 0.25, 1) both}
+.pc-arriving .pc-band-3{animation-delay:0.1s}
+.pc-arriving .pc-band-2{animation-delay:0.17s}
+.pc-arriving .pc-band-1{animation-delay:0.24s}
+.pc-arriving .pc-mark{opacity:1;animation:pc-mark-out 0.22s ease-in 0.04s both}
+
+@media (prefers-reduced-motion: reduce){.page-curtain{display:none}}
+@media print{.page-curtain{display:none}}

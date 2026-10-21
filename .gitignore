@@ -12,3 +12,6 @@ brag-output*/
 # Merkbestanden van de ontwerper: groot en niet nodig voor de site (die gebruikt assets/brand/)
 /assets/Brand Identity/
 /assets/Logo/
+# Originele lettertypebestanden (de site gebruikt de WOFF2 in assets/fonts/)
+/assets/*.ttf
+/assets/*.otf

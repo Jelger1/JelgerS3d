@@ -222,7 +222,7 @@ export function controleerBestanden(lijst, soort, uploads) {
 // ---------------------------------------------------------------------------------------------- mails
 //
 // In de stijl van de site: een Midnight Slate-kader met het JS-teken, een Misty Sage-kaart met de raspberry-aqua
-// balk, koppen in Syne en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles
+// balk, koppen in Stevie Sans en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles
 // met tabellen en inline stijlen, want veel mailprogramma's negeren de rest. De plaatjes staan op de site zelf
 // (assets/mail/, gemaakt door build.js). Licht in het midden houdt de mail goed leesbaar, ook als iemand hem uitprint.
 
@@ -230,7 +230,7 @@ const KLEUR = {
 	donker: '#080a0d', merk: '#03bcca', roze: '#f10067', kaart: '#f3fffd', zacht: '#e1efed', grijs: '#98a4a3',
 	licht: '#f3fffd', tekst: '#080a0d', gedempt: '#56606b', link: '#027a8c', lijn: '#d9e6e4' // gedempt en link: genoeg contrast op de kaart
 };
-const KOP = "'Syne','Trebuchet MS',Arial,sans-serif";
+const KOP = "'Stevie Sans','Syne','Trebuchet MS',Arial,sans-serif"; // Syne als Stevie Sans (nog) niet op de site staat
 const LETTER = "'Space Grotesk','Segoe UI',Arial,Helvetica,sans-serif";
 const TITELS = {
 	contact: 'bericht',
@@ -258,7 +258,8 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 	const url = winkel.url;
 	return '<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
 		+ '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(titel) + '</title>'
-		+ '<style>@font-face{font-family:"Syne";font-weight:400 800;src:url(' + url + '/assets/fonts/syne-latin.woff2) format("woff2")}'
+		+ '<style>@font-face{font-family:"Stevie Sans";font-weight:600 900;src:url(' + url + '/assets/fonts/stevie-sans-bold.woff2) format("woff2")}'
+		+ '@font-face{font-family:"Syne";font-weight:400 800;src:url(' + url + '/assets/fonts/syne-latin.woff2) format("woff2")}'
 		+ '@font-face{font-family:"Space Grotesk";font-weight:300 700;src:url(' + url + '/assets/fonts/space-grotesk-latin.woff2) format("woff2")}'
 		+ '@media (max-width:480px){.kaart{padding:26px 20px 10px 20px!important}}</style></head>'
 		+ '<body style="margin:0;padding:0;background:' + KLEUR.donker + '">'

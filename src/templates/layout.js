@@ -112,12 +112,17 @@ function layout(page, ctx) {
 		+ '\t<link rel="apple-touch-icon" href="' + root + 'assets/brand/apple-touch-icon.png">\n'
 		+ ctx.fonts.map(function (font) { return '\t<link rel="preload" as="font" type="font/woff2" href="' + root + 'assets/fonts/' + font + '" crossorigin>\n'; }).join('')
 		+ '\t<link rel="stylesheet" href="' + root + 'css/styles.css' + v + '">\n'
+		// Paginaovergang: kwam je hier via een link op de site (src/js/transition.js), dan begint de pagina achter het doek
+		+ '\t<script>try{var pc=+sessionStorage.getItem(\'pc\');sessionStorage.removeItem(\'pc\');if(Date.now()-pc<5000&&!matchMedia(\'(prefers-reduced-motion: reduce)\').matches)document.documentElement.classList.add(\'pc-arriving\')}catch(e){}</script>\n'
+		// Pagina's alvast ophalen als iemand een link aanwijst, zodat doorklikken (en de overgang) snel is
+		+ '\t<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>\n'
 		+ preload
 		+ (page.jsonLd || []).map(function (data) { return '\t' + h.jsonLd(data) + '\n'; }).join('')
 		+ '\t<script type="module" src="' + root + 'js/main.js' + v + '"></script>\n'
 		+ '</head>\n'
 		+ '<body data-page="' + page.name + '" data-root="' + root + '">\n'
 		+ gtmBody
+		+ ctx.partials.curtain
 		+ header + '\n'
 		+ '<main id="main">\n' + page.main + '\n</main>\n'
 		+ footer + '\n'
