@@ -4,8 +4,8 @@
 // wegschuift. De opmaak staat in src/partials/curtain.html en src/css/brand.css.
 import { prefersReducedMotion } from './util.js';
 
-const VANGNET_MS = 650; // als het einde van de animatie niet gemeld wordt, toch doorgaan
-const AANKOMST_MS = 900;
+const VANGNET_MS = 1100; // als het einde van de animatie niet gemeld wordt, toch doorgaan
+const AANKOMST_MS = 1600;
 
 function isPaginaLink(event, link) {
 	if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return false;
