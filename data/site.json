@@ -107,18 +107,7 @@
 		"shipping": "De verzendkosten hangen af van het product. Je hoort ze van mij voordat je betaalt.",
 		"pickup": "Zelf ophalen in Kerkrade kan ook, dan betaal je geen verzendkosten."
 	},
-	"deadlines": [
-		{
-			"occasion": "Sinterklaas",
-			"showFrom": "2026-10-25",
-			"orderBefore": "2026-11-22"
-		},
-		{
-			"occasion": "Kerst",
-			"showFrom": "2026-11-23",
-			"orderBefore": "2026-12-11"
-		}
-	],
+	"deadlines": [],
 	"homeUsps": [
 		{
 			"title": "Eigen ontwerp",
@@ -555,7 +544,7 @@
 	},
 	"address": {
 		"street": "Abtenlaan 42",
-		"postcode": "",
+		"postcode": "6461 JH",
 		"city": "Kerkrade",
 		"country": "Nederland"
 	},
