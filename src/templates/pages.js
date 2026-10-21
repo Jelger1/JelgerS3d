@@ -214,4 +214,46 @@ function notFoundPage(ctx) {
 	};
 }
 
-module.exports = { privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage };
+// Pagina's die je alleen via een link in een mail bereikt: de bevestiging van de nieuwsbrief en de knop "Ik heb
+// gereageerd" in Jelgers mail. De code staat in het adres achter # (komt dus niet in serverlogs of statistieken);
+// src/js/bevestig.js stuurt hem naar de Supabase-functie en vult de tekst in.
+function confirmPage(ctx, opts) {
+	const site = ctx.site;
+	return {
+		path: opts.path,
+		root: '',
+		name: 'confirm',
+		noindex: true,
+		title: opts.title + ' | ' + site.name,
+		description: opts.description,
+		ogImage: ctx.images[site.defaultOgImage].og,
+		main: '<div class="container checkout-page thanks-page confirm-page" data-bevestig="' + opts.action + '">\n'
+			+ '\t<div class="success-icon" aria-hidden="true" data-bevestig-icoon hidden>✓</div>\n'
+			+ '\t<h1 data-bevestig-titel>' + h.esc(opts.busy) + '</h1>\n'
+			+ '\t<p class="thanks-intro" data-bevestig-tekst aria-live="polite"></p>\n'
+			+ '\t<noscript><p class="thanks-intro">Zet JavaScript aan om dit af te ronden.</p></noscript>\n'
+			+ '\t<p class="thanks-actions" data-bevestig-acties hidden>' + opts.actions + '</p>\n'
+			+ '</div>'
+	};
+}
+
+function newsletterPage(ctx) {
+	return confirmPage(ctx, {
+		path: 'nieuwsbrief.html', action: 'bevestig', title: 'Aanmelding bevestigen', busy: 'Je aanmelding wordt bevestigd...',
+		description: 'Bevestig je aanmelding voor de nieuwsbrief van ' + ctx.site.name + '.',
+		actions: '<a class="btn btn-primary" href="webshop.html">Bekijk de webshop</a>'
+	});
+}
+
+function repliedPage(ctx) {
+	return confirmPage(ctx, {
+		path: 'gereageerd.html', action: 'gereageerd', title: 'Gereageerd', busy: 'Even geduld...',
+		description: 'Voor de eigenaar van ' + ctx.site.name + ': een bestelling of aanvraag als gereageerd markeren.',
+		actions: '<a class="btn btn-primary" data-bevestig-dashboard href="https://supabase.com/dashboard" target="_blank" rel="noopener">Open in Supabase</a>'
+	});
+}
+
+module.exports = {
+	privacyPage: privacyPage, termsPage: termsPage, notFoundPage: notFoundPage, printServicePage: printServicePage,
+	newsletterPage: newsletterPage, repliedPage: repliedPage
+};

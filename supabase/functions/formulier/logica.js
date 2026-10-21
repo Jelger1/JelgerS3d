@@ -2,11 +2,14 @@
 // en de mails opbouwen. Gewoon JavaScript zonder Deno- of Node-specifieke dingen, zodat dit bestand ook
 // buiten Supabase te testen is. index.ts doet de rest (database, mail versturen, limieten).
 
-export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid'];
+export const SOORTEN = ['bestelling', 'contact', 'offerte', 'printservice', 'beschikbaarheid', 'nieuwsbrief'];
 export const MIN_DUUR_MS = 2000;   // sneller dan dit kan een mens geen formulier invullen
 export const MAX_LINKS = 2;        // meer links in een bericht: vrijwel altijd SEO-spam
+// Waar iemand zich voor de nieuwsbrief aanmeldde: onderaan een pagina, op de bedanktpagina of met het vinkje in een formulier
+export const BRONNEN = ['footer', 'bedankt', 'bestelling', 'contact', 'offerte', 'printservice'];
 
 const EMAIL = /^[^\s@<>()",;]+@[^\s@<>()",;]+\.[a-z]{2,}$/i;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export function esc(waarde) {
 	return String(waarde == null ? '' : waarde)
@@ -55,7 +58,13 @@ export function controleer(invoer, catalogus) {
 		pagina: regel(invoer.pagina, 300)
 	};
 	if (!EMAIL.test(data.email)) return fout('Vul een geldig e-mailadres in.');
+	if (data.soort === 'nieuwsbrief') {
+		data.bron = BRONNEN.indexOf(invoer.bron) !== -1 ? invoer.bron : 'footer';
+		return { ok: true, data: data };
+	}
 	if (data.soort !== 'beschikbaarheid' && !data.naam) return fout('Vul je naam in.');
+	// Het vinkje "houd me op de hoogte": alleen een verzoek, pas na de bevestigingsknop in de mail sta je op de lijst
+	if (data.soort !== 'beschikbaarheid') data.nieuwsbrief = invoer.nieuwsbrief === true;
 
 	if (data.soort === 'contact') {
 		data.bericht = tekst(invoer.bericht, 5000);
@@ -72,6 +81,10 @@ export function controleer(invoer, catalogus) {
 			if (waarde) data.velden[regel(label, 80)] = waarde;
 		});
 		if (data.soort !== 'beschikbaarheid' && !Object.keys(data.velden).length) return fout('Vertel kort wat je wilt laten maken.');
+		// Al geüploade bestanden (de id's die de functie bij het uploaden gaf); index.ts controleert of ze bestaan
+		if (data.soort !== 'beschikbaarheid' && Array.isArray(invoer.bestanden)) {
+			data.bestanden = invoer.bestanden.filter(function (id) { return typeof id === 'string' && UUID.test(id); }).slice(0, 10);
+		}
 	}
 
 	if (data.soort === 'bestelling') {
@@ -152,6 +165,57 @@ export function ordernummer(nu, willekeur) {
 	const tijd = (nu || Date.now()).toString(36).toUpperCase();
 	const extra = Math.floor((willekeur == null ? Math.random() : willekeur) * 1296).toString(36).toUpperCase().padStart(2, '0');
 	return 'JS3D-' + tijd + extra;
+}
+
+// ---------------------------------------------------------------------------------------------- bestanden
+
+// De naam zoals de bezoeker hem koos, maar zonder map, vreemde tekens of eindeloze lengte. Alleen voor de mails en
+// als naam bij het downloaden: in de opslag krijgt elk bestand een eigen, willekeurige naam.
+export function bestandsnaam(naam) {
+	const schoon = String(naam == null ? '' : naam).split(/[\\/]/).pop()
+		.replace(/[\u0000-\u001f\u007f<>:"|?*]/g, '').replace(/\s+/g, ' ').trim();
+	if (schoon.length <= 120) return schoon;
+	const punt = schoon.lastIndexOf('.');
+	const ext = punt > 0 && schoon.length - punt <= 10 ? schoon.slice(punt) : '';
+	return schoon.slice(0, 120 - ext.length) + ext;
+}
+
+export function extensie(naam) {
+	const punt = naam.lastIndexOf('.');
+	return punt > 0 ? naam.slice(punt + 1).toLowerCase() : '';
+}
+
+// "STL of 3MF", "SVG, PNG, JPG, PDF, AI of EPS" (jpeg is hetzelfde als jpg)
+export function typesTekst(types) {
+	const lijst = types.filter(function (t) { return t !== 'jpeg'; }).map(function (t) { return t.toUpperCase(); });
+	return lijst.length > 1 ? lijst.slice(0, -1).join(', ') + ' of ' + lijst[lijst.length - 1] : lijst.join('');
+}
+
+export function grootteTekst(bytes) {
+	if (bytes < 1024 * 1024) return Math.max(1, Math.round(bytes / 1024)) + ' kB';
+	return (bytes / 1024 / 1024).toFixed(1).replace('.', ',') + ' MB';
+}
+
+// Controleert welke bestanden iemand wil uploaden, vóórdat de functie er een uploadadres voor geeft.
+// lijst: [{ naam, grootte }] uit de browser. uploads: de instellingen uit winkel.json (data/site.json > uploads).
+export function controleerBestanden(lijst, soort, uploads) {
+	const fout = function (bericht) { return { ok: false, fout: bericht }; };
+	const regels = uploads && heeft(uploads, soort) && uploads[soort] && Array.isArray(uploads[soort].types) ? uploads[soort] : null;
+	if (!regels) return fout('Bij dit formulier kun je geen bestanden meesturen.');
+	if (!Array.isArray(lijst) || !lijst.length) return fout('Kies eerst een bestand.');
+	if (lijst.length > regels.max) return fout('Je kunt hooguit ' + regels.max + ' bestanden meesturen.');
+	const max = uploads.maxMB * 1024 * 1024;
+	const uit = [];
+	for (let i = 0; i < lijst.length; i++) {
+		const b = lijst[i] && typeof lijst[i] === 'object' ? lijst[i] : {};
+		const naam = bestandsnaam(b.naam);
+		const grootte = Math.floor(Number(b.grootte));
+		if (!naam || regels.types.indexOf(extensie(naam)) === -1) return fout((naam || 'Dit bestand') + ' kan ik niet gebruiken. Dit kan wel: ' + typesTekst(regels.types) + '.');
+		if (!(grootte > 0)) return fout(naam + ' is leeg.');
+		if (grootte > max) return fout(naam + ' is groter dan ' + uploads.maxMB + ' MB. Mail dat bestand gerust na.');
+		uit.push({ naam: naam, ext: extensie(naam), grootte: grootte });
+	}
+	return { ok: true, bestanden: uit };
 }
 
 // ---------------------------------------------------------------------------------------------- mails
@@ -246,6 +310,26 @@ function stappen(lijst) {
 	}).join('') + '</table>';
 }
 
+// Meegestuurde bestanden. Voor Jelger met een downloadlink (b.link), voor de klant alleen naam en grootte.
+function bestandenLijst(lijst, metLink) {
+	const cel = 'padding:9px 0;vertical-align:top;border-bottom:1px solid ' + KLEUR.lijn;
+	return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;margin:0 0 12px 0">'
+		+ lijst.map(function (b) {
+			const naam = metLink ? b.naam : zonderLinks(b.naam);
+			return '<tr><td style="' + cel + '"><strong>' + esc(naam) + '</strong><br>' + gedempt(grootteTekst(b.grootte)) + '</td>'
+				+ (metLink ? '<td style="' + cel + ';padding-left:12px;text-align:right;white-space:nowrap">' + link(b.link, 'Downloaden') + '</td>' : '')
+				+ '</tr>';
+		}).join('') + '</table>';
+}
+
+// Het vinkje "houd me op de hoogte" werd aangezet: de bevestiging zit in de mail zelf, dus geen aparte mail
+function nieuwsbriefBlok(href) {
+	return '<div style="background:' + KLEUR.zacht + ';border-radius:12px;padding:16px 18px 6px 18px;margin:6px 0 18px 0">'
+		+ '<p style="margin:0 0 10px 0;font-size:14px"><strong>Als eerste horen over nieuwe ontwerpen?</strong> Je vinkte aan dat je op de hoogte wilt blijven. '
+		+ 'Bevestig dat met één klik. Doe je niets, dan sta je ook niet op de lijst.</p>'
+		+ knoppen([[href, 'Ja, houd me op de hoogte']]) + '</div>';
+}
+
 // De bestelde producten met foto. url: het adres van de site, waar de foto's staan.
 function regelsHtml(regels, totaal, voetnoot, url) {
 	const cel = 'padding:12px 0;vertical-align:top;border-bottom:1px solid ' + KLEUR.lijn;
@@ -288,7 +372,8 @@ function winkelVoet(w) {
 }
 
 // Mail naar Jelger: alles overzichtelijk bij elkaar, met knoppen om de klant meteen te mailen of te bellen.
-// Antwoorden op de mail zelf gaat ook naar de klant (reply-to). extra: { id, regels, totaal, moment, dashboard }
+// Antwoorden op de mail zelf gaat ook naar de klant (reply-to).
+// extra: { id, regels, totaal, moment, dashboard, gereageerdLink, bestanden: [{ naam, grootte, link }], bewaarMaanden }
 export function mailEigenaar(data, extra, winkel) {
 	const moment = datum(extra.moment);
 	const klant = [
@@ -296,7 +381,9 @@ export function mailEigenaar(data, extra, winkel) {
 		['E-mail', link('mailto:' + data.email, esc(data.email))],
 		['Telefoon', data.telefoon ? link('tel:' + data.telefoon.replace(/[^\d+]/g, ''), esc(data.telefoon)) : '']
 	];
-	const supabase = extra.dashboard ? [extra.dashboard, 'Open in Supabase'] : null;
+	// Na het antwoorden één tik, dan komt er geen herinnering (de functie kan je antwoord in Gmail niet zien)
+	const gereageerd = extra.gereageerdLink ? [extra.gereageerdLink, 'Ik heb gereageerd'] : null;
+	const bestanden = extra.bestanden || [];
 	let onderwerp, preheader, inhoud, tekstversie;
 
 	if (data.soort === 'bestelling') {
@@ -306,7 +393,7 @@ export function mailEigenaar(data, extra, winkel) {
 		inhoud = bovenkop('Nieuwe bestelling') + titel(esc(extra.id), LETTER)
 			+ alinea(gedempt(esc(moment) + ' · ' + esc(data.naam) + ' · ' + (data.levering === 'Ophalen' ? 'ophalen' : 'verzenden')))
 			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Je bestelling ' + extra.id + ' bij ' + winkel.naam), 'Mail ' + (voornaam(data.naam) || 'klant')],
-				['tel:' + data.telefoon.replace(/[^\d+]/g, ''), 'Bel ' + data.telefoon], supabase])
+				['tel:' + data.telefoon.replace(/[^\d+]/g, ''), 'Bel ' + data.telefoon], gereageerd])
 			+ kop('Besteld')
 			+ regelsHtml(extra.regels, extra.totaal, data.levering === 'Verzenden' ? 'Exclusief verzendkosten.' : 'Wordt opgehaald, geen verzendkosten.', winkel.url)
 			+ kop('Klant')
@@ -330,17 +417,22 @@ export function mailEigenaar(data, extra, winkel) {
 		inhoud = bovenkop({ contact: 'Nieuw bericht', offerte: 'Nieuwe aanvraag', printservice: 'Nieuwe printaanvraag', beschikbaarheid: 'Seintje gevraagd' }[data.soort])
 			+ titel(esc(data.naam || data.email))
 			+ alinea(gedempt(esc(moment) + (data.product ? ' · ' + esc(data.product) : '')))
-			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], supabase])
+			+ knoppen([['mailto:' + data.email + '?subject=' + encodeURIComponent('Re: ' + onderwerp), 'Beantwoorden'], gereageerd])
 			+ (data.bericht ? citaat(data.bericht) : '')
 			+ (velden.length ? gegevens(velden) : '')
-			+ (data.soort === 'printservice' ? notitie('<strong>Let op:</strong> het bestand komt apart per mail. De klant heeft gelezen dat het als antwoord op jouw bericht kan worden nagestuurd.') : '')
+			+ (bestanden.length
+				? kop(bestanden.length === 1 ? 'Bestand' : 'Bestanden') + bestandenLijst(bestanden, true)
+					+ (extra.bewaarMaanden ? alinea(gedempt('De bestanden blijven ' + extra.bewaarMaanden + ' maanden bewaard; daarna verwijdert de site ze automatisch.'), 'font-size:13px') : '')
+				: data.soort === 'printservice' ? notitie('<strong>Let op:</strong> er is geen bestand geüpload. De klant heeft gelezen dat het als antwoord op jouw bericht kan worden nagestuurd.') : '')
 			+ kop('Afzender')
 			+ gegevens(klant.concat([['Akkoord', data.akkoord ? 'Privacyverklaring, op ' + esc(moment) : '']]));
 		tekstversie = onderwerp.toUpperCase() + '\n' + moment + '\n\n'
 			+ (data.bericht ? data.bericht + '\n\n' : '')
 			+ Object.keys(data.velden || {}).map(function (l) { return l + ': ' + data.velden[l]; }).join('\n')
+			+ (bestanden.length ? '\n\nBESTANDEN\n' + bestanden.map(function (b) { return b.naam + ' (' + grootteTekst(b.grootte) + '): ' + b.link; }).join('\n') : '')
 			+ '\n\nNaam: ' + (data.naam || '-') + '\nE-mail: ' + data.email;
 	}
+	if (extra.gereageerdLink) tekstversie += '\n\nIk heb gereageerd: ' + extra.gereageerdLink;
 
 	const voet = 'Antwoord je op deze mail, dan gaat je antwoord naar ' + esc(data.email) + '.'
 		+ (extra.dashboard ? '<br>' + voetLink(extra.dashboard, 'Alles terugzien in Supabase') : '');
@@ -358,6 +450,8 @@ export function mailKlant(data, extra, winkel) {
 	const velden = Object.keys(data.velden || {}).map(function (label) { return [zonderLinks(label), zonderLinks(data.velden[label])]; });
 	const afsluiting = alinea('Vragen, of wil je iets veranderen? Beantwoord gewoon deze mail.')
 		+ alinea('Groet,<br><strong>' + esc(winkel.eigenaar.split(' ')[0]) + '</strong><br>' + gedempt(esc(winkel.naam)));
+	const nieuwsbrief = extra.nieuwsbriefLink ? nieuwsbriefBlok(extra.nieuwsbriefLink) : '';
+	const bestanden = extra.bestanden || [];
 	let onderwerp, preheader, inhoud, tekstversie;
 
 	if (data.soort === 'bestelling') {
@@ -380,7 +474,7 @@ export function mailKlant(data, extra, winkel) {
 				esc(winkel.levertijd)
 			])
 			+ notitie('<strong>Dit is een ontvangstbevestiging:</strong> je hoeft nu nog niets te betalen. Na ons contact krijg je van mij de definitieve bevestiging met de totaalprijs, inclusief eventuele verzendkosten, en de levertijd. Pas als jij die goedkeurt, is de bestelling definitief.')
-			+ afsluiting;
+			+ nieuwsbrief + afsluiting;
 		tekstversie = (naam ? 'Hoi ' + naam + ',' : 'Hoi,') + '\n\nBedankt voor je bestelling! Je bestelnummer is ' + extra.id + '.\n\n' + regelsTekst(regels, extra.totaal)
 			+ (data.levering === 'Verzenden' ? '\n(exclusief verzendkosten)\nBezorgadres: ' + adres : '\nJe haalt het op in ' + winkel.ophaalplaats + '.')
 			+ '\n\nHoe nu verder: ik neem persoonlijk contact met je op. Pas als alles klopt, betaal je en ga ik printen. ' + winkel.levertijd
@@ -399,16 +493,84 @@ export function mailKlant(data, extra, winkel) {
 		inhoud = bovenkop(wat.charAt(0).toUpperCase() + wat.slice(1) + ' ontvangen') + titel('Bedankt voor je ' + wat + '!')
 			+ alinea(hoi + ' ' + (data.soort === 'contact' ? 'ik reageer zo snel mogelijk, meestal binnen een paar dagen.'
 				: 'je ' + wat + (data.soort === 'offerte' && data.product ? ' voor de <strong>' + esc(data.product) + '</strong>' : '') + ' is binnen. Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.'))
-			+ (data.soort === 'printservice' ? notitie('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
+			+ (data.soort === 'printservice' && !bestanden.length ? notitie('<strong>Stuur je bestand (STL of 3MF) als antwoord op deze mail</strong>, als je dat nog niet hebt gedaan. Dan kan ik het meteen bekijken.') : '')
 			+ kop('Wat je hebt gestuurd')
 			+ (bericht ? citaat(bericht) : gegevens(velden.map(function (r) { return [r[0], esc(r[1]).replace(/\n/g, '<br>')]; })))
+			+ (bestanden.length ? alinea('<strong>' + (bestanden.length === 1 ? 'Je bestand is' : 'Je bestanden zijn') + ' goed aangekomen:</strong>', 'margin-top:14px') + bestandenLijst(bestanden, false) : '')
 			+ alinea('Je zit nergens aan vast: eerst hoor je van mij, daarna beslis je.')
-			+ afsluiting;
-		tekstversie = 'Bedankt voor je ' + wat + '. Ik reageer zo snel mogelijk.\n\n' + (bericht || velden.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n'));
+			+ nieuwsbrief + afsluiting;
+		tekstversie = 'Bedankt voor je ' + wat + '. Ik reageer zo snel mogelijk.\n\n' + (bericht || velden.map(function (r) { return r[0] + ': ' + r[1]; }).join('\n'))
+			+ (bestanden.length ? '\n\nGoed aangekomen: ' + bestanden.map(function (b) { return zonderLinks(b.naam) + ' (' + grootteTekst(b.grootte) + ')'; }).join(', ') : '');
 	}
+	if (extra.nieuwsbriefLink) tekstversie += '\n\nJe vinkte aan dat je op de hoogte wilt blijven van nieuwe ontwerpen. Bevestig dat met deze link: ' + extra.nieuwsbriefLink;
 	return {
 		onderwerp: onderwerp,
 		html: omhulsel(onderwerp, preheader, inhoud, winkelVoet(winkel), winkel),
 		tekst: tekstversie + '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.url
+	};
+}
+
+// Aanmelden voor de nieuwsbrief onderaan een pagina of op de bedanktpagina: eerst bevestigen (dubbele opt-in), zodat
+// niemand een ander kan aanmelden. href: de bevestigingspagina op de site, met het geheime token erin.
+export function mailNieuwsbrief(href, winkel) {
+	const onderwerp = 'Bevestig je aanmelding voor de nieuwsbrief van ' + winkel.naam;
+	const inhoud = bovenkop('Nog één klik') + titel('Bevestig je aanmelding')
+		+ alinea('Hoi, leuk dat je als eerste wilt horen over nieuwe ontwerpen van ' + esc(winkel.naam) + '! Klik op de knop om je aanmelding te bevestigen.')
+		+ knoppen([[href, 'Ja, ik meld me aan']])
+		+ alinea(gedempt('Afmelden kan daarna altijd, met één klik onderaan elke mail. Heb je je niet aangemeld? Dan hoef je niets te doen: zonder bevestiging sta je niet op de lijst.'), 'font-size:14px;margin-top:8px')
+		+ alinea('Groet,<br><strong>' + esc(winkel.eigenaar.split(' ')[0]) + '</strong><br>' + gedempt(esc(winkel.naam)));
+	return {
+		onderwerp: onderwerp,
+		html: omhulsel(onderwerp, 'Nog één klik: bevestig dat je mails over nieuwe ontwerpen wilt ontvangen.', inhoud, winkelVoet(winkel), winkel),
+		tekst: 'Leuk dat je als eerste wilt horen over nieuwe ontwerpen van ' + winkel.naam + '! Bevestig je aanmelding met deze link:\n' + href
+			+ '\n\nHeb je je niet aangemeld? Dan hoef je niets te doen: zonder bevestiging sta je niet op de lijst.'
+			+ '\n\n' + winkel.naam + ' · ' + winkel.adres + ' · KvK ' + winkel.kvk + ' · ' + winkel.url
+	};
+}
+
+// ---------------------------------------------------------------------------------------------- herinnering
+
+const WOORDEN = { bestelling: ['bestelling', 'bestellingen'], aanvraag: ['aanvraag', 'aanvragen'], bericht: ['bericht', 'berichten'] };
+function woord(soort) { return soort === 'bestelling' ? 'bestelling' : soort === 'contact' ? 'bericht' : 'aanvraag'; }
+
+// "2 bestellingen en 1 bericht"
+export function telling(items) {
+	const aantal = {};
+	items.forEach(function (it) { aantal[woord(it.soort)] = (aantal[woord(it.soort)] || 0) + 1; });
+	const delen = Object.keys(WOORDEN).filter(function (w) { return aantal[w]; }).map(function (w) { return aantal[w] + ' ' + WOORDEN[w][aantal[w] === 1 ? 0 : 1]; });
+	return delen.length > 1 ? delen.slice(0, -1).join(', ') + ' en ' + delen[delen.length - 1] : delen.join('');
+}
+
+// Herinnering aan Jelger: bestellingen en aanvragen die al een paar dagen op "nieuw" staan.
+// items: [{ soort, id, naam, email, product, totaal, levering, tekst, aangemaakt, keer, gereageerdLink }]; nu: tijdstip in ms
+export function mailHerinnering(items, winkel, nu, dashboard) {
+	const onderwerp = 'Herinnering: ' + telling(items) + ' ' + (items.length === 1 ? 'wacht' : 'wachten') + ' op je reactie';
+	const regels = items.map(function (it) {
+		const dagen = Math.max(1, Math.floor((nu - new Date(it.aangemaakt).getTime()) / 86400000));
+		const kop = it.soort === 'bestelling' ? 'Bestelling ' + it.id : it.soort === 'contact' ? 'Bericht' : it.soort === 'printservice' ? 'Printaanvraag' : 'Aanvraag' + (it.product ? ' ' + it.product : '');
+		const vol = it.soort === 'bestelling' ? euro(it.totaal) + ' · ' + String(it.levering || '').toLowerCase() : String(it.tekst || '').replace(/\s+/g, ' ').trim();
+		const samenvatting = vol.length > 160 ? vol.slice(0, 157) + '…' : vol;
+		const wie = (it.naam || it.email) + ' · ' + dagen + (dagen === 1 ? ' dag' : ' dagen') + ' geleden' + (it.keer > 1 ? ' · tweede herinnering' : '');
+		const mailOnderwerp = it.soort === 'bestelling' ? 'Je bestelling ' + it.id + ' bij ' + winkel.naam : 'Je ' + TITELS[it.soort] + ' bij ' + winkel.naam;
+		return { kop: kop, wie: wie, samenvatting: samenvatting, it: it, mailto: 'mailto:' + it.email + '?subject=' + encodeURIComponent(mailOnderwerp) };
+	});
+	const inhoud = bovenkop('Herinnering') + titel('Nog niet gereageerd')
+		+ alinea((items.length === 1 ? 'Deze staat' : 'Deze staan') + ' al een paar dagen op "nieuw". Heb je al gereageerd? Tik dan op <strong>Ik heb gereageerd</strong>, dan hoor je er niets meer over.')
+		+ regels.map(function (r) {
+			return '<div style="border:1px solid ' + KLEUR.lijn + ';border-radius:12px;padding:14px 16px 4px 16px;margin:0 0 12px 0">'
+				+ '<p style="margin:0 0 2px 0;font-weight:700">' + esc(r.kop) + '</p>'
+				+ '<p style="margin:0 0 8px 0;font-size:13px;color:' + KLEUR.gedempt + '">' + esc(r.wie) + '</p>'
+				+ (r.samenvatting ? '<p style="margin:0 0 6px 0;font-size:14px">' + esc(r.samenvatting) + '</p>' : '')
+				+ knoppen([[r.it.gereageerdLink, 'Ik heb gereageerd'], [r.mailto, 'Mail ' + (voornaam(r.it.naam) || 'klant')]])
+				+ '</div>';
+		}).join('');
+	const voet = 'Je krijgt hooguit twee herinneringen per bestelling of aanvraag: na twee en na vijf dagen.'
+		+ (dashboard ? '<br>' + voetLink(dashboard, 'Alles bekijken in Supabase') : '');
+	return {
+		onderwerp: onderwerp,
+		html: omhulsel(onderwerp, regels.map(function (r) { return r.kop + ' (' + r.wie + ')'; }).join(' · ').slice(0, 150), inhoud, voet, winkel),
+		tekst: onderwerp.toUpperCase() + '\n\n' + regels.map(function (r) {
+			return r.kop + '\n' + r.wie + (r.samenvatting ? '\n' + r.samenvatting : '') + '\nIk heb gereageerd: ' + r.it.gereageerdLink;
+		}).join('\n\n')
 	};
 }

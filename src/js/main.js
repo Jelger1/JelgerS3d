@@ -12,6 +12,7 @@ import { initShop } from './shop.js';
 import { initCheckout, initThanks } from './checkout.js';
 import { initKeychain } from './keychain.js';
 import { initMail } from './mail.js';
+import { initBevestig } from './bevestig.js';
 
 const page = document.body.dataset.page;
 
@@ -31,3 +32,4 @@ initRequest(); // aanvraagformulier: op productpagina's met maatwerk en op de pr
 initKeychain(); // doet alleen iets op pagina's met de ontwerptool (productpagina en homepage)
 if (page === 'checkout') initCheckout();
 if (page === 'thanks') initThanks();
+if (page === 'confirm') initBevestig(); // links uit mails: nieuwsbrief bevestigen, "Ik heb gereageerd"

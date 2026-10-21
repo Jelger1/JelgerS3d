@@ -4,7 +4,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-import { controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail, MIN_DUUR_MS } from '../supabase/functions/formulier/logica.js';
+import {
+	controleer, spamSignaal, stilWeggooien, prijzen, ordernummer, mailEigenaar, mailKlant, ontcijferMail, MIN_DUUR_MS,
+	controleerBestanden, bestandsnaam, grootteTekst, typesTekst, mailNieuwsbrief, mailHerinnering, telling
+} from '../supabase/functions/formulier/logica.js';
 import helpers from '../src/templates/helpers.js';
 
 const CATALOGUS = {
@@ -147,7 +150,7 @@ const MOMENT = '2026-10-20T12:30:00.000Z';
 test('mails bij een bestelling', function () {
 	const data = ok(bestelling({ naam: 'Anne-Marie <b>de Vries</b>' }));
 	const berekend = prijzen(data.regels, CATALOGUS);
-	const extra = { id: 'JS3D-TEST01', regels: berekend.regels, totaal: berekend.totaal, moment: MOMENT, dashboard: 'https://supabase.com/dashboard/project/abc/editor' };
+	const extra = { id: 'JS3D-TEST01', regels: berekend.regels, totaal: berekend.totaal, moment: MOMENT, dashboard: 'https://supabase.com/dashboard/project/abc/editor', gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#b=JS3D-TEST01&k=abc' };
 
 	const jelger = mailEigenaar(data, extra, WINKEL);
 	assert.equal(jelger.onderwerp, 'Nieuwe bestelling JS3D-TEST01: 2 items, €49,90 (verzenden)');
@@ -160,7 +163,9 @@ test('mails bij een bestelling', function () {
 	assert.ok(jelger.html.includes('Alles terugzien in Supabase'));
 	assert.ok(jelger.tekst.includes('2× Kami Vase (Medium) — €49,90'));
 	assert.ok(jelger.html.includes('href="mailto:anne@example.nl?subject=Je%20bestelling%20JS3D-TEST01%20bij%20JelgerS3D"'), 'knop om de klant te mailen');
-	assert.ok(jelger.html.includes('>Bel 06 12345678</a>') && jelger.html.includes('>Open in Supabase</a>'), 'knoppen om te bellen en Supabase te openen');
+	assert.ok(jelger.html.includes('>Bel 06 12345678</a>'), 'knop om te bellen');
+	assert.ok(jelger.html.includes('href="https://jelgers3d.nl/gereageerd.html#b=JS3D-TEST01&amp;k=abc"') && jelger.html.includes('>Ik heb gereageerd</a>'), 'knop "Ik heb gereageerd"');
+	assert.ok(jelger.tekst.includes('Ik heb gereageerd: https://jelgers3d.nl/gereageerd.html#b=JS3D-TEST01&k=abc'));
 	assert.ok(jelger.html.includes('Anne-Marie &lt;b&gt;de Vries&lt;/b&gt; · €49,90 · verzenden naar Kerkrade'), 'voorbeeldregel in de inbox');
 
 	// Huisstijl: logo als PNG van de site, Syne en Space Grotesk, cyaan-mint balk, productfoto
@@ -181,6 +186,11 @@ test('mails bij een bestelling', function () {
 	assert.ok(klant.html.includes('Bestelnummer JS3D-TEST01. Je betaalt nog niets'), 'voorbeeldregel in de inbox');
 	assert.ok(klant.html.includes('>Instagram</a>') && klant.html.includes('3D-design met karakter · Handgemaakt in Limburg'));
 	assert.ok(klant.tekst.startsWith('Hoi Anne-Marie,'));
+	assert.ok(!klant.html.includes('gereageerd'), 'de knop voor Jelger staat niet in de mail aan de klant');
+	assert.ok(!klant.html.includes('Als eerste horen'), 'zonder vinkje geen nieuwsbriefblok');
+	const metNieuwsbrief = mailKlant(data, Object.assign({}, extra, { nieuwsbriefLink: 'https://jelgers3d.nl/nieuwsbrief.html#t=abc' }), WINKEL);
+	assert.ok(metNieuwsbrief.html.includes('href="https://jelgers3d.nl/nieuwsbrief.html#t=abc"') && metNieuwsbrief.html.includes('Ja, houd me op de hoogte'));
+	assert.ok(metNieuwsbrief.tekst.includes('https://jelgers3d.nl/nieuwsbrief.html#t=abc'));
 
 	const ophalen = ok(bestelling({ bestelling: { levering: 'Ophalen', regels: [{ id: 'vaas', variant: 'm', aantal: 1 }] } }));
 	const extra1 = Object.assign({}, extra, prijzen(ophalen.regels, CATALOGUS));
@@ -229,6 +239,84 @@ test('mails bij aanvragen en berichten', function () {
 	const contact = ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'Vraagje' });
 	assert.equal(mailEigenaar(contact, extra, WINKEL).onderwerp, 'Nieuw bericht van Jan');
 	assert.equal(mailKlant(contact, extra, WINKEL).onderwerp, 'Je bericht aan JelgerS3D is binnen');
+});
+
+const UPLOADS = { maxMB: 50, keepMonths: 6, printservice: { types: ['stl', '3mf'], max: 2 }, offerte: { types: ['svg', 'png', 'jpg', 'jpeg', 'pdf'], max: 3 } };
+
+test('bestanden: wat mag er geüpload worden', function () {
+	const goed = controleerBestanden([{ naam: 'C:\\fakepath\\Mijn  vaas.STL', grootte: 1234 }], 'printservice', UPLOADS);
+	assert.equal(goed.ok, true, goed.fout);
+	assert.deepEqual(goed.bestanden, [{ naam: 'Mijn vaas.STL', ext: 'stl', grootte: 1234 }]);
+	assert.match(controleerBestanden([{ naam: 'virus.exe', grootte: 10 }], 'printservice', UPLOADS).fout, /virus\.exe kan ik niet gebruiken\. Dit kan wel: STL of 3MF\./);
+	assert.match(controleerBestanden([{ naam: 'logo.gif', grootte: 10 }], 'offerte', UPLOADS).fout, /SVG, PNG, JPG of PDF/);
+	assert.match(controleerBestanden([{ naam: 'groot.stl', grootte: 51 * 1024 * 1024 }], 'printservice', UPLOADS).fout, /groter dan 50 MB/);
+	assert.match(controleerBestanden([{ naam: 'leeg.stl', grootte: 0 }], 'printservice', UPLOADS).fout, /is leeg/);
+	assert.match(controleerBestanden([{ naam: 'a.stl', grootte: 1 }, { naam: 'b.stl', grootte: 1 }, { naam: 'c.stl', grootte: 1 }], 'printservice', UPLOADS).fout, /hooguit 2 bestanden/);
+	assert.equal(controleerBestanden([{ naam: 'a.stl', grootte: 1 }], 'contact', UPLOADS).ok, false, 'niet bij elk formulier');
+	assert.equal(controleerBestanden([{ naam: 'a.stl', grootte: 1 }], 'printservice', null).ok, false, 'zonder instellingen geen uploads');
+	assert.equal(controleerBestanden([{ naam: 'a.stl', grootte: 1 }], '__proto__', UPLOADS).ok, false);
+	assert.equal(bestandsnaam('../../etc/<passwd>'), 'passwd');
+	assert.equal(bestandsnaam('x'.repeat(200) + '.stl').length, 120);
+	assert.ok(bestandsnaam('x'.repeat(200) + '.stl').endsWith('.stl'));
+	assert.equal(grootteTekst(1500), '1 kB');
+	assert.equal(grootteTekst(12.34 * 1024 * 1024), '12,3 MB');
+	assert.equal(typesTekst(['stl']), 'STL');
+});
+
+test('bestanden: in de mails', function () {
+	const id = '0b6f8a2e-1c3d-4e5f-8a9b-0c1d2e3f4a5b';
+	const print = ok({ soort: 'printservice', naam: 'Jan', email: 'jan@voorbeeld.nl', velden: { Model: 'Vaas' }, bestanden: [id, 'geen-uuid', 42] });
+	assert.deepEqual(print.bestanden, [id], 'alleen geldige id\'s');
+	const extra = { id: 'abc', moment: MOMENT, bewaarMaanden: 6, bestanden: [{ naam: 'vaas www.spam.example.stl', grootte: 2 * 1024 * 1024, link: 'https://x.supabase.co/functions/v1/formulier?bestand=' + id + '&k=123' }] };
+	const jelger = mailEigenaar(print, extra, WINKEL);
+	assert.ok(jelger.html.includes('>Downloaden</a>') && jelger.html.includes('bestand=' + id + '&amp;k=123'), 'downloadlink voor Jelger');
+	assert.ok(jelger.html.includes('6 maanden bewaard'));
+	assert.ok(!jelger.html.includes('er is geen bestand geüpload'));
+	assert.ok(jelger.tekst.includes('vaas www.spam.example.stl (2,0 MB): https://'));
+	const klant = mailKlant(print, extra, WINKEL);
+	assert.ok(klant.html.includes('Je bestand is goed aangekomen'));
+	assert.ok(klant.html.includes('vaas [link]') && !/spam\.example|Downloaden|bestand=/.test(klant.html), 'klant ziet naam en grootte, geen links');
+	assert.ok(!klant.html.includes('Stuur je bestand'), 'geen verzoek om het bestand te mailen');
+	assert.ok(mailEigenaar(print, { id: 'abc', moment: MOMENT }, WINKEL).html.includes('er is geen bestand geüpload'));
+	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', bestanden: [id] }).bestanden, undefined, 'contact heeft geen bestanden');
+});
+
+test('nieuwsbrief: aanmelden en bevestigen', function () {
+	const d = ok({ soort: 'nieuwsbrief', email: ' Jan@Voorbeeld.NL ', bron: 'footer' });
+	assert.equal(d.email, 'jan@voorbeeld.nl');
+	assert.equal(d.bron, 'footer');
+	assert.equal(ok({ soort: 'nieuwsbrief', email: 'jan@voorbeeld.nl', bron: 'iets-geks' }).bron, 'footer');
+	assert.equal(fout({ soort: 'nieuwsbrief', email: 'geen' }), 'Vul een geldig e-mailadres in.');
+	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', nieuwsbrief: true }).nieuwsbrief, true);
+	assert.equal(ok({ soort: 'contact', naam: 'Jan', email: 'jan@voorbeeld.nl', bericht: 'x', nieuwsbrief: 'ja' }).nieuwsbrief, false, 'alleen een echt vinkje telt');
+	assert.equal(ok({ soort: 'beschikbaarheid', email: 'jan@voorbeeld.nl', product: 'non', nieuwsbrief: true }).nieuwsbrief, undefined);
+	const mail = mailNieuwsbrief('https://jelgers3d.nl/nieuwsbrief.html#t=abc', WINKEL);
+	assert.equal(mail.onderwerp, 'Bevestig je aanmelding voor de nieuwsbrief van JelgerS3D');
+	assert.ok(mail.html.includes('href="https://jelgers3d.nl/nieuwsbrief.html#t=abc"') && mail.html.includes('Ja, ik meld me aan'));
+	assert.ok(mail.html.includes('zonder bevestiging sta je niet op de lijst'));
+	assert.ok(mail.tekst.includes('https://jelgers3d.nl/nieuwsbrief.html#t=abc'));
+});
+
+test('herinnering aan Jelger', function () {
+	const nu = new Date('2026-10-23T07:00:00Z').getTime();
+	const items = [
+		{ soort: 'bestelling', id: 'JS3D-1', naam: 'Anne de Vries', email: 'anne@voorbeeld.nl', totaal: 49.9, levering: 'Verzenden', aangemaakt: '2026-10-20T10:00:00Z', keer: 1, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#b=JS3D-1&k=a' },
+		{ soort: 'printservice', id: 'u1', naam: 'Jan', email: 'jan@voorbeeld.nl', tekst: 'Een vaas <b>van</b> 20 cm ' + 'x'.repeat(200), aangemaakt: '2026-10-18T10:00:00Z', keer: 2, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=u1&k=b' },
+		{ soort: 'contact', id: 'u2', naam: '', email: 'piet@voorbeeld.nl', tekst: 'Vraagje', aangemaakt: '2026-10-21T06:00:00Z', keer: 1, gereageerdLink: 'https://jelgers3d.nl/gereageerd.html#m=u2&k=c' }
+	];
+	assert.equal(telling(items), '1 bestelling, 1 aanvraag en 1 bericht');
+	assert.equal(telling([items[0], items[0]]), '2 bestellingen');
+	const mail = mailHerinnering(items, WINKEL, nu, 'https://supabase.com/dashboard/project/abc/editor');
+	assert.equal(mail.onderwerp, 'Herinnering: 1 bestelling, 1 aanvraag en 1 bericht wachten op je reactie');
+	assert.equal(mailHerinnering([items[0]], WINKEL, nu).onderwerp, 'Herinnering: 1 bestelling wacht op je reactie');
+	assert.ok(mail.html.includes('Bestelling JS3D-1') && mail.html.includes('€49,90 · verzenden'));
+	assert.ok(mail.html.includes('Anne de Vries · 2 dagen geleden'));
+	assert.ok(mail.html.includes('Jan · 4 dagen geleden · tweede herinnering'));
+	assert.ok(mail.html.includes('piet@voorbeeld.nl · 2 dagen geleden'));
+	assert.ok(mail.html.includes('Een vaas &lt;b&gt;van&lt;/b&gt;') && mail.html.includes('…'), 'geëscaped en ingekort');
+	assert.ok(mail.html.includes('href="https://jelgers3d.nl/gereageerd.html#m=u1&amp;k=b"'));
+	assert.ok(mail.html.includes('>Mail Anne</a>') && mail.html.includes('>Mail klant</a>'));
+	assert.ok(mail.tekst.includes('Ik heb gereageerd: https://jelgers3d.nl/gereageerd.html#b=JS3D-1&k=a'));
 });
 
 test('het e-mailadres van de winkel: gecodeerd en weer leesbaar', function () {

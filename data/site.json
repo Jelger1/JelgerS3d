@@ -542,6 +542,12 @@
 		"printers": "een Bambu Lab P1S en een H2C",
 		"maxSize": "tot ongeveer 25 × 25 × 25 cm op de P1S; grotere stukken in overleg"
 	},
+	"uploads": {
+		"maxMB": 50,
+		"keepMonths": 6,
+		"printservice": { "types": ["stl", "3mf"], "max": 5 },
+		"offerte": { "types": ["svg", "png", "jpg", "jpeg", "pdf", "ai", "eps"], "max": 3 }
+	},
 	"analytics": {
 		"gtm": "GTM-MQLPSW9X",
 		"ga4": "G-0SLM0NK7CF",
