@@ -33,11 +33,13 @@ export function initForms() {
 			naam: name,
 			email: email,
 			bericht: text,
+			nieuwsbrief: Boolean(form.elements.nieuwsbrief && form.elements.nieuwsbrief.checked),
 			akkoord: Boolean(form.elements.privacy && form.elements.privacy.checked),
 			botcheck: Boolean(form.elements.botcheck && form.elements.botcheck.checked)
 		}).then(function (antwoord) {
 			track('generate_lead', { lead_type: 'contact' });
-			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail.' : '') + ' Ik neem snel contact met je op.', true);
+			const nieuwsbrief = antwoord.mail && form.elements.nieuwsbrief && form.elements.nieuwsbrief.checked;
+			say('Bedankt! Je bericht is verstuurd.' + (antwoord.mail ? ' Je krijgt een bevestiging per mail' + (nieuwsbrief ? ', met daarin de knop om je aanmelding voor de nieuwsbrief te bevestigen.' : '.') : '') + ' Ik neem snel contact met je op.', true);
 			form.reset();
 		}).catch(function (error) {
 			say(error.message, false);

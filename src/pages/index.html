@@ -127,12 +127,22 @@
 				<li>Gepersonaliseerde items voor je bedrijf of event</li>
 				<li>Lithofanies: foto's die oplichten</li>
 			</ul>
-			<p class="cta-row">
-				<a class="btn primary" href="#contact">Vertel me je idee</a>
-				<a class="btn outline" href="producten/custom-lightbox.html">Bekijk de Custom Lightbox</a>
-			</p>
-			<p>Heb je zelf al een bestand? Dan print ik het voor je: zie de <a href="3d-printservice.html">3D-printservice</a>.
-			</p>
+			<!-- Twee gelijke ingangen: een idee laten uitwerken, of een eigen 3D-bestand laten printen -->
+			<div class="custom-choices">
+				<a class="custom-choice" href="#contact">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/></svg>
+					<strong>Ik heb een idee</strong>
+					<span>Van eerste schets tot eindproduct: ik werk het samen met je uit.</span>
+					<span class="custom-choice-link">Vertel me je idee <span aria-hidden="true">→</span></span>
+				</a>
+				<a class="custom-choice" href="3d-printservice.html">
+					<svg class="custom-choice-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+					<strong>Ik heb al een 3D-bestand</strong>
+					<span>Upload je {{printFormats}} en ik print het voor je in {{pickupLocation}}.</span>
+					<span class="custom-choice-link">Bestand laten printen <span aria-hidden="true">→</span></span>
+				</a>
+			</div>
+			<p class="custom-cta-more"><a href="producten/custom-lightbox.html">Of bekijk de Custom Lightbox met je eigen logo <span aria-hidden="true">→</span></a></p>
 		</div>
 		<div class="custom-cta-art">
 			{{customImage}}
@@ -178,6 +188,7 @@
 				<label for="cf-message">Bericht</label>
 				<textarea id="cf-message" name="message" rows="4" required placeholder="Vertel me kort over je vraag of idee..."></textarea>
 			</div>
+			{{nieuwsbriefCheckbox}}
 			{{privacyCheckbox}}
 			<button type="submit" class="btn primary btn-block">Verstuur bericht</button>
 			<p id="form-msg" class="form-msg" aria-live="polite"></p>

@@ -13,6 +13,7 @@ import { initCheckout, initThanks } from './checkout.js';
 import { initKeychain } from './keychain.js';
 import { initMail } from './mail.js';
 import { initBevestig } from './bevestig.js';
+import { initNieuwsbrief } from './nieuwsbrief.js';
 
 const page = document.body.dataset.page;
 
@@ -21,6 +22,7 @@ initUi();
 initMail(); // e-mailadressen leesbaar maken (staan gecodeerd in de HTML, tegen spamrobots)
 initCartUi();
 initLightbox();
+initNieuwsbrief(); // aanmelden onderaan elke pagina en op de bedanktpagina
 
 if (page === 'home') {
 	initRails();

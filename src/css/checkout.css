@@ -99,3 +99,20 @@
 
 /* Seizoensmelding: klein en rustig, geen aftellers of knipperende kleuren */
 .deadline-note{margin:1rem 0 0 0;padding:0.7rem 0.95rem;border-radius:var(--radius);border:1px solid rgba(244,180,0,0.35);background:rgba(244,180,0,0.08);color:#f2d27a;font-size:0.88rem;line-height:1.45}
+
+/* Bestanden meesturen met een aanvraag (src/js/upload.js). Het bestandsveld ligt onzichtbaar over het hele vak,
+   zodat klikken en slepen allebei werken. */
+.upload-drop{position:relative;display:flex;align-items:center;gap:0.85rem;padding:1rem 1.1rem;border:1.5px dashed var(--border);border-radius:var(--radius);background:var(--dark-secondary);color:var(--fg-muted);transition:border-color 0.2s, background 0.2s}
+.upload-drop:hover,.upload-drop.is-over{border-color:var(--brand);background:var(--dark)}
+.upload-drop:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-glow)}
+.upload .upload-input{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;opacity:0;cursor:pointer}
+.upload-icon{flex:0 0 auto;color:var(--brand)}
+.upload-drop-text{font-size:0.92rem;line-height:1.45}
+.upload-drop-text strong{color:var(--soft)}
+.upload-list{list-style:none;margin:0.5rem 0 0 0;padding:0;display:grid;gap:0.4rem}
+.upload-list:empty{display:none}
+.upload-item{display:flex;align-items:center;gap:0.75rem;padding:0.55rem 0.75rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark);font-size:0.88rem}
+.upload-name{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--soft)}
+.upload-size{flex:0 0 auto;color:var(--fg-muted)}
+.upload-remove{flex:0 0 auto;border:0;background:none;padding:0.2rem 0.35rem;color:var(--brand);font:inherit;font-size:0.85rem;cursor:pointer;text-decoration:underline}
+.upload-hint{margin:0.45rem 0 0 0;font-size:0.82rem;color:var(--fg-muted);line-height:1.5}

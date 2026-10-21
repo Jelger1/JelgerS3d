@@ -57,7 +57,8 @@ function privacyPage(ctx, template) {
 		usageData: ga4 ? ' en gegevens over hoe je de website gebruikt (Google Analytics, zie <a href="#cookies">cookies</a>)' : '',
 		statisticsRow: statisticsRow,
 		googleSharing: googleSharing,
-		cookieText: cookieText
+		cookieText: cookieText,
+		uploadMaanden: String(site.uploads ? site.uploads.keepMonths : 6)
 	}));
 
 	return {
@@ -112,14 +113,16 @@ function printServicePage(ctx, template) {
 		+ '\t\t<div class="form-group"><label for="rq-size">Gewenste kleur</label><input type="text" id="rq-size" name="size" placeholder="Bijv. mat zwart"></div>\n'
 		+ '\t\t<div class="form-group form-group-narrow"><label for="rq-qty">Aantal</label><input type="number" id="rq-qty" name="quantity" min="1" value="1" inputmode="numeric"></div>\n'
 		+ '\t</div>\n'
-		+ '\t<div class="form-group"><label for="rq-text">Wat wil je laten printen? <span aria-hidden="true">*</span></label><textarea id="rq-text" name="text" rows="3" required placeholder="Naam van je bestand, waar het voor is en wanneer je het nodig hebt"></textarea></div>\n'
+		+ '\t' + h.uploadField(site, 'printservice', { label: 'Je 3D-bestand', hint: 'Groter bestand of nog niet klaar? Verstuur gewoon het formulier en mail het bestand later.' }) + '\n'
+		+ '\t<div class="form-group"><label for="rq-text">Wat wil je laten printen? <span aria-hidden="true">*</span></label><textarea id="rq-text" name="text" rows="3" required placeholder="Waar het voor is en wanneer je het nodig hebt"></textarea></div>\n'
 		+ '\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+		+ '\t' + h.nieuwsbriefCheckbox('rq-nieuwsbrief') + '\n'
 		+ '\t' + h.privacyCheckbox(site, '', 'rq-privacy', false) + '\n'
 		+ '\t<p class="checkout-msg" data-request-msg role="alert"></p>\n'
 		+ '\t<button type="submit" class="btn btn-primary btn-block">Verstuur je aanvraag</button>\n'
 		+ '\t<p class="pdp-note">Vrijblijvend. Je hoort eerst de prijs en de levertijd; je betaalt pas na jouw akkoord.</p>\n'
 		+ '</form>\n'
-		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt. Mail je bestand gerust alvast naar ' + h.mailLink(site.email, './') + '.</p></div>';
+		+ '<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik laat je zo snel mogelijk weten wat het kost en hoe lang het duurt.</p></div>';
 
 	const body = h.fill(template.replace(/^<!--[\s\S]*?-->\s*/, ''), {
 		prijsPerGram: h.euro(ps.pricePerGram),
@@ -131,6 +134,7 @@ function printServicePage(ctx, template) {
 		maxSize: h.esc(ps.maxSize),
 		plaats: h.esc(site.pickupLocation),
 		levertijd: h.esc(site.delivery.leadTime + '.'),
+		maxMB: String(site.uploads ? site.uploads.maxMB : 50),
 		emailLink: h.mailLink(site.email, './'),
 		prijstabel: prijstabel,
 		faq: faq,

@@ -77,6 +77,9 @@ function homePage(ctx, template) {
 		'rail:design': rail('design'),
 		'rail:limburg': rail('limburg'),
 		privacyCheckbox: h.privacyCheckbox(site, '', 'cf-privacy', false),
+		nieuwsbriefCheckbox: h.nieuwsbriefCheckbox('cf-nieuwsbrief'),
+		printFormats: h.esc((site.printService.formats || '').replace(' en ', ' of ')),
+		pickupLocation: h.esc(site.pickupLocation),
 		reviews: c.reviewsSection(ctx.reviews, 'Wat klanten zeggen')
 	};
 	Object.keys(site.collections).forEach(function (key) {

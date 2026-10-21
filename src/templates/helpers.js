@@ -115,6 +115,54 @@ function jsonLd(data) {
 	return '<script type="application/ld+json">' + JSON.stringify(data).replace(/</g, '\\u003c') + '</script>';
 }
 
+// Bestanden meesturen met een aanvraag (printservice, maatwerk). Welke typen, hoeveel en hoe groot staat in
+// data/site.json > uploads; dezelfde regels controleert de Supabase-functie. Het uploaden zelf: src/js/upload.js.
+// Het bestandsveld heeft bewust geen name: het gaat niet mee als formulierveld, alleen de id's na het uploaden.
+function typesLabel(types) {
+	const lijst = types.filter(function (t) { return t !== 'jpeg'; }).map(function (t) { return t.toUpperCase(); });
+	return lijst.length > 1 ? lijst.slice(0, -1).join(', ') + ' of ' + lijst[lijst.length - 1] : lijst.join('');
+}
+
+function uploadField(site, soort, opts) {
+	const u = site.uploads;
+	if (!u || !u[soort]) return '';
+	const regels = u[soort];
+	const label = typesLabel(regels.types);
+	return '<div class="form-group upload" data-upload data-types="' + regels.types.join(',') + '" data-types-label="' + esc(label) + '" data-max="' + regels.max + '" data-max-mb="' + u.maxMB + '">'
+		+ '<label for="rq-files">' + esc(opts.label) + ' <span class="optional">(' + esc(label) + ', tot ' + u.maxMB + ' MB' + (regels.max > 1 ? ', hooguit ' + regels.max + ' bestanden' : '') + ')</span></label>'
+		+ '<div class="upload-drop" data-upload-drop>'
+		+ '<input type="file" id="rq-files" class="upload-input"' + (regels.max > 1 ? ' multiple' : '') + ' accept="' + regels.types.map(function (t) { return '.' + t; }).join(',') + '" aria-describedby="rq-files-hint">'
+		+ '<svg class="upload-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>'
+		+ '<span class="upload-drop-text"><strong>Kies ' + (regels.max > 1 ? 'bestanden' : 'een bestand') + '</strong> of sleep ' + (regels.max > 1 ? 'ze' : 'het') + ' hierheen</span>'
+		+ '</div>'
+		+ '<ul class="upload-list" data-upload-list></ul>'
+		+ '<p class="upload-hint" id="rq-files-hint">' + esc(opts.hint) + '</p>'
+		+ '</div>';
+}
+
+// Het vinkje voor de nieuwsbrief in formulieren: standaard uit, en pas na de bevestigingsknop in de mail sta je op de lijst
+function nieuwsbriefCheckbox(id) {
+	return '<div class="form-consent form-optin">'
+		+ '<label class="form-consent-label" for="' + id + '"><input type="checkbox" id="' + id + '" name="nieuwsbrief" value="ja">'
+		+ '<span>Houd me op de hoogte van nieuwe ontwerpen (af en toe een mail, afmelden kan altijd)</span></label>'
+		+ '</div>';
+}
+
+// Aanmelden voor de nieuwsbrief met alleen een e-mailadres (footer en bedanktpagina); src/js/nieuwsbrief.js verstuurt het
+function nieuwsbriefForm(bron, root) {
+	const id = 'nb-email-' + bron;
+	return '<form class="newsletter-form" data-nieuwsbrief="' + bron + '" novalidate>'
+		+ '<div class="newsletter-row">'
+		+ '<label class="sr-only" for="' + id + '">E-mailadres</label>'
+		+ '<input type="email" id="' + id + '" name="email" required autocomplete="email" placeholder="je@email.nl">'
+		+ '<button type="submit" class="btn btn-primary">Aanmelden</button>'
+		+ '</div>'
+		+ '<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">'
+		+ '<p class="newsletter-note">Je krijgt eerst een mail om je aanmelding te bevestigen. Zie de <a href="' + (root || '') + 'privacy.html">privacyverklaring</a>.</p>'
+		+ '<p class="newsletter-msg" data-nieuwsbrief-msg role="status"></p>'
+		+ '</form>';
+}
+
 // Vervangt {{sleutel}} in een HTML-partial
 // Je e-mailadres staat niet leesbaar in de HTML: robots die het web afstruinen naar adressen vinden zo geen adres
 // en geen mailto-link. In de browser maakt src/js/mail.js er weer een gewone, klikbare link van; zonder JavaScript
@@ -137,5 +185,6 @@ function fill(template, values) {
 module.exports = {
 	esc: esc, euro: euro, minPrice: minPrice, priceLabel: priceLabel, priceHtml: priceHtml, productUrl: productUrl,
 	img: img, imgPath: imgPath, cropSrcset: cropSrcset, jsonLd: jsonLd, fill: fill,
-	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink
+	addressLine: addressLine, privacyCheckbox: privacyCheckbox, mailCode: mailCode, mailLink: mailLink,
+	uploadField: uploadField, nieuwsbriefCheckbox: nieuwsbriefCheckbox, nieuwsbriefForm: nieuwsbriefForm
 };

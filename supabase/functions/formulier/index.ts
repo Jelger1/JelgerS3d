@@ -264,7 +264,8 @@ async function koppelBestanden(ids: string[] | undefined, soort: string, bericht
 		if (bestaat) echt.push(rij);
 	}
 	if (!echt.length) return [];
-	const koppel = await db.from('uploads').update({ bericht_id: berichtId }).in('id', echt.map((r) => r.id));
+	// Het gehashte IP-adres is alleen nodig voor de limiet; losse bestanden (met hash) zijn na een dag weg
+	const koppel = await db.from('uploads').update({ bericht_id: berichtId, ip_hash: '' }).in('id', echt.map((r) => r.id));
 	if (koppel.error) console.error('Uploads koppelen mislukt', koppel.error);
 	return Promise.all(echt.map(async (r) => ({ naam: r.naam, grootte: r.grootte, link: await bestandLink(r.id) })));
 }

@@ -85,6 +85,7 @@ export function initCheckout() {
 			naam: values.name,
 			email: values.email,
 			telefoon: values.phone,
+			nieuwsbrief: values.nieuwsbrief === 'ja',
 			akkoord: Boolean(values.privacy),
 			botcheck: form.elements.botcheck.checked,
 			bestelling: {
@@ -98,7 +99,7 @@ export function initCheckout() {
 			}
 		}).then(function (antwoord) {
 			try {
-				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: antwoord.id, mail: antwoord.mail === true, lines: lines, total: antwoord.totaal != null ? antwoord.totaal : total, tracked: false }));
+				sessionStorage.setItem(LAST_ORDER_KEY, JSON.stringify({ id: antwoord.id, mail: antwoord.mail === true, nieuwsbrief: values.nieuwsbrief === 'ja', lines: lines, total: antwoord.totaal != null ? antwoord.totaal : total, tracked: false }));
 			} catch (e) { /* zonder sessionStorage toont de bedanktpagina alleen de algemene tekst */ }
 			cart.clear();
 			location.href = form.dataset.thanks;
@@ -119,6 +120,14 @@ export function initThanks() {
 	let order = null;
 	try { order = JSON.parse(sessionStorage.getItem(LAST_ORDER_KEY)); } catch (e) {}
 	if (!order || !order.lines || !order.lines.length) return;
+
+	// Vinkje voor de nieuwsbrief al aangezet: dan geen tweede aanmeldveld, maar een verwijzing naar de knop in de mail
+	const newsletter = document.getElementById('thanks-newsletter');
+	if (newsletter && order.nieuwsbrief && order.mail) {
+		document.getElementById('thanks-newsletter-text').textContent = 'Je vinkte aan dat je op de hoogte wilt blijven. Bevestig dat met de knop in je bevestigingsmail; pas dan sta je op de lijst.';
+		const form = newsletter.querySelector('form');
+		if (form) form.remove();
+	}
 
 	document.getElementById('thanks-lines').innerHTML = linesHtml(order.lines, order.total);
 	box.hidden = false;

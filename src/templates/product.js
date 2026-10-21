@@ -108,11 +108,13 @@ function buyBox(product, ctx, root) {
 			+ '\t\t\t\t<div class="form-group form-group-narrow"><label for="rq-qty">Aantal</label><input type="number" id="rq-qty" name="quantity" min="1" value="1" inputmode="numeric"></div>\n'
 			+ '\t\t\t</div>\n'
 			+ '\t\t\t<div class="form-group"><label for="rq-text">Wat wil je laten maken? <span aria-hidden="true">*</span></label><textarea id="rq-text" name="text" rows="3" required placeholder="Je logo, naam of idee, en waar hij komt te staan"></textarea></div>\n'
+			+ '\t\t\t' + h.uploadField(ctx.site, 'offerte', { label: 'Je logo of afbeelding', hint: 'Het liefst als SVG, PDF of een scherpe PNG. Nog niet bij de hand? Dan mail je het later.' }) + '\n'
 			+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+			+ '\t\t\t' + h.nieuwsbriefCheckbox('rq-nieuwsbrief') + '\n'
 			+ '\t\t\t' + h.privacyCheckbox(ctx.site, root, 'rq-privacy', false) + '\n'
 			+ '\t\t\t<p class="checkout-msg" data-request-msg role="alert"></p>\n'
 			+ '\t\t\t<button type="submit" class="btn btn-primary btn-block">Verstuur aanvraag</button>\n'
-			+ '\t\t\t<p class="pdp-note">Vrijblijvend. Je ontvangt eerst een voorstel met prijs. Je logo of afbeelding (PNG, JPG, PDF, AI of SVG) stuur je daarna per mail na.</p>\n'
+			+ '\t\t\t<p class="pdp-note">Vrijblijvend. Je ontvangt eerst een voorstel met prijs.</p>\n'
 			+ '\t\t</form>\n'
 			+ '\t\t<div class="request-success" data-request-success hidden tabindex="-1"><strong>Bedankt, je aanvraag is verstuurd!</strong><p>Ik neem zo snel mogelijk contact met je op met een voorstel.</p></div>';
 	}

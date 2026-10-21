@@ -81,6 +81,7 @@ function checkoutPage(ctx) {
 		+ '\t\t\t</fieldset>\n'
 		// Onzichtbaar veld tegen spamrobots: is het aangevinkt, dan gooit de Supabase-functie de inzending stil weg
 		+ '\t\t\t<input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true">\n'
+		+ '\t\t\t' + h.nieuwsbriefCheckbox('co-nieuwsbrief') + '\n'
 		+ '\t\t\t' + h.privacyCheckbox(site, '', 'co-privacy', true) + '\n'
 		+ '\t\t\t<p id="checkout-msg" class="checkout-msg" role="alert"></p>\n'
 		+ '\t\t\t<button type="submit" id="checkout-submit" class="btn btn-primary btn-block">Aanvraag versturen</button>\n'
@@ -121,6 +122,13 @@ function thanksPage(ctx) {
 		+ '\t<section class="checkout-aside thanks-order" id="thanks-order" aria-labelledby="thanks-heading" hidden>\n'
 		+ '\t\t<h2 id="thanks-heading">Dit heb je aangevraagd</h2>\n'
 		+ '\t\t<div id="thanks-lines" class="checkout-lines"></div>\n'
+		+ '\t</section>\n'
+		// Aanmelden voor de nieuwsbrief. Stond het vinkje bij afrekenen al aan, dan vervangt checkout.js dit door een
+		// verwijzing naar de bevestigingsknop in de mail.
+		+ '\t<section class="thanks-newsletter" id="thanks-newsletter" aria-labelledby="thanks-newsletter-heading">\n'
+		+ '\t\t<h2 id="thanks-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>\n'
+		+ '\t\t<p id="thanks-newsletter-text">Laat je e-mailadres achter. Je krijgt alleen een mail als er iets nieuws is, en afmelden kan altijd.</p>\n'
+		+ '\t\t' + h.nieuwsbriefForm('bedankt', '') + '\n'
 		+ '\t</section>\n'
 		+ '\t<p class="thanks-actions"><a class="btn btn-primary" href="webshop.html">Verder kijken in de webshop</a> <a class="btn outline" href="' + h.esc(site.instagram) + '" target="_blank" rel="noopener noreferrer">Volg op Instagram</a></p>\n'
 		+ '</div>';

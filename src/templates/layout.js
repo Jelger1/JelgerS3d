@@ -17,7 +17,8 @@ function layout(page, ctx) {
 	let header = h.fill(ctx.partials.header, {
 		root: root,
 		home: home,
-		currentShop: page.name === 'shop' ? ' aria-current="page"' : ''
+		currentShop: page.name === 'shop' ? ' aria-current="page"' : '',
+		currentPrint: page.path === '3d-printservice.html' ? ' aria-current="page"' : ''
 	});
 	// Op de homepage zelf scrollen de ankerlinks binnen de pagina
 	if (page.name === 'home') header = header.replace(/href="\.\/#/g, 'href="#');
@@ -32,6 +33,12 @@ function layout(page, ctx) {
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),
 		instagram: h.esc(site.instagram),
+		// Aanmelden voor de nieuwsbrief, behalve waar de pagina dat zelf al vraagt (bedankt) of net bevestigt
+		newsletter: page.name === 'thanks' || page.name === 'confirm' ? '' : '<section class="footer-newsletter" aria-labelledby="footer-newsletter-heading">'
+			+ '<div class="footer-newsletter-text"><h2 id="footer-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>'
+			+ '<p>Laat je e-mailadres achter. Je krijgt alleen een mail als er iets nieuws is, en afmelden kan altijd.</p></div>'
+			+ h.nieuwsbriefForm('footer', root)
+			+ '</section>',
 		categoryLinks: (site.categoryPages || []).map(function (cat) {
 			return '<a href="' + root + cat.slug + '.html">' + h.esc(cat.label) + '</a>';
 		}).join('\n\t\t\t'),

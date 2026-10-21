@@ -3,6 +3,7 @@
      De prijstabel, de veelgestelde vragen en het formulier worden door src/templates/pages.js gemaakt. -->
 <h1>3D-printservice in Limburg</h1>
 <p class="text-page-intro">Stuur je 3D-bestand ({{formatsOf}}) en ik print het voor je in {{plaats}}. Standaard PLA in één kleur kost <strong>{{prijsPerGram}} per gram</strong>, met een minimum van <strong>{{minimum}} per opdracht</strong>. Je hoort de prijs voordat ik begin en je betaalt pas als je akkoord bent.</p>
+<p class="cta-row"><a class="btn primary" href="#aanvragen">Upload je bestand</a></p>
 
 <h2>Wat kost 3D-printen?</h2>
 <p>De prijs hangt af van het gewicht van je print: hoe meer materiaal en printtijd, hoe hoger de prijs. Dit zijn een paar voorbeelden bij standaard PLA in één kleur.</p>
@@ -11,7 +12,7 @@
 
 <h2>Zo werkt het</h2>
 <ol class="category-steps">
-	<li>Stuur je bestand naar {{emailLink}}, of vul het formulier onderaan deze pagina in en mail het bestand erachteraan.</li>
+	<li>Upload je bestand met het <a href="#aanvragen">formulier onderaan deze pagina</a>, of mail het naar {{emailLink}}.</li>
 	<li>Ik controleer of het model goed te printen is en laat weten wat het kost en hoe lang het duurt.</li>
 	<li>Ben je akkoord, dan zet ik hem op de printer. {{levertijd}}</li>
 	<li>Je betaalt pas nadat we het eens zijn over prijs en uitvoering.</li>
@@ -31,5 +32,5 @@
 {{faq}}
 
 <h2 id="aanvragen">Stuur je bestand</h2>
-<p>Vul hieronder kort in wat je wilt laten printen. Je krijgt van mij een prijs en een levertijd. Het bestand zelf mail je na als reactie op mijn bericht, of stuur het meteen naar {{emailLink}}.</p>
+<p>Upload je bestand ({{formatsOf}}, tot {{maxMB}} MB per bestand) en vertel kort wat je wilt laten printen. Je krijgt van mij een prijs en een levertijd. Is je bestand groter? Verstuur dan het formulier en mail het bestand naar {{emailLink}}.</p>
 {{formulier}}

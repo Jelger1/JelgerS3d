@@ -231,8 +231,32 @@ een jaar en bestellingen na twee jaar (facturen bewaar je in je administratie, n
 `formulier` staat online zonder JWT-controle (`verify_jwt = false`, de website is openbaar) en bij Edge Functions >
 Secrets staat `RESEND_API_KEY`. Het domein jelgers3d.nl is bij Resend geverifieerd. Optioneel: `MAIL_VAN` (standaard
 `JelgerS3D <bestellingen@jelgers3d.nl>`) en `MAIL_EIGENAAR` (standaard het e-mailadres uit `data/site.json`). Het
-adres van de functie staat in `data/site.json` > `backend.url`. Wijzig je `logica.js` of `index.ts`, zet de functie
-dan opnieuw online; de website zelf merkt daar niets van.
+adres van de functie staat in `data/site.json` > `backend.url`.
+
+**Bijwerken gaat vanzelf:** de GitHub-koppeling van Supabase staat aan. Bij elke push naar `main` voert Supabase nieuwe
+bestanden in `supabase/migrations/` uit en zet het de functie uit `supabase/functions/formulier/` online. Wat in de repo
+staat, draait dus ook. Een migratie die al met de hand is uitgevoerd, moet in de repo precies dezelfde versie (het getal
+vooraan de bestandsnaam) hebben, anders probeert Supabase hem nog een keer.
+
+**Bestanden uploaden** (printservice en Custom Lightbox): bezoekers kiezen of slepen hun bestand in het formulier. Het
+gaat rechtstreeks naar de privé opslag van Supabase (Storage > bucket `uploads`). In jouw mail staat per bestand een
+downloadlink, die alleen werkt met de handtekening uit die mail. Welke typen, hoeveel en hoe groot, en hoe lang ze
+bewaard blijven, staat in `data/site.json` > `uploads` (nu: STL en 3MF voor de printservice, SVG, PNG, JPG, PDF, AI en
+EPS voor een logo, tot 50 MB, 6 maanden bewaard). De 50 MB staat ook als limiet op de bucket.
+
+**"Ik heb gereageerd" en herinneringen:** de functie kan niet zien of je in Gmail hebt geantwoord. Tik daarom na het
+antwoorden op de knop **Ik heb gereageerd** in de mail (of zet de status in Supabase op iets anders dan `nieuw`). Staat
+een bestelling of aanvraag na twee dagen nog open, dan krijg je om 9 uur één herinneringsmail met alles wat openstaat;
+na vijf dagen nog één keer, daarna niet meer. Seintjes voor een product dat weer leverbaar is, tellen niet mee.
+
+**Nieuwsbrief:** aanmelden kan onderaan elke pagina, op de bedanktpagina en met een vinkje in de formulieren, altijd met
+een bevestigingsmail (dubbele opt-in). Bevestigde adressen staan in Supabase (tabel `nieuwsbrief`, het bewijs van de
+toestemming) en als contact in Resend, in het segment **Nieuwsbrief**. Een nieuwsbrief verstuur je in het
+Resend-dashboard: Broadcasts > nieuwe broadcast > segment Nieuwsbrief. Resend zet zelf een afmeldlink onderaan en houdt
+bij wie zich afmeldt. Beloof op de site alleen wat je doet: daar staat dat je alleen mailt als er iets nieuws is.
+
+**Elk uur** roept de database (pg_cron) de functie aan om oude bestanden en onbevestigde aanmeldingen op te ruimen en om
+9 uur de herinnering te versturen.
 
 **Testen:** onderschep in browsertests de aanvragen naar `backend.url`, anders krijg je echte bestellingen en mails.
 
