@@ -221,14 +221,14 @@ export function controleerBestanden(lijst, soort, uploads) {
 
 // ---------------------------------------------------------------------------------------------- mails
 //
-// In de stijl van de site: een donker kader met het logo, een witte kaart met de cyaan-mint balk, koppen in Syne
-// en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles met tabellen en
-// inline stijlen, want veel mailprogramma's negeren de rest. De plaatjes staan op de site zelf (assets/mail/,
-// gemaakt door build.js). Wit in het midden houdt de mail goed leesbaar, ook als iemand hem uitprint.
+// In de stijl van de site: een Midnight Slate-kader met het JS-teken, een Misty Sage-kaart met de raspberry-aqua
+// balk, koppen in Syne en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles
+// met tabellen en inline stijlen, want veel mailprogramma's negeren de rest. De plaatjes staan op de site zelf
+// (assets/mail/, gemaakt door build.js). Licht in het midden houdt de mail goed leesbaar, ook als iemand hem uitprint.
 
 const KLEUR = {
-	donker: '#12151c', merk: '#03bcca', mint: '#5de8d0', zacht: '#e0ebe9', grijs: '#959daa', licht: '#f0efee',
-	tekst: '#12151c', gedempt: '#5b6472', link: '#027a8c', lijn: '#e3e8ec' // gedempt en link: genoeg contrast op wit
+	donker: '#080a0d', merk: '#03bcca', roze: '#f10067', kaart: '#f3fffd', zacht: '#e1efed', grijs: '#98a4a3',
+	licht: '#f3fffd', tekst: '#080a0d', gedempt: '#56606b', link: '#027a8c', lijn: '#d9e6e4' // gedempt en link: genoeg contrast op de kaart
 };
 const KOP = "'Syne','Trebuchet MS',Arial,sans-serif";
 const LETTER = "'Space Grotesk','Segoe UI',Arial,Helvetica,sans-serif";
@@ -265,10 +265,12 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 		+ '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:' + KLEUR.donker + '">' + esc(preheader) + '&#847;&zwnj;&nbsp;'.repeat(30) + '</div>'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="' + KLEUR.donker + '" style="background:' + KLEUR.donker + '"><tr><td align="center" style="padding:28px 12px 36px 12px">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">'
-		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '"><img src="' + esc(url) + '/assets/mail/logo.png" width="139" height="52" alt="JelgerS3D" style="display:block;border:0;outline:none;color:' + KLEUR.licht + ';font:700 20px ' + KOP + '"></a></td></tr>'
-		+ '<tr><td bgcolor="#ffffff" style="background:#ffffff;border-radius:16px;overflow:hidden">'
+		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '" style="text-decoration:none"><table role="presentation" cellpadding="0" cellspacing="0"><tr>'
+		+ '<td style="padding:0 12px 0 0"><img src="' + esc(url) + '/assets/mail/logo.png" width="44" height="41" alt="" style="display:block;border:0;outline:none"></td>'
+		+ '<td style="font:800 22px/1 ' + KOP + ';color:' + KLEUR.licht + '">' + esc(winkel.naam) + '</td></tr></table></a></td></tr>'
+		+ '<tr><td bgcolor="' + KLEUR.kaart + '" style="background:' + KLEUR.kaart + ';border-radius:16px;overflow:hidden">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
-		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.merk + ',' + KLEUR.mint + ')">&nbsp;</td></tr>'
+		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.roze + ',' + KLEUR.merk + ')">&nbsp;</td></tr>'
 		+ '<tr><td class="kaart" style="padding:32px 32px 14px 32px;font:15px/1.6 ' + LETTER + ';color:' + KLEUR.tekst + '">' + inhoud + '</td></tr>'
 		+ '</table></td></tr>'
 		+ '<tr><td style="padding:22px 4px 0 4px;font:12px/1.7 ' + LETTER + ';color:' + KLEUR.grijs + '">' + voet + '</td></tr>'

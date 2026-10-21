@@ -1,8 +1,6 @@
 // Het HTML-skelet van elke pagina: <head> met SEO-tags, header, footer, winkelwagen.
 const h = require('./helpers');
 
-const FONTS = ['space-grotesk-latin.woff2', 'syne-latin.woff2'];
-
 // page: { path, root, name, title, description, ogImage, ogType, jsonLd[], preload, main, noindex }
 function layout(page, ctx) {
 	const site = ctx.site;
@@ -98,7 +96,7 @@ function layout(page, ctx) {
 		+ '\t<meta name="description" content="' + h.esc(page.description) + '">\n'
 		+ '\t<meta name="robots" content="' + (page.noindex ? 'noindex, follow' : 'index, follow, max-snippet:-1, max-image-preview:large') + '">\n'
 		+ '\t<link rel="canonical" href="' + h.esc(canonical) + '">\n'
-		+ '\t<meta name="theme-color" content="#12151c">\n'
+		+ '\t<meta name="theme-color" content="#080a0d">\n'
 		+ '\t<meta property="og:type" content="' + (page.ogType || 'website') + '">\n'
 		+ '\t<meta property="og:url" content="' + h.esc(canonical) + '">\n'
 		+ '\t<meta property="og:title" content="' + h.esc(page.ogTitle || page.title) + '">\n'
@@ -109,8 +107,10 @@ function layout(page, ctx) {
 		+ '\t<meta property="og:site_name" content="' + h.esc(site.name) + '">\n'
 		+ '\t<meta property="og:locale" content="nl_NL">\n'
 		+ '\t<meta name="twitter:card" content="summary_large_image">\n'
-		+ '\t<link rel="icon" type="image/svg+xml" href="' + root + 'assets/js-3D-LOGO.svg">\n'
-		+ FONTS.map(function (font) { return '\t<link rel="preload" as="font" type="font/woff2" href="' + root + 'assets/fonts/' + font + '" crossorigin>\n'; }).join('')
+		+ '\t<link rel="icon" type="image/svg+xml" href="' + root + 'assets/brand/js-icon-tegel.svg">\n'
+		+ '\t<link rel="icon" type="image/png" sizes="96x96" href="' + root + 'assets/brand/favicon-96.png">\n'
+		+ '\t<link rel="apple-touch-icon" href="' + root + 'assets/brand/apple-touch-icon.png">\n'
+		+ ctx.fonts.map(function (font) { return '\t<link rel="preload" as="font" type="font/woff2" href="' + root + 'assets/fonts/' + font + '" crossorigin>\n'; }).join('')
 		+ '\t<link rel="stylesheet" href="' + root + 'css/styles.css' + v + '">\n'
 		+ preload
 		+ (page.jsonLd || []).map(function (data) { return '\t' + h.jsonLd(data) + '\n'; }).join('')

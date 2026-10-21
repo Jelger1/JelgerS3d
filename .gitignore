@@ -8,3 +8,7 @@ brag-output*/
 # Grote bronvideo's blijven lokaal; de kleine webversie in assets/video/ gaat wel mee (zie tools/video.js)
 /assets/*.mp4
 /assets/*.mov
+
+# Merkbestanden van de ontwerper: groot en niet nodig voor de site (die gebruikt assets/brand/)
+/assets/Brand Identity/
+/assets/Logo/

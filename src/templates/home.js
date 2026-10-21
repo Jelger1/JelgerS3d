@@ -107,7 +107,7 @@ function homePage(ctx, template) {
 			alternateName: ['Jelger S3D', 'Jelgers3d', 'Jelger 3D'],
 			description: site.owner + ' maakt unieke 3D-geprinte ontwerpen met karakter, lokaal gemaakt in Limburg.',
 			url: site.url,
-			logo: site.url + '/assets/js-3D-LOGO-BIG.svg',
+			logo: site.url + '/assets/brand/js-logo-512.png',
 			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
 			// Bewust geen e-mailadres: dit is leesbaar voor robots die adressen verzamelen
 			founder: { '@type': 'Person', name: site.owner, jobTitle: '3D Designer & Maker' },

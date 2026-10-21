@@ -13,7 +13,7 @@
 .chip small{font-size:0.72rem;color:var(--fg-muted);font-variant-numeric:tabular-nums}
 .chip:hover span{border-color:var(--brand)}
 .chip input:checked + span{background:var(--brand);border-color:var(--brand);color:var(--dark);font-weight:600}
-.chip input:checked + span small{color:rgba(18,21,28,0.7)}
+.chip input:checked + span small{color:rgba(8,10,13,0.7)}
 .chip input:focus-visible + span{outline:2px solid var(--brand);outline-offset:2px}
 .chip.is-empty span{opacity:0.35;cursor:not-allowed}
 .chip.is-empty:hover span{border-color:var(--border)}

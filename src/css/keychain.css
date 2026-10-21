@@ -1,7 +1,7 @@
 /* "Maak je eigen sleutelhanger": de ontwerptool op de productpagina en de teaser op de homepage. */
 
 /* Het podium waar de live preview op staat */
-.keychain-stage{position:relative;border-radius:var(--radius-lg);border:1px solid var(--border);background:radial-gradient(ellipse at 50% 35%, #232936 0%, var(--dark-card) 70%);overflow:hidden}
+.keychain-stage{position:relative;border-radius:var(--radius-lg);border:1px solid var(--border);background:radial-gradient(ellipse at 50% 35%, #1a1f27 0%, var(--dark-card) 70%);overflow:hidden}
 .keychain-stage canvas{display:block;width:100%;height:auto;aspect-ratio:2 / 1}
 /* 3D-model: ligt over het hele podium heen; de 2D-tekening eronder houdt de ruimte vast en wordt onzichtbaar */
 .keychain-stage canvas.keychain-3d{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;opacity:0;transition:opacity 0.5s ease;outline:none}

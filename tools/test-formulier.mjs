@@ -168,10 +168,11 @@ test('mails bij een bestelling', function () {
 	assert.ok(jelger.tekst.includes('Ik heb gereageerd: https://jelgers3d.nl/gereageerd.html#b=JS3D-TEST01&k=abc'));
 	assert.ok(jelger.html.includes('Anne-Marie &lt;b&gt;de Vries&lt;/b&gt; · €49,90 · verzenden naar Kerkrade'), 'voorbeeldregel in de inbox');
 
-	// Huisstijl: logo als PNG van de site, Syne en Space Grotesk, cyaan-mint balk, productfoto
-	assert.ok(jelger.html.includes('src="https://jelgers3d.nl/assets/mail/logo.png"'));
+	// Huisstijl: JS-teken als PNG van de site met de naam erbij, Syne en Space Grotesk, raspberry-aqua balk, productfoto
+	assert.ok(jelger.html.includes('src="https://jelgers3d.nl/assets/mail/logo.png" width="44" height="41"'));
+	assert.ok(jelger.html.includes('#f3fffd">JelgerS3D</td>'), 'naam naast het teken');
 	assert.ok(jelger.html.includes("font-family:\"Syne\"") && jelger.html.includes("'Space Grotesk'"));
-	assert.ok(jelger.html.includes('linear-gradient(90deg,#03bcca,#5de8d0)'));
+	assert.ok(jelger.html.includes('linear-gradient(90deg,#f10067,#03bcca)'));
 	assert.ok(jelger.html.includes('<img src="https://jelgers3d.nl/assets/mail/kami-vase-c-400.jpg" width="48" height="60" alt=""'));
 
 	const klant = mailKlant(data, extra, WINKEL);

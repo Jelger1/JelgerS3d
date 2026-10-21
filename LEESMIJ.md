@@ -219,10 +219,11 @@ Alle formulieren (bestellen, contact, maatwerk, printservice en "laat het me wet
    dan gaat je antwoord naar de klant; met de knoppen bovenin mail of bel je de klant meteen. In de tabel zie je met
    `mail_klant` en `mail_eigenaar` of het gelukt is.
 
-De mails hebben de huisstijl van de site: donker kader met het logo, koppen in Syne, tekst in Space Grotesk (Gmail en
-Outlook tonen Arial) en bij een bestelling een foto per product. De teksten en de opmaak staan in
-`supabase/functions/formulier/logica.js`. Het logo als PNG en de productfoto's als kleine JPG maakt de build in
-`dist/assets/mail/`, want veel mailprogramma's tonen geen SVG of WebP.
+De mails hebben de huisstijl van de site: een Midnight Slate-kader met het JS-teken en de naam, een Misty Sage-kaart
+met een raspberry-aqua balk, koppen in Syne, tekst in Space Grotesk (Gmail en Outlook tonen Arial) en bij een
+bestelling een foto per product. De teksten en de opmaak staan in `supabase/functions/formulier/logica.js`. Het teken
+als PNG en de productfoto's als kleine JPG maakt de build in `dist/assets/mail/`, want veel mailprogramma's tonen geen
+SVG of WebP.
 
 Bewaartermijnen uit de privacyverklaring worden automatisch nagekomen: elke nacht verwijdert de database berichten na
 een jaar en bestellingen na twee jaar (facturen bewaar je in je administratie, niet hier).
@@ -259,6 +260,30 @@ bij wie zich afmeldt. Beloof op de site alleen wat je doet: daar staat dat je al
 9 uur de herinnering te versturen.
 
 **Testen:** onderschep in browsertests de aanvragen naar `backend.url`, anders krijg je echte bestellingen en mails.
+
+### Huisstijl: logo, kleuren en lettertypen
+
+De bron is de map `assets/Brand Identity/` (kleurenkaart, mockups) en `assets/Logo/` (alle logovarianten als SVG,
+PNG en JPG). Die twee mappen blijven lokaal (samen ruim 30 MB, de site gebruikt ze niet). De site gebruikt alleen de
+bestanden in `assets/brand/`:
+
+- `js-icon.svg`: het JS-teken voor een donkere achtergrond (aqua, raspberry en Misty Sage), in de header.
+- `js-icon-tegel.svg`: het teken op een Midnight Slate-tegel. Daaruit maakt de build het favicon, het app-icoon voor
+  de iPhone en het logo voor Google (`dist/assets/brand/`); het teken voor de mails komt uit `js-icon.svg`.
+
+De kleuren staan bovenaan `src/css/styles.css`: Electric Aqua `#03BCCA` (`--brand`, knoppen en links), Deep Teal
+`#029AA6` (`--brand-dark`, hover), Neon Raspberry `#F10067` (`--raspberry`, labels zoals "Nieuw" en het verloop),
+Misty Sage `#F3FFFD` (`--soft`, tekst) en Midnight Slate `#080A0D` (`--dark`, achtergrond). Het merkverloop gaat van
+raspberry naar aqua (`.highlight`, het accent in koppen).
+
+**Stevie Sans** is het lettertype voor de koppen, maar het is een betaald font (Typefolio, via
+[Fontspring](https://www.fontspring.com/fonts/typefolio/stevie-sans/stevie-sans-book)) en voor een website heb je
+een weblicentie nodig. Koop het vet (Bold) met webfontlicentie, zet het WOFF2-bestand als
+`assets/fonts/stevie-sans-bold.woff2` neer en bouw: alle koppen en de naam in de header gaan dan vanzelf over.
+Zolang het bestand er niet is, blijft Syne staan. Gratis downloadsites hebben geen weblicentie.
+
+**Naam wijzigen naar JSdesign** (later): pas `name` in `data/site.json` aan en de tekst `JelgerS3D` in
+`src/partials/header.html` (daar kan dan ook het volledige logo "JS DESIGN" uit `assets/Logo/SVG/` komen).
 
 ## Waar staat wat?
 

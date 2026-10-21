@@ -16,13 +16,13 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .reveal.is-revealed{opacity:1;transform:none}
 
 /* Header */
-.site-header{background:rgba(18,21,28,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--soft);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);height:var(--nav-height);display:flex;align-items:center}
+.site-header{background:rgba(8,10,13,0.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--soft);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--border);height:var(--nav-height);display:flex;align-items:center}
 .site-header::before{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg, transparent, var(--brand-glow-strong), transparent)}
 .header-inner{display:flex;align-items:center;gap:1rem;padding:0 clamp(1rem,3vw,2rem);max-width:var(--max-width);margin:0 auto;width:100%}
-.brand{display:flex;align-items:center;text-decoration:none}
+.brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--soft)}
 .brand:hover{opacity:0.85}
-.brand img{height:52px;width:auto}
-.brand-logo-mobile{display:none}
+.brand-icon{height:38px;width:auto}
+.brand-name{font-family:var(--font-display);font-weight:800;font-size:1.3rem;letter-spacing:-0.01em;line-height:1;white-space:nowrap}
 .main-nav{margin-left:auto;display:flex;gap:2rem}
 .main-nav a{color:var(--fg-muted);text-decoration:none;font-weight:500;font-size:0.875rem;letter-spacing:0.05em}
 .main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--soft)}
@@ -37,10 +37,9 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 @media (max-width:900px){
 	.header-inner{display:grid;grid-template-columns:44px 1fr 44px}
 	.nav-toggle{display:inline-flex}
-	.brand{justify-self:center}
-	.brand img{height:36px}
-	.brand-logo-desktop{display:none}
-	.brand-logo-mobile{display:block}
+	.brand{justify-self:center;gap:0.5rem}
+	.brand-icon{height:30px}
+	.brand-name{font-size:1.1rem}
 	.main-nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:var(--dark-card);padding:0.5rem 0;margin:0;border-bottom:1px solid var(--border)}
 	.main-nav.show{display:flex}
 	.main-nav a{padding:0.9rem 1.5rem;color:var(--soft);font-size:1rem}

@@ -1,17 +1,21 @@
 /* Basis, typografie en homepage-secties. Componenten staan in components.css, de productpagina in product.css. */
 :root{
+  /* Huisstijl (assets/Brand Identity/JS Colors.png): Electric Aqua, Deep Teal, Neon Raspberry, Misty Sage, Midnight Slate */
   --brand:#03bcca;
   --brand-dark:#029aa6;
+  --raspberry:#f10067;
+  --sage:#f3fffd;
   --brand-glow:rgba(3,188,202,0.15);
   --brand-glow-strong:rgba(3,188,202,0.3);
-  --gradient-end:#5de8d0;
-  --dark:#12151c;
-  --dark-card:#1a1d24;
-  --dark-secondary:#1e2128;
-  --soft:#e0ebe9;
-  --fg-muted:#959daa;
-  --accent:#028fa6;
-  --border:#2a2d35;
+  --raspberry-glow:rgba(241,0,103,0.07);
+  --gradient-end:#f10067;
+  --dark:#080a0d;
+  --dark-card:#101318;
+  --dark-secondary:#151920;
+  --soft:#f3fffd;
+  --fg-muted:#98a4a3;
+  --accent:#029aa6;
+  --border:#252b33;
   --max-width:1280px;
   --radius:0.75rem;
   --radius-lg:1rem;
@@ -58,13 +62,13 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-height) + 1rem);-w
 *{box-sizing:border-box}
 body{font-family:var(--font-body); color:var(--soft); background:var(--dark); line-height:1.6; margin:0; padding:0;overflow-x:hidden;overflow-x:clip;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 body::before{content:'';position:fixed;top:-50%;right:-10%;width:800px;height:800px;background:radial-gradient(circle, var(--brand-glow) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
-body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:600px;background:radial-gradient(circle, rgba(2,143,166,0.08) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
+body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:600px;background:radial-gradient(circle, var(--raspberry-glow) 0%, transparent 70%);border-radius:50%;z-index:0;pointer-events:none}
 .container{max-width:var(--max-width); margin:0 auto; padding:2rem clamp(1rem,3vw,2rem);position:relative;z-index:1}
 
 /* Hero */
 .hero{padding:clamp(1.5rem,4vw,3.5rem) 0 clamp(2.5rem,5vw,4.5rem); background:transparent;position:relative;z-index:1;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-20%;right:-5%;width:400px;height:400px;background:var(--brand-glow);border-radius:50%;filter:blur(100px);animation:float 8s ease-in-out infinite;z-index:-1}
-.hero::after{content:'';position:absolute;bottom:-15%;left:-8%;width:350px;height:350px;background:rgba(93,232,208,0.08);border-radius:50%;filter:blur(100px);animation:float 10s ease-in-out infinite reverse;z-index:-1}
+.hero::after{content:'';position:absolute;bottom:-15%;left:-8%;width:350px;height:350px;background:rgba(241,0,103,0.1);border-radius:50%;filter:blur(100px);animation:float 10s ease-in-out infinite reverse;z-index:-1}
 @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(15px,-20px) scale(1.05)}66%{transform:translate(-10px,15px) scale(0.95)}}
 .hero-inner{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);gap:clamp(2rem,5vw,5rem);align-items:center}
 .hero-text{animation:slideInLeft 0.8s ease-out}
@@ -85,7 +89,7 @@ h4{font-size:1.125rem; margin-bottom:0.5rem}
 em, i{font-style:italic}
 
 /* Highlight Utilities */
-.highlight{background:linear-gradient(135deg, var(--brand), var(--gradient-end));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
+.highlight{background:linear-gradient(100deg, var(--raspberry), var(--brand) 75%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
 
 /* Hero Text Styling */
 .hero-text strong{color:var(--brand);font-weight:600}
@@ -95,9 +99,9 @@ em, i{font-style:italic}
 
 /* Products */
 .page-header{text-align:center;max-width:700px;margin:0 auto 3rem auto;padding:0;position:relative;padding-bottom:2rem}
-.page-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:2px;background:linear-gradient(90deg, var(--brand), var(--gradient-end));border-radius:2px}
+.page-header::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:2px;background:linear-gradient(90deg, var(--raspberry), var(--brand));border-radius:2px}
 .page-header h1{margin-bottom:0.75rem;font-size:clamp(2rem,5vw,3rem);color:var(--soft)}
-.page-subtitle{font-size:1.05rem;background:linear-gradient(90deg, var(--brand), var(--gradient-end));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:600;margin-bottom:0.5rem;line-height:1.4;text-transform:uppercase;letter-spacing:0.15em;font-size:0.8rem}
+.page-subtitle{font-size:1.05rem;background:linear-gradient(90deg, var(--brand), var(--sage));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:600;margin-bottom:0.5rem;line-height:1.4;text-transform:uppercase;letter-spacing:0.15em;font-size:0.8rem}
 .page-description{font-size:1.05rem;color:var(--fg-muted);line-height:1.7;margin:0}
 .products{margin-top:2rem}
 
@@ -108,7 +112,7 @@ em, i{font-style:italic}
 /* Badges */
 .badge{position:absolute;top:12px;left:12px;padding:6px 12px;border-radius:4px;font-size:0.8rem;font-weight:600;text-transform:uppercase;z-index:1;color:white;box-shadow:var(--shadow-md)}
 .badge-sale{background:#e74c3c}
-.badge-promo{background:var(--brand)}
+.badge-promo{background:var(--raspberry);color:var(--dark)}
 
 
 /* Checkout overlay */

@@ -20,6 +20,12 @@ const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
 const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css'];
 
+// Kopletter Stevie Sans: een betaald font (Typefolio, weblicentie via Fontspring), dus niet in de repo tot Jelger het
+// bestand aanlevert. Staat het in assets/fonts, dan krijgen alle koppen het; anders blijft Syne staan.
+const DISPLAY_FONT = 'stevie-sans-bold.woff2';
+const DISPLAY_FONT_CSS = "@font-face{font-family:'Stevie Sans';font-style:normal;font-weight:700;font-display:swap;src:url('../assets/fonts/" + DISPLAY_FONT + "') format('woff2')}\n"
+	+ ":root{--font-display:'Stevie Sans','Syne',sans-serif}\n";
+
 function readJson(file) {
 	try {
 		return JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8'));
@@ -192,8 +198,8 @@ async function buildMailImages(products, images) {
 	const dir = path.join(DIST, 'assets/mail');
 	fs.mkdirSync(dir, { recursive: true });
 	const jobs = [{
-		src: path.join(ROOT, 'assets/js-3D-LOGO-BIG.svg'), out: 'logo.png',
-		make: function () { return sharp(this.src, { density: 6 }).resize({ width: 278 }).png({ compressionLevel: 9 }); } // 2x van 139x52
+		src: path.join(ROOT, 'assets/brand/js-icon.svg'), out: 'logo.png',
+		make: function () { return sharp(this.src, { density: 300 }).resize({ width: 88 }).png({ compressionLevel: 9 }); } // 2x van 44x41
 	}].concat(products.map(function (p) {
 		return {
 			src: path.join(DIST, h.imgPath(images, p.images[0].file, 400, '', true)), out: mailImageName(p, images),
@@ -207,6 +213,31 @@ async function buildMailImages(products, images) {
 	}
 	const keep = new Set(jobs.map(function (job) { return job.out; }));
 	fs.readdirSync(dir).forEach(function (f) { if (!keep.has(f)) fs.rmSync(path.join(dir, f)); });
+}
+
+// Het JS-teken voor browsers en Google: de SVG's uit assets/brand, plus PNG's waar SVG niet werkt (app-icoon op de
+// iPhone, favicon in de zoekresultaten, logo in de gestructureerde gegevens). Bron is de tegel: teken op Midnight Slate.
+async function buildBrandImages() {
+	const sharp = require('sharp');
+	const src = path.join(ROOT, 'assets/brand');
+	const dir = path.join(DIST, 'assets/brand');
+	fs.mkdirSync(dir, { recursive: true });
+	fs.readdirSync(src).filter(function (f) { return /\.svg$/i.test(f); }).forEach(function (f) {
+		fs.copyFileSync(path.join(src, f), path.join(dir, f));
+	});
+	const tegelPad = path.join(src, 'js-icon-tegel.svg');
+	const tegel = fs.readFileSync(tegelPad, 'utf8');
+	const vierkant = Buffer.from(tegel.replace('rx="112"', 'rx="0"')); // de iPhone rondt de hoeken zelf af
+	const jobs = [
+		{ out: 'apple-touch-icon.png', input: vierkant, size: 180 },
+		{ out: 'favicon-96.png', input: Buffer.from(tegel), size: 96 }, // Google wil een veelvoud van 48 px
+		{ out: 'js-logo-512.png', input: vierkant, size: 512 }
+	];
+	for (const job of jobs) {
+		const out = path.join(dir, job.out);
+		if (fs.existsSync(out) && fs.statSync(out).mtimeMs >= fs.statSync(tegelPad).mtimeMs) continue;
+		await sharp(job.input, { density: 300 }).resize(job.size, job.size).png({ compressionLevel: 9 }).toFile(out);
+	}
 }
 
 // Productfeed voor Google Merchant Center (dist/feed.xml): één regel per bestelbare variant.
@@ -283,7 +314,8 @@ async function build() {
 	});
 
 	// 3. CSS en JS, met een versienummer tegen verouderde browsercache
-	const css = CSS_FILES.map(function (f) { return read('src/css/' + f); }).join('\n');
+	const hasDisplayFont = fs.existsSync(path.join(ROOT, 'assets/fonts', DISPLAY_FONT));
+	const css = CSS_FILES.map(function (f) { return read('src/css/' + f); }).join('\n') + (hasDisplayFont ? '\n' + DISPLAY_FONT_CSS : '');
 	const jsFiles = fs.readdirSync(path.join(ROOT, 'src/js')).filter(function (f) { return f.endsWith('.js'); });
 	const catalog = buildCatalog(products, images);
 	const hash = crypto.createHash('md5').update(css).update(catalog);
@@ -311,6 +343,7 @@ async function build() {
 	fs.readdirSync(path.join(ROOT, 'assets')).filter(function (f) { return /\.svg$/i.test(f); }).forEach(function (f) {
 		fs.copyFileSync(path.join(ROOT, 'assets', f), path.join(DIST, 'assets', f));
 	});
+	await buildBrandImages();
 
 	// Video's worden niet door de build gecomprimeerd (daar is ffmpeg voor nodig): "npm run video" maakt de
 	// webversie in assets/video/, hier gaat alleen de kopie naar dist/
@@ -335,6 +368,7 @@ async function build() {
 	const ctx = {
 		site: site, products: products, reviews: reviews, images: images, byId: byId,
 		version: version, year: new Date().getFullYear(),
+		fonts: ['space-grotesk-latin.woff2', hasDisplayFont ? DISPLAY_FONT : 'syne-latin.woff2'], // vooraf laden
 		partials: {
 			header: read('src/partials/header.html'),
 			footer: read('src/partials/footer.html'),

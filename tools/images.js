@@ -192,7 +192,7 @@ async function processImages({ srcDir, outDir, ogDir, ogFor = [], only = null, c
 			} else {
 				await sharp(meta.data)
 					.resize({ width: OG_SIZE.width, height: OG_SIZE.height, fit: 'cover', position: sharp.strategy.attention })
-					.flatten({ background: '#12151c' })
+					.flatten({ background: '#080a0d' })
 					.jpeg({ quality: 82, mozjpeg: true })
 					.toFile(path.join(ogDir, entry.og));
 			}

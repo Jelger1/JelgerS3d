@@ -53,7 +53,7 @@
 /* Verhaal + specificaties */
 .pdp-details{display:grid;grid-template-columns:minmax(0, 1.4fr) minmax(0, 1fr);gap:clamp(2rem, 5vw, 4rem);margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border)}
 .pdp-details h2{font-size:1.5rem;margin-bottom:1.25rem}
-.pdp-story p{font-size:1.1rem;line-height:1.85;color:#b9c6c4;max-width:62ch;margin:0 0 1.25rem 0}
+.pdp-story p{font-size:1.1rem;line-height:1.85;color:#c0cbca;max-width:62ch;margin:0 0 1.25rem 0}
 .pdp-story p:first-of-type::first-letter{font-family:var(--font-display);font-size:2.7em;font-weight:800;float:left;line-height:0.9;padding:0.08em 0.12em 0 0;color:var(--brand)}
 .pdp-specs .feature-list{margin-bottom:1.5rem}
 .spec-list > div{display:flex;justify-content:space-between;gap:1.5rem;padding:0.8rem 0;border-bottom:1px solid var(--border);font-size:0.92rem}
@@ -72,7 +72,7 @@
 	.pdp-gallery{position:static;width:100%;max-width:520px;margin-inline:auto}
 	.pdp-buy{max-width:none}
 	.pdp-details{grid-template-columns:minmax(0, 1fr);margin-top:3rem;padding-top:2rem}
-	.pdp-sticky:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:1rem;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:0.75rem 1rem;padding-bottom:calc(0.75rem + env(safe-area-inset-bottom));background:rgba(26,29,36,0.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);box-shadow:0 -8px 24px rgba(0,0,0,0.35);animation:fadeInUp 0.25s ease}
+	.pdp-sticky:not([hidden]){display:flex;align-items:center;justify-content:space-between;gap:1rem;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:0.75rem 1rem;padding-bottom:calc(0.75rem + env(safe-area-inset-bottom));background:rgba(16,19,24,0.96);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--border);box-shadow:0 -8px 24px rgba(0,0,0,0.35);animation:fadeInUp 0.25s ease}
 	/* Ruimte onderaan zodat de balk de footer niet afdekt */
 	body:has(.pdp-sticky){padding-bottom:5rem}
 	.pdp-sticky div{display:flex;flex-direction:column;min-width:0}
@@ -82,7 +82,7 @@
 }
 
 /* Label boven de titel (alleen als je bij een product "badge" invult, bv. "Nieuw") */
-.pdp-badge{display:inline-block;margin:0 0 0.6rem 0;padding:0.25rem 0.7rem;border-radius:var(--radius-full);background:var(--brand-glow);border:1px solid rgba(3,188,202,0.4);color:var(--brand);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
+.pdp-badge{display:inline-block;margin:0 0 0.6rem 0;padding:0.25rem 0.7rem;border-radius:var(--radius-full);background:rgba(241,0,103,0.12);border:1px solid rgba(241,0,103,0.45);color:var(--raspberry);font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em}
 
 /* Levering en verzendkosten: uitklapbaar onder de voordelen */
 .pdp-delivery{margin-top:1.25rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--dark-card)}
