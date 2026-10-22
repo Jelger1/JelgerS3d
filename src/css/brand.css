@@ -13,7 +13,10 @@ h1,h2{font-weight:800;font-stretch:125%}
 h3,h4,h5,h6{font-stretch:112%}
 :is(h1,h2,h3) .highlight{font-family:var(--font-accent);font-style:italic;font-weight:400;font-stretch:normal;font-size:1.14em;letter-spacing:-0.01em;padding-right:0.08em}
 .kicker,.product-kicker,.filter-group legend,.product-options legend,.category-more p,.cart-suggest h3,.price-from,.pdp-badge,.keychain-stage-label,.page-subtitle{font-family:var(--font-mono);font-weight:500;letter-spacing:0.08em}
-.product-price,.pdp-price{font-family:var(--font-mono);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.product-price,.pdp-price,.cart-item-price,#cart-total-price,.checkout-line-price,.checkout-item-total strong:last-child{font-family:var(--font-mono);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+/* Stapnummers in de bestelflow (afrekenen, bedankt) in de vorm van het logo-blokje, net als op de homepage */
+.step-number{width:42px;height:26px;border-radius:0;border:0 !important;clip-path:var(--js-blok);font-family:var(--font-display);font-stretch:112%}
+.checkout-steps li:not(.is-active):not(.is-done) .step-number{background:#2c333d;color:var(--soft)}
 .category-tile-text strong,.custom-choice strong,.checkout-form legend,.how-number{font-stretch:112%}
 .pdp-story p:first-of-type::first-letter{font-stretch:125%}
 @media (max-width:600px){
