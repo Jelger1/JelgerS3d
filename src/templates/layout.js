@@ -31,6 +31,7 @@ function layout(page, ctx) {
 		kvk: h.esc(site.kvk),
 		btw: h.esc(site.btw),
 		instagram: h.esc(site.instagram),
+		portfolio: h.esc(site.portfolio.url),
 		// Aanmelden voor de nieuwsbrief, behalve waar de pagina dat zelf al vraagt (bedankt) of net bevestigt
 		newsletter: page.name === 'thanks' || page.name === 'confirm' ? '' : '<section class="footer-newsletter" aria-labelledby="footer-newsletter-heading">'
 			+ '<div class="footer-newsletter-text"><h2 id="footer-newsletter-heading">Als eerste horen over nieuwe ontwerpen?</h2>'

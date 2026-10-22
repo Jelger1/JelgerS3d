@@ -293,7 +293,8 @@ async function build() {
 	// Alleen foto's die de site echt toont worden verwerkt en meegestuurd
 	const used = products.flatMap(function (p) { return p.images.map(function (image) { return image.file; }); })
 		.concat(products.filter(function (p) { return p.video; }).map(function (p) { return p.video.poster; })) // voorbeeldbeeld van de video
-		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file);
+		.concat(site.defaultOgImage, site.homeImages.hero.file, site.homeImages.about.file)
+		.concat(site.portfolio.projects.map(function (p) { return p.file; }));
 	const imageResult = await processImages({
 		srcDir: path.join(ROOT, 'assets'),
 		outDir: path.join(DIST, 'assets/img'),

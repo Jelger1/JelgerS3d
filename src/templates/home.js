@@ -29,6 +29,24 @@ function homePage(ctx, template) {
 			+ '</a></li>';
 	}).join('\n\t\t');
 
+	// "Meer dan 3D": projecten uit het portfolio (jelgersieler.nl) als bento-raster, afgesloten met een tegel naar het portfolio
+	const portfolio = site.portfolio;
+	const portfolioProjects = portfolio.projects.map(function (p) {
+		return '<li class="work-card work-card-' + h.esc(p.kind) + '"><a href="' + h.esc(portfolio.url + '#' + p.anchor) + '" target="_blank" rel="noopener">'
+			+ '<span class="work-media">'
+			+ (p.kind === 'web' ? '<span class="work-browser" aria-hidden="true"><i></i><i></i><i></i></span>' : '')
+			+ h.img(ctx.images, p.file, { alt: p.alt, sizes: '(max-width: 600px) 92vw, (max-width: 900px) 46vw, 380px', attrs: p.focus ? 'style="object-position:' + h.esc(p.focus) + '"' : '' })
+			+ '</span>'
+			+ '<span class="work-text"><span class="work-tags">' + h.esc(p.tags) + '</span>'
+			+ '<strong>' + h.esc(p.title) + '</strong><span class="work-desc">' + h.esc(p.text) + '</span></span>'
+			+ '<span class="work-open" aria-hidden="true">↗</span>'
+			+ '</a></li>';
+	}).concat('<li class="work-card work-cta"><a href="' + h.esc(portfolio.url) + '" target="_blank" rel="noopener">'
+		+ '<span class="work-cta-label">Nog meer werk</span>'
+		+ '<strong>' + h.esc(portfolio.label) + ' <span aria-hidden="true">↗</span></strong>'
+		+ '<span>Alle projecten, mijn werkwijze en wat ik voor jouw website of merk kan doen.</span>'
+		+ '</a></li>').join('\n\t\t\t');
+
 	const faq = site.faq.map(function (item) {
 		return '<details class="faq-item"><summary>' + h.esc(item.q) + '</summary><p>' + h.esc(item.a) + '</p></details>';
 	}).join('\n\t\t');
@@ -73,6 +91,9 @@ function homePage(ctx, template) {
 		}),
 		usps: usps,
 		categories: categories,
+		portfolioProjects: portfolioProjects,
+		portfolioUrl: h.esc(portfolio.url),
+		portfolioLabel: h.esc(portfolio.label),
 		faq: faq,
 		'rail:design': rail('design'),
 		'rail:limburg': rail('limburg'),
@@ -110,7 +131,7 @@ function homePage(ctx, template) {
 			logo: site.url + '/assets/brand/js-logo-512.png',
 			image: site.url + '/assets/og/' + ctx.images[site.defaultOgImage].og,
 			// Bewust geen e-mailadres: dit is leesbaar voor robots die adressen verzamelen
-			founder: { '@type': 'Person', name: site.owner, jobTitle: '3D Designer & Maker' },
+			founder: { '@type': 'Person', name: site.owner, jobTitle: 'Designer, developer & maker', url: site.portfolio.url },
 			address: Object.assign({ '@type': 'PostalAddress', addressLocality: (site.address && site.address.city) || site.pickupLocation, addressRegion: site.region, addressCountry: 'NL' },
 				site.address && site.address.street ? { streetAddress: site.address.street } : {},
 				site.address && site.address.postcode ? { postalCode: site.address.postcode } : {}),

@@ -116,6 +116,10 @@ De filters maken zichzelf uit de data; je hoeft er niets voor te programmeren.
 Alles hieronder staat in `data/site.json`:
 
 - `homeUsps`, `homeCategories` en `faq`: de USP-balk, de vier categorietegels en de veelgestelde vragen op de homepage.
+- `portfolio`: de sectie "Meer dan 3D" op de homepage (en de footerlink). `url` is het portfolio (jelgersieler.nl),
+  `projects` de vier projecten in het raster: titel, tags, korte tekst, foto uit `assets/`, `anchor` (het id van het
+  project op het portfolio), `kind` (`web` krijgt een browserbalk, `branding` niet) en optioneel `focus` (welk deel van
+  de foto in beeld blijft, bv. `center top`). Houd de teksten gelijk aan wat er op het portfolio staat.
   De doorlopende teksten van de homepage staan in `src/pages/index.html`.
 - `delivery` en `shipping`: de teksten over levertijd, verzendkosten en ophalen (productpagina, winkelwagen, afrekenen).
 - `deadlines`: de seizoensmelding "Op tijd voor Kerst? Bestel uiterlijk ...". Die verschijnt vanaf `showFrom` en verdwijnt

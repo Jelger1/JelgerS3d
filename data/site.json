@@ -26,6 +26,50 @@
 			"alt": "Portret van Jelger Sieler, ontwerper en maker achter JelgerS3D"
 		}
 	},
+	"portfolio": {
+		"url": "https://jelgersieler.nl/",
+		"label": "jelgersieler.nl",
+		"projects": [
+			{
+				"title": "Brouwerij Rolduc",
+				"tags": "Website · Webshop · Reserveringen",
+				"text": "Website, webshop en reserveringssysteem in één, van A tot Z door mij ontwikkeld.",
+				"file": "Portfolio-Rolduc.jpg",
+				"alt": "De homepage van brouwerij-rolduc.nl",
+				"anchor": "project-rolduc",
+				"kind": "web"
+			},
+			{
+				"title": "Sanctus Fusion",
+				"tags": "Branding · Visual design",
+				"text": "De complete branding van een exclusief bier: logo, posters, shirts en social content.",
+				"file": "Portfolio-Sanctus-Poster.jpg",
+				"focus": "center top",
+				"alt": "Poster van Sanctus Fusion met het bierblik",
+				"anchor": "project-sanctus",
+				"kind": "branding"
+			},
+			{
+				"title": "Heerlen: miljarden kilo's steenkool",
+				"tags": "Interactief · Storytelling",
+				"text": "Een interactieve geschiedenisles over de mijnstad, gebouwd op historische data.",
+				"file": "Portfolio-Heerlen.jpg",
+				"alt": "Startscherm van de interactieve story over Heerlen",
+				"anchor": "project-heerlen",
+				"kind": "web"
+			},
+			{
+				"title": "CodeMonster",
+				"tags": "Educatie · Platform",
+				"text": "Een workshopconcept en platform waarmee kinderen leren programmeren door kunst te maken.",
+				"file": "Portfolio-CodeMonster.jpg",
+				"focus": "left top",
+				"alt": "Homepage van CodeMonster: Word een monster in coderen",
+				"anchor": "project-codemonster",
+				"kind": "web"
+			}
+		]
+	},
 	"backend": {
 		"url": "https://kgxhefdzufhmigbmchhk.supabase.co/functions/v1/formulier"
 	},
