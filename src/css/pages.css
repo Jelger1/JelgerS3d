@@ -11,7 +11,7 @@
 
 /* Tekstpagina's */
 .text-page{max-width:760px;padding-top:2.5rem;padding-bottom:4rem}
-.text-page h1{font-size:clamp(2rem, 4vw, 2.75rem);letter-spacing:-0.03em;margin:0 0 1.25rem 0;color:var(--soft)}
+.text-page h1{font-size:clamp(2rem, 4vw, 2.75rem);letter-spacing:-0.01em;margin:0 0 1.25rem 0;color:var(--soft)}
 .text-page h2{font-size:1.3rem;margin:2.5rem 0 0.75rem 0}
 .text-page p,.text-page li{color:var(--fg-muted);line-height:1.75}
 .text-page p{margin:0 0 1rem 0}

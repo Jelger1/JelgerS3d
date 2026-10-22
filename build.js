@@ -20,18 +20,8 @@ const SALE_TYPES = ['cart', 'external', 'request', 'soon'];
 // Volgorde is van belang: later wint van eerder. Alles wordt samengevoegd tot één css/styles.css.
 const CSS_FILES = ['fonts.css', 'reset.css', 'styles.css', 'components.css', 'product.css', 'shop.css', 'checkout.css', 'home.css', 'pages.css', 'keychain.css', 'brand.css'];
 
-// Kopletter Stevie Sans: een betaald font (Typefolio, weblicentie nodig). Staat de vette variant in assets/fonts,
-// dan krijgen alle koppen en de naam in de header het; anders blijft Syne staan. Medium is optioneel.
-const DISPLAY_FONT = 'stevie-sans-bold.woff2';
-const DISPLAY_FONT_MEDIUM = 'stevie-sans-medium.woff2';
-function displayFontCss(hasMedium) {
-	function face(file, weights) {
-		return "@font-face{font-family:'Stevie Sans';font-style:normal;font-weight:" + weights + ";font-display:swap;src:url('../assets/fonts/" + file + "') format('woff2');"
-			+ 'unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}\n';
-	}
-	return face(DISPLAY_FONT, '600 900') + (hasMedium ? face(DISPLAY_FONT_MEDIUM, '400 599') : '')
-		+ ":root{--font-display:'Stevie Sans','Syne',sans-serif}\n";
-}
+// Lettertypen die elke pagina vooraf laadt: de koppen (Saira) en de lopende tekst (DM Sans). De rest staat in fonts.css.
+const PRELOAD_FONTS = ['saira-latin.woff2', 'dm-sans-latin.woff2'];
 
 function readJson(file) {
 	try {
@@ -321,9 +311,7 @@ async function build() {
 	});
 
 	// 3. CSS en JS, met een versienummer tegen verouderde browsercache
-	const hasDisplayFont = fs.existsSync(path.join(ROOT, 'assets/fonts', DISPLAY_FONT));
-	const hasMedium = fs.existsSync(path.join(ROOT, 'assets/fonts', DISPLAY_FONT_MEDIUM));
-	const css = CSS_FILES.map(function (f) { return read('src/css/' + f); }).join('\n') + (hasDisplayFont ? '\n' + displayFontCss(hasMedium) : '');
+	const css = CSS_FILES.map(function (f) { return read('src/css/' + f); }).join('\n');
 	const jsFiles = fs.readdirSync(path.join(ROOT, 'src/js')).filter(function (f) { return f.endsWith('.js'); });
 	const catalog = buildCatalog(products, images);
 	const hash = crypto.createHash('md5').update(css).update(catalog);
@@ -376,7 +364,7 @@ async function build() {
 	const ctx = {
 		site: site, products: products, reviews: reviews, images: images, byId: byId,
 		version: version, year: new Date().getFullYear(),
-		fonts: ['space-grotesk-latin.woff2', hasDisplayFont ? DISPLAY_FONT : 'syne-latin.woff2'], // vooraf laden
+		fonts: PRELOAD_FONTS,
 		partials: {
 			header: read('src/partials/header.html'),
 			footer: read('src/partials/footer.html'),

@@ -6,6 +6,21 @@
 
 ::selection{background:var(--raspberry);color:var(--sage)}
 
+/* Typografie "optie 2B": koppen in Saira Expanded (breedte 125%, het skelet van het JS-teken), kleinere koppen iets
+   smaller, accentwoorden in koppen in de klassieke Instrument Serif Italic, labels en prijzen in JetBrains Mono.
+   Op een telefoon worden de koppen smaller, zodat lange Nederlandse woorden passen. */
+h1,h2{font-weight:800;font-stretch:125%}
+h3,h4,h5,h6{font-stretch:112%}
+:is(h1,h2,h3) .highlight{font-family:var(--font-accent);font-style:italic;font-weight:400;font-stretch:normal;font-size:1.14em;letter-spacing:-0.01em;padding-right:0.08em}
+.kicker,.product-kicker,.filter-group legend,.product-options legend,.category-more p,.cart-suggest h3,.price-from,.pdp-badge,.keychain-stage-label,.page-subtitle{font-family:var(--font-mono);font-weight:500;letter-spacing:0.08em}
+.product-price,.pdp-price{font-family:var(--font-mono);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
+.category-tile-text strong,.custom-choice strong,.checkout-form legend,.how-number{font-stretch:112%}
+.pdp-story p:first-of-type::first-letter{font-stretch:125%}
+@media (max-width:600px){
+	h1,h2{font-stretch:110%}
+	h3,h4,h5,h6{font-stretch:100%}
+}
+
 /* Bovenkopjes beginnen met het raspberry-blokje uit het teken */
 .kicker{display:inline-flex;align-items:center;gap:0.6rem}
 .kicker::before{content:'';flex:none;width:1.65em;height:1.02em;background:var(--raspberry);clip-path:var(--js-blok)}

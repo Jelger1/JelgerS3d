@@ -22,7 +22,7 @@ input,textarea{transition:border-color 0.2s ease, background-color 0.2s ease, bo
 .brand{display:flex;align-items:center;gap:0.6rem;text-decoration:none;color:var(--soft)}
 .brand:hover{opacity:0.85}
 .brand-icon{height:38px;width:auto}
-.brand-name{font-family:var(--font-display);font-weight:700;font-size:1.2rem;letter-spacing:0.04em;text-transform:uppercase;line-height:1;white-space:nowrap} /* zoals "DESIGN" in het volledige logo */
+.brand-name{font-family:var(--font-logo);font-weight:500;font-size:1.2rem;letter-spacing:0.06em;text-transform:uppercase;line-height:1;white-space:nowrap} /* zoals "DESIGN" in het volledige logo */
 .main-nav{margin-left:auto;display:flex;gap:2rem}
 .main-nav a{color:var(--fg-muted);text-decoration:none;font-weight:500;font-size:0.875rem;letter-spacing:0.05em}
 .main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--soft)}

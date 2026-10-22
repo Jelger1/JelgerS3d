@@ -1,4 +1,11 @@
-/* Lettertypen staan op de eigen server (assets/fonts): sneller, en bezoekers laden niets meer bij Google.
-   Beide zijn variabele fonts: één bestand dekt alle gewichten. Licentie: SIL Open Font License. */
-@font-face{font-family:'Space Grotesk';font-style:normal;font-weight:300 700;font-display:swap;src:url('../assets/fonts/space-grotesk-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
-@font-face{font-family:'Syne';font-style:normal;font-weight:400 800;font-display:swap;src:url('../assets/fonts/syne-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+/* Lettertypen staan op de eigen server (assets/fonts): sneller, en bezoekers laden niets bij Google of Adobe.
+   Typografie "optie 2B": Saira Expanded voor koppen (het skelet van het JS-teken), Instrument Serif Italic als klassiek
+   accent, DM Sans voor tekst, JetBrains Mono voor labels en prijzen, Stevie Sans alleen voor de naam bij het logo.
+   Saira, DM Sans, Instrument Serif en JetBrains Mono: SIL Open Font License. Saira en DM Sans zijn variabel (gewicht,
+   en bij Saira ook breedte: font-stretch 100%–125%). */
+@font-face{font-family:'Saira';font-style:normal;font-weight:600 900;font-stretch:100% 125%;font-display:swap;src:url('../assets/fonts/saira-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:300 700;font-display:swap;src:url('../assets/fonts/dm-sans-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url('../assets/fonts/instrument-serif-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'JetBrains Mono';font-style:normal;font-weight:300 800;font-display:swap;src:url('../assets/fonts/jetbrains-mono-latin.woff2') format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Stevie Sans';font-style:normal;font-weight:400 599;font-display:swap;src:url('../assets/fonts/stevie-sans-medium.woff2') format('woff2')}
+@font-face{font-family:'Stevie Sans';font-style:normal;font-weight:600 900;font-display:swap;src:url('../assets/fonts/stevie-sans-bold.woff2') format('woff2')}

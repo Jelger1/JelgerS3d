@@ -24,8 +24,12 @@
   --shadow-md:0 8px 24px rgba(0,0,0,0.3);
   --shadow-lg:0 16px 48px rgba(0,0,0,0.4);
   --nav-height:64px;
-  --font-display:'Syne', sans-serif;
-  --font-body:'Space Grotesk', sans-serif;
+  /* Typografie "optie 2B" (zie fonts.css): koppen, klassiek accent, tekst, labels/prijzen, naam bij het logo */
+  --font-display:'Saira', 'Arial Narrow', sans-serif;
+  --font-accent:'Instrument Serif', Georgia, serif;
+  --font-body:'DM Sans', 'Segoe UI', sans-serif;
+  --font-mono:'JetBrains Mono', Consolas, monospace;
+  --font-logo:'Stevie Sans', 'DM Sans', sans-serif;
 }
 
 /* Smooth Scrolling */
@@ -72,7 +76,7 @@ body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:6
 @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(15px,-20px) scale(1.05)}66%{transform:translate(-10px,15px) scale(0.95)}}
 .hero-inner{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.85fr);gap:clamp(2rem,5vw,5rem);align-items:center}
 .hero-text{animation:slideInLeft 0.8s ease-out}
-.hero-text h1{font-size:clamp(2.25rem,4.4vw,3.75rem);margin-bottom:1.75rem; line-height:1.05; letter-spacing:-0.03em;position:relative;display:inline-block;color:var(--soft)}
+.hero-text h1{font-size:clamp(2.25rem,4.4vw,3.75rem);margin-bottom:1.75rem; line-height:1.05; letter-spacing:-0.01em;position:relative;display:inline-block;color:var(--soft)}
 .hero-text p{font-size:1.125rem; color:var(--fg-muted); margin-bottom:1rem;max-width:52ch}
 .cta-row{display:flex; gap:0.75rem; margin-top:1.5rem}
 .hero-art{position:relative;justify-self:end;width:100%;max-width:460px}
@@ -86,7 +90,7 @@ body::after{content:'';position:fixed;bottom:-30%;left:-15%;width:600px;height:6
 
 /* Typography */
 h1, h2, h3, h4, h5, h6{font-family:var(--font-display); font-weight:700;line-height:1.1}
-h2{font-size:clamp(1.75rem,3.6vw,2.5rem);margin-bottom:1.25rem;letter-spacing:-0.025em;color:var(--soft)}
+h2{font-size:clamp(1.75rem,3.6vw,2.5rem);margin-bottom:1.25rem;letter-spacing:-0.01em;color:var(--soft)}
 h3{font-size:1.25rem; margin-bottom:0.75rem;color:var(--soft)}
 h4{font-size:1.125rem; margin-bottom:0.5rem}
 em, i{font-style:italic}

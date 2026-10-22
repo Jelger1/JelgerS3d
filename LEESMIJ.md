@@ -282,13 +282,21 @@ De kleuren staan bovenaan `src/css/styles.css`: Electric Aqua `#03BCCA` (`--bran
 Misty Sage `#F3FFFD` (`--soft`, tekst) en Midnight Slate `#080A0D` (`--dark`, achtergrond). Het merkverloop gaat van
 raspberry naar aqua (`.highlight`, het accent in koppen).
 
-**Stevie Sans** is het lettertype voor de koppen en de naam in de header (in kapitalen, zoals "DESIGN" in het
-volledige logo). Het is een betaald font van Typefolio (via
-[Fontspring](https://www.fontspring.com/fonts/typefolio/stevie-sans/stevie-sans-book) of MyFonts) en voor een
-website heb je een weblicentie nodig. De site gebruikt `assets/fonts/stevie-sans-bold.woff2` (koppen) en
-`stevie-sans-medium.woff2` (optioneel); staan die er, dan gaat alles vanzelf over, anders blijft Syne staan. De
-originele TTF-bestanden in `assets/` blijven lokaal (.gitignore). Zo maak je de WOFF2 uit een TTF:
-`python -m fontTools.subset "assets/Stevie Sans Bold.ttf" --flavor=woff2 --output-file=assets/fonts/stevie-sans-bold.woff2 --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+2000-206F,U+20AC,U+2122"`.
+**Lettertypen** (gekozen "optie 2B", de moodboards staan als `Fonts-*.jpg` in `Documents/JelgerS3D`):
+
+- **Saira Expanded ExtraBold** voor de koppen (h1/h2 op 125% breedte, kleinere koppen op 112%, op een telefoon
+  smaller). Zijn J en S hebben hetzelfde skelet als het JS-teken: afgeronde rechthoeken met een rechte middenhaal.
+- **Instrument Serif Italic** als klassiek accent: de woorden tussen `*sterretjes*` in koppen (`.highlight`).
+- **DM Sans** voor alle lopende tekst en knoppen.
+- **JetBrains Mono** voor labels (bovenkopjes, categorieën) en prijzen.
+- **Stevie Sans** alleen voor de naam naast het teken in de header en de mails (in kapitalen, zoals "DESIGN" in
+  het logo).
+
+Saira, Instrument Serif, DM Sans en JetBrains Mono zijn gratis (SIL Open Font License) en staan als WOFF2 in
+`assets/fonts/` (Saira en DM Sans zijn variabel en ingeperkt tot de gebruikte gewichten). De declaraties staan in
+`src/css/fonts.css`, de variabelen (`--font-display`, `--font-accent`, `--font-body`, `--font-mono`, `--font-logo`)
+bovenaan `src/css/styles.css` en de regels per element in `src/css/brand.css`. De originele Stevie Sans-bestanden
+(TTF/OTF in `assets/`) blijven lokaal (.gitignore).
 
 **Grafische accenten** (`src/css/brand.css` en de componenten): het isometrische raster waarop het teken gebouwd is
 (lijnen onder 30°) achter de hero, de paginakoppen en het maatwerkblok; het raspberry-blokje uit het teken voor elk

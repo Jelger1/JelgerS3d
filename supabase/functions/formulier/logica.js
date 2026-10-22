@@ -227,7 +227,7 @@ export function controleerBestanden(lijst, soort, uploads) {
 // ---------------------------------------------------------------------------------------------- mails
 //
 // In de stijl van de site: een Midnight Slate-kader met het JS-teken, een Misty Sage-kaart met de raspberry-aqua
-// balk, koppen in Stevie Sans en tekst in Space Grotesk (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles
+// balk, koppen in Saira Expanded en tekst in DM Sans (mailprogramma's zonder webfonts, zoals Gmail, tonen Arial). Alles
 // met tabellen en inline stijlen, want veel mailprogramma's negeren de rest. De plaatjes staan op de site zelf
 // (assets/mail/, gemaakt door build.js). Licht in het midden houdt de mail goed leesbaar, ook als iemand hem uitprint.
 
@@ -235,8 +235,9 @@ const KLEUR = {
 	donker: '#080a0d', merk: '#03bcca', roze: '#f10067', kaart: '#f3fffd', zacht: '#e1efed', grijs: '#98a4a3',
 	licht: '#f3fffd', tekst: '#080a0d', gedempt: '#56606b', link: '#027a8c', lijn: '#d9e6e4' // gedempt en link: genoeg contrast op de kaart
 };
-const KOP = "'Stevie Sans','Syne','Trebuchet MS',Arial,sans-serif"; // Syne als Stevie Sans (nog) niet op de site staat
-const LETTER = "'Space Grotesk','Segoe UI',Arial,Helvetica,sans-serif";
+const KOP = "'Saira','Arial Narrow',Arial,sans-serif";
+const LOGO = "'Stevie Sans','Saira',Arial,sans-serif"; // de naam naast het teken, zoals in het logo
+const LETTER = "'DM Sans','Segoe UI',Arial,Helvetica,sans-serif";
 const TITELS = {
 	contact: 'bericht',
 	offerte: 'aanvraag',
@@ -263,9 +264,10 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 	const url = winkel.url;
 	return '<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
 		+ '<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light"><title>' + esc(titel) + '</title>'
-		+ '<style>@font-face{font-family:"Stevie Sans";font-weight:600 900;src:url(' + url + '/assets/fonts/stevie-sans-bold.woff2) format("woff2")}'
-		+ '@font-face{font-family:"Syne";font-weight:400 800;src:url(' + url + '/assets/fonts/syne-latin.woff2) format("woff2")}'
-		+ '@font-face{font-family:"Space Grotesk";font-weight:300 700;src:url(' + url + '/assets/fonts/space-grotesk-latin.woff2) format("woff2")}'
+		+ '<style>@font-face{font-family:"Saira";font-weight:600 900;font-stretch:100% 125%;src:url(' + url + '/assets/fonts/saira-latin.woff2) format("woff2")}'
+		+ '@font-face{font-family:"Stevie Sans";font-weight:400 599;src:url(' + url + '/assets/fonts/stevie-sans-medium.woff2) format("woff2")}'
+		+ '@font-face{font-family:"DM Sans";font-weight:300 700;src:url(' + url + '/assets/fonts/dm-sans-latin.woff2) format("woff2")}'
+		+ 'h1,h2{font-stretch:125%}'
 		+ '@media (max-width:480px){.kaart{padding:26px 20px 10px 20px!important}}</style></head>'
 		+ '<body style="margin:0;padding:0;background:' + KLEUR.donker + '">'
 		+ '<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:' + KLEUR.donker + '">' + esc(preheader) + '&#847;&zwnj;&nbsp;'.repeat(30) + '</div>'
@@ -273,7 +275,7 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px">'
 		+ '<tr><td style="padding:0 4px 20px 4px"><a href="' + esc(url) + '" style="text-decoration:none"><table role="presentation" cellpadding="0" cellspacing="0"><tr>'
 		+ '<td style="padding:0 12px 0 0"><img src="' + esc(url) + '/assets/mail/logo.png" width="44" height="41" alt="" style="display:block;border:0;outline:none"></td>'
-		+ '<td style="font:800 22px/1 ' + KOP + ';color:' + KLEUR.licht + '">' + esc(winkel.naam) + '</td></tr></table></a></td></tr>'
+		+ '<td style="font:500 20px/1 ' + LOGO + ';letter-spacing:0.06em;text-transform:uppercase;color:' + KLEUR.licht + '">' + esc(winkel.naam) + '</td></tr></table></a></td></tr>'
 		+ '<tr><td bgcolor="' + KLEUR.kaart + '" style="background:' + KLEUR.kaart + ';border-radius:16px;overflow:hidden">'
 		+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0">'
 		+ '<tr><td height="4" bgcolor="' + KLEUR.merk + '" style="height:4px;line-height:4px;font-size:0;background:' + KLEUR.merk + ';background-image:linear-gradient(90deg,' + KLEUR.roze + ',' + KLEUR.merk + ')">&nbsp;</td></tr>'
@@ -284,7 +286,7 @@ function omhulsel(titel, preheader, inhoud, voet, winkel) {
 }
 
 function bovenkop(t) { return '<p style="margin:0 0 6px 0;font:700 12px/1.4 ' + LETTER + ';letter-spacing:0.08em;text-transform:uppercase;color:' + KLEUR.link + '">' + esc(t) + '</p>'; }
-// letter: andere letter dan Syne, voor een bestelnummer (de cijfers van Syne zijn sierlijk, niet goed voor te lezen)
+// letter: andere letter dan de koppen, voor een bestelnummer (dat moet je makkelijk kunnen overtypen)
 function titel(html, letter) { return '<h1 style="margin:0 0 14px 0;font:800 26px/1.2 ' + (letter || KOP) + ';color:' + KLEUR.tekst + '">' + html + '</h1>'; }
 function kop(t) { return '<h2 style="margin:28px 0 10px 0;font:700 17px/1.3 ' + KOP + ';color:' + KLEUR.tekst + '">' + esc(t) + '</h2>'; }
 function alinea(html, stijl) { return '<p style="margin:0 0 14px 0' + (stijl ? ';' + stijl : '') + '">' + html + '</p>'; }
